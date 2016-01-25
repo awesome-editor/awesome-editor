@@ -10,9 +10,6 @@ import Editor from './editor/Editor'
 
 //import TagView from 'tags/TagsView'
 //import FilePreview from 'tags/file.preview'
-
-
-
 //required by material-ui
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();

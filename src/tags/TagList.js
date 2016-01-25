@@ -41,6 +41,7 @@ export default class TagList extends React.Component {
 
     this._pickTag = this._pickTag.bind(this)
     this._addTag = this._addTag.bind(this)
+    this._clearSelection = this._clearSelection.bind(this)
   }
 
   _onChange(currentTagName) {
