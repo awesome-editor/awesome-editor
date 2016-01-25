@@ -1,0 +1,93 @@
+{
+  "plugins": [
+    "react"
+  ],
+
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "classes": true,
+    "defaultParams": true,
+    "forOf": true,
+    "modules": true,
+    "templateStrings": true,
+    "destructuring": true,
+    "jsx": true
+  },
+
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+
+//  "settings": {
+//    "react": {
+//      "pragma": "React" // Pragma to use, default to "React"
+//    }
+//  },
+
+  "extends": "eslint:recommended",
+
+  "rules": {
+    "comma-dangle": 2,
+    "no-cond-assign": 2,
+    "no-constant-condition": 2,
+    "no-control-regex": 2,
+    "no-empty": 2,
+    "no-empty-class": 2,
+    "no-ex-assign": 2,
+    "no-extra-parens": 0,
+    "no-extra-semi": 2,
+    "no-func-assign": 2,
+    "no-inner-declarations": 2,
+    "no-invalid-regexp": 2,
+    "no-reserved-keys": 2,
+    "no-unreachable": 2,
+    "valid-jsdoc": 2,
+    "no-loop-func": 2,
+    "no-irregular-whitespace": 2,
+    "no-trailing-spaces": [2, { "skipBlankLines": true }],
+    "no-underscore-dangle": 0,
+    "no-alert": 0,
+    "no-shadow": 0,
+
+    /** old jshint **/
+    "no-bitwise": 2,
+    "no-console": 2,
+    "no-debugger": 2,
+    "camelcase": 0,
+    "curly": 2,
+    "eqeqeq": 2,
+    "wrap-iife": 2,
+    "indent": [2, 2], /** 2 space indention. Don't ask **/
+    "no-undefined": 2,
+    "no-use-before-define": 2,
+    "new-cap": 2,
+    "no-caller": 2,
+    "quotes": [2, "single"],
+    /*"strict": "global",*/
+    /*"max-len": "128",*/
+    "no-multi-spaces": [2, { "exceptions": { "VariableDeclarator": true } }]
+  },
+
+
+  "env": {
+    "browser": true,
+    "jasmine": true,
+    "mocha": true
+  },
+
+  "globals": {
+    "_" : true,
+    "define": true,
+    "require" : true,
+    "exports": true,
+    "module": true,
+    "__dirname": true,
+    "appRoot": true,
+    "libRoot": true,
+    "process": true,
+    "global": true
+  }
+}

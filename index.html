@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>test</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="jspm_packages/system.src.js"></script>
+  </head>
+  <body>
+      <div id="app" class="container" style='margin-left: auto; margin-right: auto; width: 100%'></div>
+      <script src='config.js'></script>
+      <script>
+        System.babelOptions = {experimental: true, blacklist:[]};
+        System.import('src/app');
+      </script>
+  </body>
+</html>

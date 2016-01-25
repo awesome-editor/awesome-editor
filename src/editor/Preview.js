@@ -1,0 +1,84 @@
+import React from 'react'
+import _ from 'lodash'
+import Remarkable from 'remarkable'
+
+import Card from 'material-ui/lib/card/card';
+//import CardActions from 'material-ui/lib/card/card-actions';
+import CardText from 'material-ui/lib/card/card-text';
+import CardTitle from 'material-ui/lib/card/card-title';
+//import FlatButton from 'material-ui/lib/flat-button';
+
+import TagList from '../tags/TagList'
+
+import DocStore from '../stores/DocStore'
+import DocData from '../types/DocData'
+
+
+export default class Preview extends React.Component {
+
+  constructor(props) {
+
+    super(props);
+
+    this.state = new DocData()
+
+    this.md = new Remarkable();
+  }
+
+  componentWillMount() {
+
+    var that = this;
+
+    this.unsub = [];
+
+    this.unsub.push(
+      DocStore.currentDocObservable
+        .map('.title')
+        .skipDuplicates()
+        .onValue(title => that.setState({title}))
+    );
+
+    this.unsub.push(
+      DocStore.currentDocObservable
+        .map('.subtitle')
+        .skipDuplicates()
+        .onValue(subtitle => that.setState({subtitle}))
+    );
+
+    this.unsub.push(
+      DocStore.currentDocObservable
+        .map('.content')
+        .skipDuplicates()
+        .map(content => this.md.render(content))
+        .onValue(content => that.setState({content}))
+    );
+
+  }
+
+  componentWillUnmount() {
+
+    this.unsub.forEach(unsub => unsub());
+  }
+
+  render() {
+
+    var that = this;
+
+    return (
+    <Card>
+      <CardTitle
+        title={that.state.title}
+        subtitle={that.state.subtitle}
+        />
+
+      <CardText>
+        <div dangerouslySetInnerHTML={{__html: that.state.content}}></div>
+      </CardText>
+
+      <CardText>
+        <TagList tags={this.state.tags} editable='false'/>
+      </CardText>
+    </Card>
+    );
+  }
+}
