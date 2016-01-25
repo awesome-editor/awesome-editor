@@ -57,6 +57,7 @@ export default class Editor extends React.Component {
 
     const that = this;
     const uuid = this.props.uuid
+    const previewMode = this.props.previewMode
 
     return (
       <Card style={{overflow:'visible'}}>
@@ -67,32 +68,32 @@ export default class Editor extends React.Component {
             multiLine={true}
             value={that.state.title}
             fullWidth={true}
-            onChange={evt => DocStore.updateDoc({uuid, title: evt.target.value})}
+            onChange={previewMode ? _.noop : evt => DocStore.updateDoc({uuid, title: evt.target.value})}
             />
           <TextField
             hintText="Subtitle"
             multiLine={true}
             value={that.state.subtitle}
             fullWidth={true}
-            onChange={evt => DocStore.updateDoc({uuid, subtitle: evt.target.value})}
+            onChange={previewMode ? _.noop : evt => DocStore.updateDoc({uuid, subtitle: evt.target.value})}
             />
         </CardText>
 
         <CardText>
           <DivEdit
+            key="Content"
             style={{minHeight: '3em'}}
             html={this.state.content}
-            onChange={evt => DocStore.updateDoc({uuid, content: evt.target.value})}>
+            onChange={previewMode ? _.noop : evt => DocStore.updateDoc({uuid, content: evt.target.value})}>
           </DivEdit>
         </CardText>
 
         <CardText style={{overflow:'visible'}}>
-
           <TagList
             autocompleteTag={TagStore.lookupTags}
             addTag={tag => DocStore.addTagToDoc(uuid, tag)}
             tags={that.state.tags}
-            editable='true'/>
+            previewMode={previewMode}/>
         </CardText>
 
       </Card>
@@ -111,5 +112,9 @@ Editor.defaultProps = {
   /**
    * doc uuid
    */
-  uuid: ''
+  uuid: '',
+  /**
+   * Preview mode
+   */
+  previewMode: false
 }

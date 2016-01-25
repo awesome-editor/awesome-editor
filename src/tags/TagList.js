@@ -119,11 +119,12 @@ export default class TagList extends React.Component {
   render() {
 
     const that = this;
+    const previewMode = this.props.previewMode
 
     return (
       <div className='tags' style={{position: 'relative'}}>
 
-        <div>
+        {previewMode ? '' : <div>
           <TextField
             hintText='Add tag'
             value={this.state.currentTagName}
@@ -136,7 +137,7 @@ export default class TagList extends React.Component {
             onTouchTap={this._addTag}>
             <AddCircle/>
           </IconButton>
-        </div>
+        </div>}
 
         <div>
           {this.state.autocompleteTagList.length ? this._tagPicker() : ''}
@@ -163,6 +164,8 @@ export default class TagList extends React.Component {
 }
 
 TagList.defaultProps = {
+
+  previewMode: false,
 
   /**
    * Look up potential tag matches
