@@ -42,7 +42,7 @@ export default class TagPicker extends React.Component {
 
     if (currentTagName.length > 2) {
 
-      this.autoCompleteBus.push(currentTagName);
+      this.autoCompleteEmitter.emit(currentTagName);
     }
     else {
 
@@ -103,14 +103,14 @@ export default class TagPicker extends React.Component {
     };
 
     return (
-      <DropDownMenu
+      <Menu
         style={style}
         autoWidth={false}
         onItemTouchTap={this._pickTag}>
 
         {this.state.autocompleteTagList.map((tag, i) => { return <MenuItem key={i} children={<Tag {...tag}/>}/>})}
 
-      </DropDownMenu>
+      </Menu>
     )
   }
 
@@ -129,13 +129,13 @@ export default class TagPicker extends React.Component {
 
   componentWillMount() {
 
-    this.autoCompleteBus = kefirEmitter()
+    this.autoCompleteEmitter = kefirEmitter()
 
     this.unsub = [];
 
     this.unsub.push(
-      this.autoCompleteBus
-        .debounce(300)
+      this.autoCompleteEmitter
+        .debounce(300, {immediate: true})
         .flatMap(name => this.props.autocompleteTag(name))
         .filter(tags => tags)
         .onValue(autocompleteTagList => this.setState({autocompleteTagList}))

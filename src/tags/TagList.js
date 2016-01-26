@@ -26,7 +26,6 @@ export default class TagList extends React.Component {
     super(props);
   }
 
-
   componentWillMount() {
 
     this.unsub = [];

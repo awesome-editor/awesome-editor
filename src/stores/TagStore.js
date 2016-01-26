@@ -32,10 +32,10 @@ const tagsObservable = Kefir.merge([
  */
 function lookupTags(tagUuid) {
 
-  return [
+  return Kefir.constant([
     new TagData({uuid: uuid.v4(), name: 'foo', path: [{uuid: uuid.v4(), name: 'bar'}]}),
     new TagData({uuid: uuid.v4(), name: 'aha'})
-  ]
+  ])
 }
 
 export default {
