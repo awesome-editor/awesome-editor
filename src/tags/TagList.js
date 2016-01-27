@@ -1,5 +1,6 @@
 /*eslint no-extra-parens: 0*/
 import React from 'react'
+import Kefir from 'kefir'
 
 //import Card from 'material-ui/lib/card/card'
 //import CardActions from 'material-ui/lib/card/card-actions'
@@ -11,6 +12,8 @@ import React from 'react'
 
 import Tag from './Tag'
 import TagPicker from './TagPicker'
+
+import kefirEmitter from '../util/kefirEmitter'
 
 
 /**
@@ -43,6 +46,7 @@ export default class TagList extends React.Component {
           <TagPicker
             autocompleteTag={this.props.autocompleteTag}
             addTag={this.props.addTag}
+            createTag={this.props.createTag}
           />}
 
         <ul>
@@ -74,14 +78,11 @@ TagList.defaultProps = {
    *
    * @returns {stream} with tag matches
    */
-  autocompleteTag: () => {},
+  autocompleteTag: () => Kefir.constant([]),
 
-  /**
-   * Called for both creating new tag or adding existing tag
-   *
-   * @returns {stream} a stream that fires when update finishes
-   */
-  addTag: () => {onValue: () => {}},
+  addTag: () => kefirEmitter(),
+
+  createTag: () => kefirEmitter(),
 
   /**
    * Current tags

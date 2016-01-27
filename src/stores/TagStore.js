@@ -1,18 +1,19 @@
 import Kefir from 'kefir'
 import uuid from 'uuid'
 
-import kefirEmitter from '../util/kefirEmitter'
 import TagData from '../types/TagData'
+
+import kefirEmitter from '../util/kefirEmitter'
+import {cast} from '../util/Utils'
 
 
 const tagAction = kefirEmitter()
 
 const createTagActionStream = tagAction
   .filter(action => action.actionType === 'create')
-  .map(() => new TagData())
+  .map(action => cast(action.tag, TagData))
   .map(tag => tags => {
 
-    tag.uuid = uuid.v4()
     tags[tag.uuid] = tag;
 
     return tags;
@@ -39,5 +40,29 @@ function lookupTags(tagUuid) {
 }
 
 export default {
-  lookupTags
+
+  lookupTags,
+
+  /**
+   * Returns a stream that fires with the new tag and then ends
+   *
+   * @param tag
+   * @returns {*}
+   */
+  createTag: function(tag) {
+
+    tag = tag || {}
+
+    tagAction.emit({
+      actionType: 'create',
+      tag: Object.assign(tag, {uuid: uuid.v4()})
+    });
+
+    return this.tagObservable(tag.uuid).filter(tag => tag).take(1)
+  },
+
+  tagObservable: uuid =>
+    tagsObservable
+      .map(tags => tags[uuid])
+      .filter(tag => tag)
 }

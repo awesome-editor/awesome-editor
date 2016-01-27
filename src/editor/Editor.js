@@ -44,12 +44,12 @@ export default class Editor extends React.Component {
 
     this.unsub.push(
       DocStore.docObservable(this.props.uuid)
-        .onValue(doc => that.setState(_.pick(doc, 'uuid', 'title', 'subtitle', 'content')))
+        ._onValue(doc => that.setState(_.pick(doc, 'uuid', 'title', 'subtitle', 'content')))
     );
 
     this.unsub.push(
       DocStore.docTagsObservable(this.props.uuid)
-        .onValue(tags => that.setState({tags}))
+        ._onValue(tags => that.setState({tags}))
     )
   }
 
@@ -91,6 +91,7 @@ export default class Editor extends React.Component {
         <CardText style={{overflow:'visible'}}>
           <TagList
             autocompleteTag={TagStore.lookupTags}
+            createTag={tag => TagStore.createTag(tag)}
             addTag={tag => DocStore.addTagToDoc(uuid, tag)}
             tags={that.state.tags}
             previewMode={previewMode}/>

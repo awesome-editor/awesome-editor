@@ -73,7 +73,7 @@ const docsObservable = Kefir.merge([
 export default {
 
   /**
-   * Returns a stream that fires with the new uuid and then ends
+   * Returns a stream that fires with the new doc and then ends
    *
    * @param doc
    * @returns {*}
@@ -87,7 +87,7 @@ export default {
       doc: Object.assign(doc, {uuid: uuid.v4()})
     });
 
-    return this.docObservable(doc.uuid).filter(doc => doc).map(doc => doc.uuid).take(1)
+    return this.docObservable(doc.uuid).filter(doc => doc).take(1)
   },
 
   updateDoc: function(doc) {

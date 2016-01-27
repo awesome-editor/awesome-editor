@@ -1,8 +1,6 @@
 import {Observable} from 'kefir'
 
 
-const originalOnValue = Observable.prototype.onValue
-
 /**
  * This makes kefir#onValue work more like BaconJS---it returns an unsubscribe function instead of the observable.
  * Makes unsubscribring easier.
@@ -10,9 +8,9 @@ const originalOnValue = Observable.prototype.onValue
  * @param fn listener
  * @returns {Function} unsub function
  */
-Observable.prototype.onValue = function(fn) {
+Observable.prototype._onValue = function(fn) {
 
-  originalOnValue.call(this, fn)
+  Observable.prototype.onValue.call(this, fn)
 
   // return an unsub function
   return () => this.offValue(fn)

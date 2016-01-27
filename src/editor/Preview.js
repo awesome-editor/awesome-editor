@@ -32,25 +32,25 @@ export default class Preview extends React.Component {
     this.unsub.push(
       DocStore.docObservable(this.props.uuid)
         .map(doc => doc.title)
-        .onValue(title => this.setState({title}))
+        ._onValue(title => this.setState({title}))
     );
 
     this.unsub.push(
       DocStore.docObservable(this.props.uuid)
         .map(doc => doc.subtitle)
-        .onValue(subtitle => this.setState({subtitle}))
+        ._onValue(subtitle => this.setState({subtitle}))
     );
 
     this.unsub.push(
       DocStore.docObservable(this.props.uuid)
         .map(doc => doc.content)
         .map(content => this.md.render(content))
-        .onValue(content => this.setState({content}))
+        ._onValue(content => this.setState({content}))
     );
 
     this.unsub.push(
       DocStore.docTagsObservable(this.props.uuid)
-        .onValue(tags => this.setState({tags}))
+        ._onValue(tags => this.setState({tags}))
     )
   }
 

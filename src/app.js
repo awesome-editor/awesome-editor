@@ -36,7 +36,7 @@ class Main extends React.Component {
     this.unsub = [];
 
     // create blank doc
-    this.unsub.push(DocStore.createDoc().onValue(curDocUuid => this.setState({curDocUuid})))
+    this.unsub.push(DocStore.createDoc()._onValue(doc => this.setState({curDocUuid: doc.uuid})))
 
 
 /*    this.unsub.push(
