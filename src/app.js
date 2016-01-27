@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 
 import DocStore from './stores/DocStore'
 import Editor from './editor/Editor'
+import Preview from './editor/Preview'
 
 //import TagView from 'tags/TagsView'
 //import FilePreview from 'tags/file.preview'
@@ -77,7 +78,7 @@ class Main extends React.Component {
           <Editor uuid={this.state.curDocUuid} />
         </div>
         <div className='col-sm-3'>
-          <Editor uuid={this.state.curDocUuid} previewMode={true} />
+          <Preview uuid={this.state.curDocUuid} />
         </div>
       </div>
     );
