@@ -1,0 +1,41 @@
+.tags ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.tags li {
+    float: left;
+    margin-right: 0.5em;
+}
+
+.awesome-tag,
+.awesome-tag > .path,
+.awesome-tag > .path > .label,
+.awesome-tag > .label {
+
+    display: inline-block;
+}
+
+.awesome-tag {
+    background: #eee;
+    border-radius: 0.35em;
+    color: #999;
+    height: 1.25em;
+    line-height: 1.25em;
+    padding: 0.20em 0.35em;
+    position: relative;
+    margin: 0 0.25em 0 0.25em;
+    text-decoration: none;
+    -webkit-transition: color 0.2s;
+}
+
+.awesome-tag:hover {
+    background-color: crimson;
+    color: white;
+}
+
+.awesome-tag:hover::after {
+    border-left-color: crimson;
+}
