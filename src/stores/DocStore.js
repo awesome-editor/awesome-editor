@@ -6,7 +6,6 @@ import uuid from 'uuid'
 import {cast} from '../util/Utils'
 import DocData from '../types/DocData'
 import kefirEmitter from '../util/kefirEmitter'
-import kefirOnce from '../util/kefirOnce'
 
 
 const docAction = kefirEmitter()
@@ -88,7 +87,7 @@ export default {
       doc: Object.assign(doc, {uuid: uuid.v4()})
     });
 
-    return kefirOnce(this.docObservable(doc.uuid).filter(doc => doc).map(doc => doc.uuid))
+    return this.docObservable(doc.uuid).filter(doc => doc).map(doc => doc.uuid).take(1)
   },
 
   updateDoc: function(doc) {
@@ -102,7 +101,7 @@ export default {
       doc
     })
 
-    return kefirOnce(this.docObservable(doc.uuid))
+    return this.docObservable(doc.uuid).take(1)
   },
 
   addTagToDoc: function(docUuid, tag) {
@@ -117,7 +116,7 @@ export default {
       tag
     })
 
-    return kefirOnce(this.docTagsObservable(docUuid))
+    return this.docTagsObservable(docUuid).take(1)
   },
 
   /**

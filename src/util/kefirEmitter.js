@@ -1,6 +1,11 @@
 import {Kefir} from 'kefir'
 
 
+/**
+ * The return of the Kefir emitter
+ *
+ * @returns {*}
+ */
 export default function() {
 
   let emitter;

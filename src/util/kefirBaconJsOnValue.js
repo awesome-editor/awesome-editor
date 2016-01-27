@@ -1,7 +1,6 @@
 import {Observable} from 'kefir'
 
 
-// TODO remove this
 const originalOnValue = Observable.prototype.onValue
 
 /**
