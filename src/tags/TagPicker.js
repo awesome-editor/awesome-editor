@@ -66,12 +66,9 @@ export default class TagPicker extends React.Component {
     }
   }
 
-  _onTagItemTouchTap(event, tag) {
+  _onTagItemTouchTap(tag) {
 
-    const index = tag.key
-    const newTag = this.state.autocompleteTagList[index]
-
-    this._addTag(newTag)
+    this._addTag(tag)
   }
 
   _hideDropdown() {
@@ -105,11 +102,11 @@ export default class TagPicker extends React.Component {
     return (
       <div>
         <TextField
-          ref={ref => this._textField = ref}
           hintText='Add tag'
           value={this.state.currentTagName}
           onChange={evt => this._onChange(evt.target.value)}
           onKeyDown={evt => this._onKeyDown(evt, this.state.currentTagName)}
+          onBlur={this._hideDropdown}
         />
         <IconButton
           disabled={currentTagNameIsEmpty}
@@ -136,12 +133,16 @@ export default class TagPicker extends React.Component {
       <Paper
         style={style}
         autoWidth={false}
-        onItemTouchTap={this._onTagItemTouchTap}
-        onFocus={() => this._textField && this._textField.focus()}
         zDepth={1}
       >
 
-        {this.state.autocompleteTagList.map((tag, i) => { return <MenuItem key={i} children={<Tag {...tag}/>}/>})}
+        {this.state.autocompleteTagList.map((tag, i) => (
+          <MenuItem
+            key={i}
+            onTouchTap={() => this._onTagItemTouchTap(tag)}
+            children={<Tag {...tag}/>}
+          />
+        ))}
 
       </Paper>
     )
