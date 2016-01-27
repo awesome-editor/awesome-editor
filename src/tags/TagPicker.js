@@ -3,6 +3,7 @@ import React from 'react'
 import Kefir from 'kefir'
 
 import TextField from 'material-ui/lib/text-field'
+import Paper from 'material-ui/lib/paper';
 import Menu from 'material-ui/lib/menus/menu';
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import IconButton from 'material-ui/lib/icon-button';
@@ -104,12 +105,11 @@ export default class TagPicker extends React.Component {
     return (
       <div>
         <TextField
-          ref={ref => this._tagInput = ref}
+          ref={ref => this._textField = ref}
           hintText='Add tag'
           value={this.state.currentTagName}
           onChange={evt => this._onChange(evt.target.value)}
           onKeyDown={evt => this._onKeyDown(evt, this.state.currentTagName)}
-          onBlur={() => this._tagInput.focus()}
         />
         <IconButton
           disabled={currentTagNameIsEmpty}
@@ -133,14 +133,17 @@ export default class TagPicker extends React.Component {
     };
 
     return (
-      <Menu
+      <Paper
         style={style}
         autoWidth={false}
-        onItemTouchTap={this._onTagItemTouchTap}>
+        onItemTouchTap={this._onTagItemTouchTap}
+        onFocus={() => this._textField && this._textField.focus()}
+        zDepth={1}
+      >
 
         {this.state.autocompleteTagList.map((tag, i) => { return <MenuItem key={i} children={<Tag {...tag}/>}/>})}
 
-      </Menu>
+      </Paper>
     )
   }
 
