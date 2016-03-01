@@ -1,5 +1,5 @@
 import AppDispatcher from './AppDispatcher'
-import DocStore from '../stores/DocStore'
+import DocStore from '../docs/DocStore'
 import Storage from '../stores/Storage'
 
 

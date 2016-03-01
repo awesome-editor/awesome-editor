@@ -1,6 +1,6 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap';
-import {NoteStore} from '../stores/DocStore';
+import {NoteStore} from '../docs/DocStore';
 import _ from 'lodash';
 
 

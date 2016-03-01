@@ -1,6 +1,6 @@
 /*eslint no-use-before-define: 0*/
 import uuid from 'uuid'
-import DocData from '../types/DocData'
+import DocData from 'DocData'
 import {cast} from '../util/Utils'
 import AppDispatcher from '../appstate/AppDispatcher'
 
@@ -10,7 +10,7 @@ import AppDispatcher from '../appstate/AppDispatcher'
  *
  * @param docs
  * @param doc
- * @returns {{newDocEntry: {}}}
+ * @returns new docs
  * @private
  */
 function _upsertDoc(docs, doc) {
@@ -18,7 +18,12 @@ function _upsertDoc(docs, doc) {
   const curDoc = docs[doc.uuid] || {}
   const newDocEntry = {[doc.uuid]: Object.assign({}, curDoc, doc)}
 
-  return {...docs, ...newDocEntry}
+  return {
+    docs: {...docs, ...newDocEntry},
+    sideEffects: [
+      {channel: 'Persistance', type}
+    ]
+  }
 }
 
 /**
