@@ -3,21 +3,11 @@
     "react"
   ],
 
-  "ecmaFeatures": {
-    "arrowFunctions": true,
-    "blockBindings": true,
-    "classes": true,
-    "defaultParams": true,
-    "forOf": true,
-    "modules": true,
-    "templateStrings": true,
-    "destructuring": true,
-    "jsx": true
-  },
-
   "parserOptions": {
+    "ecmaVersion": 6,
     "ecmaFeatures": {
-      "jsx": true
+      "jsx": true,
+      "modules": true
     }
   },
 

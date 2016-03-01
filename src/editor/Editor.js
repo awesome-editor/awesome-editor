@@ -25,6 +25,7 @@ import DocData from '../types/DocData'
 import DocStore from '../stores/DocStore'
 import TagStore from '../stores/TagStore'
 import '../util/Utils.js'
+import AppState from '../appstate/AppState'
 
 
 export default class Editor extends React.Component {
@@ -43,12 +44,12 @@ export default class Editor extends React.Component {
     this.unsub = [];
 
     this.unsub.push(
-      DocStore.docObservable(this.props.uuid)
+      AppState.docs.docObservable(this.props.uuid)
         ._onValue(doc => that.setState(_.pick(doc, 'uuid', 'title', 'subtitle', 'content')))
     );
 
     this.unsub.push(
-      DocStore.docTagsObservable(this.props.uuid)
+      AppState.docs.docTagsObservable(this.props.uuid)
         ._onValue(tags => that.setState({tags}))
     )
   }
@@ -68,14 +69,14 @@ export default class Editor extends React.Component {
             multiLine={true}
             value={that.state.title}
             fullWidth={true}
-            onChange={previewMode ? _.noop : evt => DocStore.updateDoc({uuid, title: evt.target.value})}
+            onChange={previewMode ? _.noop : evt => DocStore.actions.updateDoc({uuid, title: evt.target.value})}
             />
           <TextField
             hintText="Subtitle"
             multiLine={true}
             value={that.state.subtitle}
             fullWidth={true}
-            onChange={previewMode ? _.noop : evt => DocStore.updateDoc({uuid, subtitle: evt.target.value})}
+            onChange={previewMode ? _.noop : evt => DocStore.actions.updateDoc({uuid, subtitle: evt.target.value})}
             />
         </CardText>
 
@@ -84,7 +85,7 @@ export default class Editor extends React.Component {
             key="Content"
             style={{minHeight: '3em'}}
             html={this.state.content}
-            onChange={previewMode ? _.noop : evt => DocStore.updateDoc({uuid, content: evt.target.value})}>
+            onChange={previewMode ? _.noop : evt => DocStore.actions.updateDoc({uuid, content: evt.target.value})}>
           </DivEdit>
         </CardText>
 

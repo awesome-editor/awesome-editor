@@ -3,7 +3,7 @@ import TagData from './TagData'
 import {cast} from '../util/Utils'
 
 
-export default class NoteData {
+export default class DocData {
 
   constructor(args) {
 

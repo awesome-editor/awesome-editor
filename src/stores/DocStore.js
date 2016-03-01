@@ -1,47 +1,25 @@
 /*eslint no-use-before-define: 0*/
-//import marmottajax from 'dimitrinicolas/marmottajax';
-import {Kefir} from 'kefir'
 import uuid from 'uuid'
-
-import {cast} from '../util/Utils'
 import DocData from '../types/DocData'
+import {cast} from '../util/Utils'
 import AppDispatcher from '../appstate/AppDispatcher'
 
 
-const docChannelObservable = AppDispatcher.filter(action => action.channel === 'doc')
-
 /**
- * payload:
- * - action.doc - new doc. uuid optional
+ * Supports partial doc updates
+ *
+ * @param docs
+ * @param doc
+ * @returns {{newDocEntry: {}}}
+ * @private
  */
-const createDocActionObservable = docChannelObservable
-  .filter(action => action.actionType === 'create')
-  .map(action => cast(action.doc, DocData))
-  .map(doc => docs => {
+function _upsertDoc(docs, doc) {
 
-    docs.current = doc.uuid
-    docs[doc.uuid] = doc;
+  const curDoc = docs[doc.uuid] || {}
+  const newDocEntry = {[doc.uuid]: Object.assign({}, curDoc, doc)}
 
-    return docs;
-  });
-
-/**
- * payload:
- * - action.doc - must contain the uuid but partial props ok
- */
-const updateDocActionObservable = docChannelObservable
-  .filter(action => action.actionType === 'update')
-  .map(action => docs => {
-
-    const doc = action.doc
-
-    docs.current = doc.uuid
-    Object.assign(docs[doc.uuid], doc)
-
-    return docs
-  });
-
-// TODO rest of CRUD
+  return {...docs, ...newDocEntry}
+}
 
 /**
  * payload:
@@ -50,95 +28,85 @@ const updateDocActionObservable = docChannelObservable
  *
  * If tag already exists, it won't add it again
  */
-const addTagToDocActionObservable = docChannelObservable
-  .filter(action => action.actionType === 'add-tag')
-  .map(action => docs => {
+function _addTagToDoc(docs = {}, payload) {
 
-    const doc = docs[action.uuid]
-    const newTag = action.tag
+  const doc = docs[payload.uuid]
+  const newTag = payload.tag
 
-    if (!doc.tags.find(tag => tag.uuid === newTag.uuid)) {
+  if (!doc.tags.find(tag => tag.uuid === newTag.uuid)) {
 
-      docs.current = doc.uuid
-      doc.tags.push(newTag)
+    const newDoc = {...doc, tags: doc.tags.concat([newTag])}
+
+    return _upsertDoc(docs, newDoc)
+  }
+
+  return docs
+}
+
+function docs(docs = {}, action) {
+
+  if (action.channel === 'docs') {
+
+    switch (action.actionType) {
+      case 'create' :
+        return _upsertDoc(docs, action.payload)
+      case 'update' :
+        return _upsertDoc(docs, action.payload)
+      case 'add-tag' :
+        return _addTagToDoc(docs, action.payload)
     }
+  }
 
-    return docs
-  })
-
-
-const docsObservable = Kefir.merge([
-  createDocActionObservable,
-  updateDocActionObservable,
-  addTagToDocActionObservable
-])
-  .scan((prevDocs, modificationFunc) => modificationFunc(prevDocs), {});
-
+  return docs
+}
 
 export default {
 
-  /**
-   * Returns a stream that fires with the new doc and then ends
-   *
-   * @param doc
-   * @returns {*}
-   */
-  createDoc: function(doc) {
+  actions: {
+    createDoc(doc) {
 
-    doc = doc || {}
+      const newDoc = {...cast(doc, DocData), uuid: uuid.v4()}
 
-    AppDispatcher.emit({
-      channel: 'doc',
-      actionType: 'create',
-      doc: Object.assign(doc, {uuid: uuid.v4()})
-    });
+      AppDispatcher.emit({
+        channel: 'docs',
+        actionType: 'create',
+        payload: newDoc
+      })
 
-    return this.docObservable(doc.uuid).filter(doc => doc).take(1)
-  },
+      return newDoc.uuid;
+    },
 
-  updateDoc: function(doc) {
+    updateDoc(doc) {
 
-    if (!doc.uuid) {
-      throw new Error('#updateDoc needs a uuid')
+      AppDispatcher.emit({
+        channel: 'docs',
+        actionType: 'update',
+        payload: doc
+      })
     }
-
-    AppDispatcher.emit({
-      channel: 'doc',
-      actionType: 'update',
-      doc
-    })
-
-    return this.docObservable(doc.uuid).take(1)
   },
 
-  addTagToDoc: function(docUuid, tag) {
+  reducers: {
+    _upsertDoc,
+    _addTagToDoc,
+    docs
+  },
 
-    if (!docUuid || !tag) {
-      return new Error('#addTagToDoc needs uuid and tag')
+  observables: {
+    docObservable(docsObservable) {
+
+      return docUuid =>
+        docsObservable
+          .filter(docs => docs[docUuid])
+          .map(docs => docs[docUuid])
+    },
+
+    docTagsObservable(docsObservable) {
+
+      return docUuid =>
+        docsObservable
+          .filter(docs => docs[docUuid])
+          .map(docs => docs[docUuid].tags)
     }
-
-    AppDispatcher.emit({
-      channel: 'doc',
-      actionType: 'add-tag',
-      uuid: docUuid,
-      tag
-    })
-
-    return this.docTagsObservable(docUuid).take(1)
-  },
-
-  docsObservable,
-
-  docObservable: uuid =>
-    docsObservable
-      .map(docs => docs[uuid])
-      .filter(doc => doc),
-
-  docTagsObservable: uuid =>
-    docsObservable
-      .map(docs => docs[uuid])
-      .filter(doc => doc)
-      .map(doc => doc.tags),
-
-  latestUpdate: docsObservable.map(docs => docs.latestUpdate).filter(uuid => uuid)
+  }
 }

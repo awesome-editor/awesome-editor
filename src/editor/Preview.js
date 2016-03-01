@@ -12,6 +12,7 @@ import TagList from '../tags/TagList'
 
 import DocStore from '../stores/DocStore'
 import DocData from '../types/DocData'
+import AppState from '../appstate/AppState'
 
 
 export default class Preview extends React.Component {
@@ -30,26 +31,26 @@ export default class Preview extends React.Component {
     this.unsub = [];
 
     this.unsub.push(
-      DocStore.docObservable(this.props.uuid)
+      AppState.docs.docObservable(this.props.uuid)
         .map(doc => doc.title)
         ._onValue(title => this.setState({title}))
     );
 
     this.unsub.push(
-      DocStore.docObservable(this.props.uuid)
+      AppState.docs.docObservable(this.props.uuid)
         .map(doc => doc.subtitle)
         ._onValue(subtitle => this.setState({subtitle}))
     );
 
     this.unsub.push(
-      DocStore.docObservable(this.props.uuid)
+      AppState.docs.docObservable(this.props.uuid)
         .map(doc => doc.content)
         .map(content => this.md.render(content))
         ._onValue(content => this.setState({content}))
     );
 
     this.unsub.push(
-      DocStore.docTagsObservable(this.props.uuid)
+      AppState.docs.docTagsObservable(this.props.uuid)
         ._onValue(tags => this.setState({tags}))
     )
   }
