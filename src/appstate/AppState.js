@@ -1,27 +1,7 @@
-import Kefir from 'kefir'
+import DocStore from '../stores/DocStore'
+import Storage from '../stores/Storage'
 
 
-function upsertDoc(doc) {
+DocStore.latestUpdate.flatMap(Storage.upsertDoc).onValue(() => {})
+ //on Error
 
-  localStorage.setItem(`doc${doc.uuid}`, doc)
-  return Kefir.constant(doc)
-}
-
-function upsertTag(tag) {
-
-  localStorage.setItem(`tag${tag.uuid}`, tag)
-  return Kefir.constant(tag)
-}
-
-function getDoc(uuid) {
-
-  const doc = localStorage.getItem(`doc${uuid}`)
-
-  return Kefir.constant(doc)
-}
-
-export default {
-  upsertDoc,
-  upsertTag,
-  getDoc
-}

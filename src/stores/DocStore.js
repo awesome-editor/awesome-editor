@@ -5,20 +5,21 @@ import uuid from 'uuid'
 
 import {cast} from '../util/Utils'
 import DocData from '../types/DocData'
-import kefirEmitter from '../util/kefirEmitter'
+import AppDispatcher from '../appstate/AppDispatcher'
 
 
-const docAction = kefirEmitter()
+const docChannelObservable = AppDispatcher.filter(action => action.channel === 'doc')
 
 /**
  * payload:
  * - action.doc - new doc. uuid optional
  */
-const createDocActionStream = docAction
+const createDocActionObservable = docChannelObservable
   .filter(action => action.actionType === 'create')
   .map(action => cast(action.doc, DocData))
   .map(doc => docs => {
 
+    docs.current = doc.uuid
     docs[doc.uuid] = doc;
 
     return docs;
@@ -28,11 +29,14 @@ const createDocActionStream = docAction
  * payload:
  * - action.doc - must contain the uuid but partial props ok
  */
-const updateDocActionStream = docAction
+const updateDocActionObservable = docChannelObservable
   .filter(action => action.actionType === 'update')
   .map(action => docs => {
 
-    Object.assign(docs[action.doc.uuid], action.doc)
+    const doc = action.doc
+
+    docs.current = doc.uuid
+    Object.assign(docs[doc.uuid], doc)
 
     return docs
   });
@@ -46,7 +50,7 @@ const updateDocActionStream = docAction
  *
  * If tag already exists, it won't add it again
  */
-const addTagToDocActionStream = docAction
+const addTagToDocActionObservable = docChannelObservable
   .filter(action => action.actionType === 'add-tag')
   .map(action => docs => {
 
@@ -55,6 +59,7 @@ const addTagToDocActionStream = docAction
 
     if (!doc.tags.find(tag => tag.uuid === newTag.uuid)) {
 
+      docs.current = doc.uuid
       doc.tags.push(newTag)
     }
 
@@ -63,9 +68,9 @@ const addTagToDocActionStream = docAction
 
 
 const docsObservable = Kefir.merge([
-  createDocActionStream,
-  updateDocActionStream,
-  addTagToDocActionStream
+  createDocActionObservable,
+  updateDocActionObservable,
+  addTagToDocActionObservable
 ])
   .scan((prevDocs, modificationFunc) => modificationFunc(prevDocs), {});
 
@@ -82,7 +87,8 @@ export default {
 
     doc = doc || {}
 
-    docAction.emit({
+    AppDispatcher.emit({
+      channel: 'doc',
       actionType: 'create',
       doc: Object.assign(doc, {uuid: uuid.v4()})
     });
@@ -96,7 +102,8 @@ export default {
       throw new Error('#updateDoc needs a uuid')
     }
 
-    docAction.emit({
+    AppDispatcher.emit({
+      channel: 'doc',
       actionType: 'update',
       doc
     })
@@ -110,7 +117,8 @@ export default {
       return new Error('#addTagToDoc needs uuid and tag')
     }
 
-    docAction.emit({
+    AppDispatcher.emit({
+      channel: 'doc',
       actionType: 'add-tag',
       uuid: docUuid,
       tag
@@ -119,9 +127,6 @@ export default {
     return this.docTagsObservable(docUuid).take(1)
   },
 
-  /**
-   * This will probably be deprecated since it doesn't make sense to store all docs in memory
-   */
   docsObservable,
 
   docObservable: uuid =>
@@ -133,5 +138,7 @@ export default {
     docsObservable
       .map(docs => docs[uuid])
       .filter(doc => doc)
-      .map(doc => doc.tags)
+      .map(doc => doc.tags),
+
+  latestUpdate: docsObservable.map(docs => docs.latestUpdate).filter(uuid => uuid)
 }
