@@ -10,7 +10,6 @@ import CardTitle from 'material-ui/lib/card/card-title';
 
 import TagList from '../tags/TagList'
 
-import DocStore from '../docs/DocReducers'
 import DocData from '../docs/DocData'
 import AppState from '../appstate/AppState'
 
@@ -31,26 +30,26 @@ export default class Preview extends React.Component {
     this.unsub = [];
 
     this.unsub.push(
-      AppState.docs.docObservable(this.props.uuid)
+      AppState.docObservable(this.props.uuid)
         .map(doc => doc.title)
         ._onValue(title => this.setState({title}))
     );
 
     this.unsub.push(
-      AppState.docs.docObservable(this.props.uuid)
+      AppState.docObservable(this.props.uuid)
         .map(doc => doc.subtitle)
         ._onValue(subtitle => this.setState({subtitle}))
     );
 
     this.unsub.push(
-      AppState.docs.docObservable(this.props.uuid)
+      AppState.docObservable(this.props.uuid)
         .map(doc => doc.content)
         .map(content => this.md.render(content))
         ._onValue(content => this.setState({content}))
     );
 
     this.unsub.push(
-      AppState.docs.docTagsObservable(this.props.uuid)
+      AppState.docTagsObservable(this.props.uuid)
         ._onValue(tags => this.setState({tags}))
     )
   }

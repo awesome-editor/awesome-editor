@@ -37,7 +37,7 @@ function _bindActions(opts) {
   return Object.keys(actions).reduce((total, action) => {
 
     return Object.assign(total, {
-      [observable]: (...args) => {
+      [action]: (...args) => {
 
         const actionFn = actions[action]
         const actionPayload = actionFn(...args)
@@ -48,14 +48,21 @@ function _bindActions(opts) {
   }, {})
 }
 
+/**
+ * In order for this to work, action and action observable must be globally unique.
+ * This isn't hard to achieve as long as (a) you include the storename in the action/observable,
+ * and (b) use the word "observable" in the observables.
+ * For example, `createDoc`, `docObservable`, etc.
+ *
+ * @param opts
+ * @returns {{}}
+ */
 export function createStore(opts) {
 
   const {storeName, appDispatcher, appStateObservable, actions, actionObservables = {}} = opts
 
   return {
-    [storeName]: {
-      actions: _bindActions(opts),
-      actionObservables: _bindActionObservables(opts)
-    }
+    ..._bindActions(opts),
+    ..._bindActionObservables(opts)
   }
 }

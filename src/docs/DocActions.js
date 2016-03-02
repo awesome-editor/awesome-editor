@@ -10,7 +10,7 @@ export function createDoc(doc) {
 
   return {
     channel: Channels.docs,
-    actionType: ActionTypes.upsert,
+    actionType: ActionTypes.create,
     payload: newDoc
   }
 }
@@ -19,7 +19,7 @@ export function updateDoc(doc) {
 
   return {
     channel: Channels.docs,
-    actionType: ActionTypes.upsert,
+    actionType: ActionTypes.update,
     payload: doc
   }
 }

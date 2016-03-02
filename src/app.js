@@ -5,7 +5,7 @@ import './util/kefirBaconJsOnValue'
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import DocStore from './docs/DocReducers'
+import AppState from './appstate/AppState'
 import Editor from './editor/Editor'
 import Preview from './editor/Preview'
 
@@ -36,8 +36,10 @@ class Main extends React.Component {
     this.unsub = [];
 
     // create blank doc
-    const curDocUuid = DocStore.actions.createDoc()
-    this.setState({curDocUuid})
+    const curDocUuid = AppState.createDoc()
+    this.unsub.push(
+      AppState.newDocUuidObservable._onValue(curDocUuid => this.setState({curDocUuid}))
+    )
 
 
 /*    this.unsub.push(

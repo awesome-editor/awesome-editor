@@ -13,3 +13,11 @@ export function docTagsObservable(docsObservable) {
       .filter(docs => docs[docUuid])
       .map(docs => docs[docUuid].tags)
 }
+
+export function newDocUuidObservable(docsObservable) {
+
+  return docsObservable
+    .filter(docs => docs.newUuid)
+    .map(docs => docs.newUuid)
+    .skipDuplicates()
+}

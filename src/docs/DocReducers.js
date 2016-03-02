@@ -2,14 +2,8 @@
 import {upsert} from '../persistence/PersistenceActions'
 import {Channels, ActionTypes} from '../constants/Constants'
 import {DocActionTypes} from './DocConstants'
+import {stateWithSideEffects} from '../appstate/SideEffects'
 
-
-function _withSideEffects(state, ...sideEffects) {
-
-  sideEffects = sideEffects || []
-
-  return {state, sideEffects}
-}
 
 /**
  * Supports partial doc updates
@@ -22,10 +16,28 @@ function _withSideEffects(state, ...sideEffects) {
 function _upsertDoc(docs, doc) {
 
   const curDoc = docs[doc.uuid] || {}
-  const newDoc = Object.assign({}, curDoc, doc)
+  const newDoc = {...curDoc, ...doc}
   const newDocEntry = {[doc.uuid]: newDoc}
+  const newDocs = {...docs, ...newDocEntry}
 
-  return _withSideEffects({...docs, ...newDocEntry}, upsert(newDoc))
+  return stateWithSideEffects(newDocs, upsert(newDoc))
+}
+
+/**
+ * Create the doc and tell the world about it
+ *
+ * @param docs
+ * @param doc
+ * @returns {*}
+ * @private
+ */
+function _createDoc(docs, doc) {
+
+  const upsert = _upsertDoc(docs, doc)
+  const newDocUuid = stateWithSideEffects({newDocUuid: doc.uuid})
+
+  // adds newDocUuid property to doc state
+  return upsert.combine(newDocUuid)
 }
 
 /**
@@ -35,7 +47,7 @@ function _upsertDoc(docs, doc) {
  *
  * If tag already exists, it won't add it again
  */
-function _addTagToDoc(docs = {}, payload) {
+function _addTagToDoc(docs, payload) {
 
   const doc = docs[payload.uuid]
   const newTag = payload.tag
@@ -47,7 +59,7 @@ function _addTagToDoc(docs = {}, payload) {
     return _upsertDoc(docs, newDoc)
   }
 
-  return _withSideEffects(docs)
+  return stateWithSideEffects(docs)
 }
 
 export function docs(docs = {}, action) {
@@ -55,13 +67,15 @@ export function docs(docs = {}, action) {
   if (action.channel === Channels.docs) {
 
     switch (action.actionType) {
-      case ActionTypes.upsert:
+      case ActionTypes.create:
+        return _createDoc(docs, action.payload)
+      case ActionTypes.update:
         return _upsertDoc(docs, action.payload)
       case DocActionTypes.addTag:
         return _addTagToDoc(docs, action.payload)
     }
   }
 
-  return _withSideEffects(docs)
+  return stateWithSideEffects(docs)
 }
 

@@ -14,7 +14,33 @@ import {persistence} from '../persistence/Persistence'
  * Things that generate SideEffects are usually asynchronous so they place their results to AppDispatcher.
  *
  */
-AppDispatcher.onValue(state => {
+AppDispatcher.onValue(action => {
 
-  state.sideEffects.forEach(sideEffect => persistence(sideEffect))
+  persistence(action)
 })
+
+
+/**
+ * Hey, look! Something like a monad
+ */
+export class StateWithSideEffects {
+
+  constructor(state, sideEffects) {
+
+    this.state = state || {}
+    this.sideEffects = sideEffects || []
+  }
+
+  combine(stateWithSideEffects) {
+
+    return new StateWithSideEffects(
+      {...this.state, ...stateWithSideEffects.state},
+      this.sideEffects.concat(stateWithSideEffects.sideEffects)
+    )
+  }
+}
+
+export function stateWithSideEffects(state, ...sideEffects) {
+
+  return new StateWithSideEffects(state, sideEffects)
+}
