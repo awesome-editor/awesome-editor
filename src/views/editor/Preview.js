@@ -8,7 +8,7 @@ import CardText from 'material-ui/lib/card/card-text';
 import CardTitle from 'material-ui/lib/card/card-title';
 //import FlatButton from 'material-ui/lib/flat-button';
 
-import TagList from '../tags/TagList'
+import TagList from '../views/tags/TagList'
 
 import DocData from '../docs/DocData'
 import AppState from '../appstate/AppState'

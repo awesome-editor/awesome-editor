@@ -19,7 +19,7 @@ import TextField from 'material-ui/lib/text-field'
 
 //const SelectableList = SelectableContainerEnhance(List);
 
-import TagList from '../tags/TagList'
+import TagList from '../views/tags/TagList'
 import DivEdit from './DivEdit'
 import DocData from '../docs/DocData'
 import TagStore from '../stores/TagStore'

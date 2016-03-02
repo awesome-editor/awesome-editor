@@ -1,10 +1,10 @@
 import Kefir from 'kefir'
 import uuid from 'uuid'
 
-import TagData from '../types/TagData'
+import TagData from 'TagData'
 
-import kefirEmitter from '../util/kefirEmitter'
-import {cast} from '../util/Utils'
+import kefirEmitter from '../../util/kefirEmitter'
+import {cast} from '../../util/Utils'
 
 
 const tagAction = kefirEmitter()

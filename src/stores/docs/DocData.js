@@ -1,5 +1,5 @@
 import uuid from 'uuid'
-import TagData from './../types/TagData'
+import TagData from './../stores/tags/TagData'
 import {cast} from '../util/Utils'
 
 

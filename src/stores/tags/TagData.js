@@ -1,4 +1,4 @@
-import {cast} from '../util/Utils'
+import {cast} from '../../util/Utils'
 
 
 export class Label {
