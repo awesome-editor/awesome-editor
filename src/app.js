@@ -5,7 +5,7 @@ import './util/kefirBaconJsOnValue'
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import DocStore from './docs/DocStore'
+import DocStore from './docs/DocReducers'
 import Editor from './editor/Editor'
 import Preview from './editor/Preview'
 

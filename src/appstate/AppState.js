@@ -1,46 +1,47 @@
 import AppDispatcher from './AppDispatcher'
-import DocStore from '../docs/DocStore'
-import Storage from '../stores/Storage'
+import {createStore} from './AppHelpers'
 
+import {docs} from '../docs/DocReducers'
+import * as DocActionObservables from '../docs/DocActionObservables'
+import * as DocActions from '../docs/DocActions'
+
+
+const initialState = {
+  docs: {},
+  persistence: {},
+  sideEffects: []
+}
 
 function _scanner(state, action) {
 
+  const docsResult = docs(state.docs, action)
+
+  const sideEffects = docsResult.sideEffects
+
   return {
-    docs: DocStore.reducers.docs(state.docs, action)
+    docs: docsResult.state,
+    sideEffects
   }
 }
 
+const appStateObservable = AppDispatcher.scan(_scanner, initialState).onValue(state => {
+
+  state.sideEffects.forEach(sideEffect => AppDispatcher.emit(sideEffect))
+})
+
+
 /**
- * Observables are functions that return observables from the store observable.
- * "binds" these functions i.e., returns the observables.
- * Also, creates a special observable with the same name as the store.
- * For example,
- * - docsObservable,
- * - newIdObservable,
- * - docObservable (which takes a doc id as input)
- *
- * @param appStateObservable
- * @param storeName
- * @param observables
- * @returns {*}
- * @private
+ * This is the "public" interface for app state i.e., what React interfaces with.
  */
-function _bindObservables(appStateObservable, storeName, observables) {
-
-  const mainStoreObservable = appStateObservable.map(app => app[storeName])
-
-  return Object.keys(observables).reduce((total, observable) => {
-
-    return Object.assign(total, {
-      [observable]: observables[observable](mainStoreObservable)
-    })
-  }, {[`${storeName}Observable`]: mainStoreObservable})
-}
-
-const appStateObservable = AppDispatcher.scan(_scanner, {docs: {}})
-const docsObservables = _bindObservables(appStateObservable, 'docs', DocStore.observables)
-
 export default {
+
   appStateObservable,
-  docs: docsObservables
+
+  ...createStore({
+    storeName: 'docs',
+    appDispatcher: AppDispatcher,
+    appStateObservable,
+    actionObservables: DocActionObservables,
+    actions: DocActions
+  })
 }

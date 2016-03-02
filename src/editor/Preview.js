@@ -10,7 +10,7 @@ import CardTitle from 'material-ui/lib/card/card-title';
 
 import TagList from '../tags/TagList'
 
-import DocStore from '../docs/DocStore'
+import DocStore from '../docs/DocReducers'
 import DocData from '../docs/DocData'
 import AppState from '../appstate/AppState'
 

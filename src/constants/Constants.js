@@ -3,3 +3,7 @@ export const Channels = {
   persistence: 'persistence'
 }
 
+export const ActionTypes = {
+  create: 'create',
+  upsert: 'upsert'
+}
