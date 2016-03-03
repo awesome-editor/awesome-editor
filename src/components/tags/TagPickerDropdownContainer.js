@@ -18,12 +18,12 @@ export default class TagPickerContainer extends React.Component {
 
   constructor(props) {
 
-    super(props);
+    super(props)
 
     this.state = {
       currentTagName: '',
       autocompleteTagList: []
-    };
+    }
 
     bindToInstance(this, '_onChange', '_onTagItemTouchTap', '_onKeyDown', '_addTag', '_clearSelection', '_hideDropdown')
   }
@@ -34,7 +34,7 @@ export default class TagPickerContainer extends React.Component {
 
     if (currentTagName.length > 2) {
 
-      this.autoCompleteEmitter.emit(currentTagName);
+      this.autoCompleteEmitter.emit(currentTagName)
     }
     else {
 
@@ -51,6 +51,9 @@ export default class TagPickerContainer extends React.Component {
 
       case 27 : // ESC
         return this._hideDropdown()
+
+      default:
+        break;
     }
   }
 
@@ -86,7 +89,7 @@ export default class TagPickerContainer extends React.Component {
 
     this.autoCompleteEmitter = kefirEmitter()
 
-    this.unsub = [];
+    this.unsub = []
 
     this.unsub.push(
       this.autoCompleteEmitter
@@ -94,7 +97,7 @@ export default class TagPickerContainer extends React.Component {
         .flatMap(name => this.props.autocompleteTag(name))
         .filter(tags => tags)
         ._onValue(autocompleteTagList => this.setState({autocompleteTagList}))
-    );
+    )
   }
 
   render() {
@@ -114,7 +117,7 @@ export default class TagPickerContainer extends React.Component {
 
   componentWillUnmount() {
 
-    this.unsub.forEach(unsub => unsub());
+    this.unsub.forEach(unsub => unsub())
   }
 }
 
@@ -130,4 +133,4 @@ TagPickerContainer.defaultProps = {
   addTag: () => kefirEmitter(),
 
   createTag: () => kefirEmitter()
-};
+}

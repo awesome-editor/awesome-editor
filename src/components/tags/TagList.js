@@ -1,6 +1,8 @@
-/*eslint no-extra-parens: 0*/
+/*eslint no-extra-parens: 0, no-unused-vars: 0*/
 import Kefir from 'kefir'
 import React from 'react'
+
+import kefirEmitter from '../../util/kefirEmitter'
 
 import Tag from './Tag'
 import TagPickerContainer from './TagPickerDropdownContainer'
@@ -11,24 +13,24 @@ import TagPickerContainer from './TagPickerDropdownContainer'
  * - add an existing tag to the list
  * - remove a tag from the list
  * - create a new tag and add it to the list
+ * @param{Object} props
+ * @constructor
  */
 const TagList = props => (
 
-    <div className='tags' style={{position: 'relative'}}>
+  <div className='tags' style={{position: 'relative'}}>
 
-      {props.previewMode ? '' : <TagPickerContainer {...props} />}
+    {props.previewMode ? '' : <TagPickerContainer {...props} />}
 
-      <ul>
-        {props.tags.map(tag => {
-          return (
-            <li key={tag.uuid}>
-              <Tag {...tag}/>
-            </li>
-          );
-        })}
-      </ul>
+    <ul>
+      {props.tags.map(tag => (
+        <li key={tag.uuid}>
+          <Tag {...tag}/>
+        </li>
+      ))}
+    </ul>
 
-    </div>
+  </div>
 )
 
 TagList.defaultProps = {
@@ -50,6 +52,6 @@ TagList.defaultProps = {
    * Current tags
    */
   tags: []
-};
+}
 
 export default TagList

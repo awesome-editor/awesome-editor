@@ -1,9 +1,10 @@
+/*eslint no-extra-parens: 0, no-unused-vars: 0*/
 import React from 'react'
 
 import TextField from 'material-ui/lib/text-field'
-import Paper from 'material-ui/lib/paper';
+import Paper from 'material-ui/lib/paper'
 import MenuItem from 'material-ui/lib/menus/menu-item'
-import IconButton from 'material-ui/lib/icon-button';
+import IconButton from 'material-ui/lib/icon-button'
 import AddCircle from 'material-ui/lib/svg-icons/content/add-circle-outline'
 
 import Tag from './Tag'
@@ -40,7 +41,7 @@ const tagPickerStyle = {
   float: 'left',
   position: 'relative',
   zIndex: 0
-};
+}
 
 const TagPickerMenu = ({autocompleteTagList, onTagItemTouchTap}) => (
 

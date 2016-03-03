@@ -1,3 +1,4 @@
+/*eslint no-extra-parens: 0, no-unused-vars: 0*/
 import React from 'react'
 import TagData from '../../stores/tags/TagData'
 
