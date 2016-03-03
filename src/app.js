@@ -5,9 +5,9 @@ import './util/kefirBaconJsOnValue'
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import AppState from 'stores/appstate/AppState'
-import Editor from 'views/editor/Editor'
-import Preview from 'views/editor/Preview'
+import AppState from './stores/appstate/AppState'
+import Editor from './views/editor/Editor'
+import Preview from './views/editor/Preview'
 
 //import TagView from 'tags/TagsView'
 //import FilePreview from 'tags/file.preview'

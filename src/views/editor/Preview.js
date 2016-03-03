@@ -8,10 +8,10 @@ import CardText from 'material-ui/lib/card/card-text';
 import CardTitle from 'material-ui/lib/card/card-title';
 //import FlatButton from 'material-ui/lib/flat-button';
 
-import TagList from '../views/tags/TagList'
+import TagList from '../tags/TagList'
 
-import DocData from '../docs/DocData'
-import AppState from '../appstate/AppState'
+import DocData from '../../stores/docs/DocData'
+import AppState from '../../stores/appstate/AppState'
 
 
 export default class Preview extends React.Component {

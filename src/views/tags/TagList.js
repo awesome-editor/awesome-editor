@@ -13,8 +13,6 @@ import Kefir from 'kefir'
 import Tag from './Tag'
 import TagPicker from './TagPicker'
 
-import kefirEmitter from '../util/kefirEmitter'
-
 
 /**
  * Behavior:

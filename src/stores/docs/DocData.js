@@ -1,6 +1,6 @@
 import uuid from 'uuid'
-import TagData from './../stores/tags/TagData'
-import {cast} from '../util/Utils'
+import TagData from '../tags/TagData'
+import {cast} from '../../util/Utils'
 
 
 export default class DocData {

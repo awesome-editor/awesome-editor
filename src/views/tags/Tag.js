@@ -1,5 +1,5 @@
 import React from 'react'
-import TagData from '../types/TagData'
+import TagData from '../../stores/tags/TagData'
 
 
 export default class Tag extends React.Component {

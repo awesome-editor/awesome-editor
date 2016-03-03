@@ -1,5 +1,5 @@
 import {Channels, ActionTypes} from '../constants/Constants'
-import {cast} from '../util/Utils'
+import {cast} from '../../util/Utils'
 import DocData from './DocData'
 import uuid from 'uuid'
 

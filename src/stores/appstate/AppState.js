@@ -1,9 +1,9 @@
 import AppDispatcher from './AppDispatcher'
 import {createStore} from './AppHelpers'
 
-import {docs} from '../stores/docs/DocReducers'
-import * as DocActionObservables from '../stores/docs/DocActionObservables'
-import * as DocActions from '../stores/docs/DocActions'
+import {docs} from '../docs/DocReducers'
+import * as DocActionObservables from '../docs/DocActionObservables'
+import * as DocActions from '../docs/DocActions'
 
 
 const initialState = {

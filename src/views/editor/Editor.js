@@ -19,12 +19,12 @@ import TextField from 'material-ui/lib/text-field'
 
 //const SelectableList = SelectableContainerEnhance(List);
 
-import TagList from '../views/tags/TagList'
+import TagList from '../tags/TagList'
 import DivEdit from './DivEdit'
-import DocData from '../docs/DocData'
-import TagStore from '../stores/TagStore'
-import '../util/Utils.js'
-import AppState from '../appstate/AppState'
+import DocData from '../../stores/docs/DocData'
+import TagStore from '../../stores/tags/TagStore'
+import '../../util/Utils.js'
+import AppState from '../../stores/appstate/AppState'
 
 
 export default class Editor extends React.Component {

@@ -10,9 +10,9 @@ import IconButton from 'material-ui/lib/icon-button';
 import AddCircle from 'material-ui/lib/svg-icons/content/add-circle-outline'
 
 import Tag from './Tag'
-import TagData from '../types/TagData'
+import TagData from '../../stores/tags/TagData'
 
-import kefirEmitter from '../util/kefirEmitter'
+import kefirEmitter from '../../util/kefirEmitter'
 
 
 /**
