@@ -1,17 +1,9 @@
 /*eslint no-extra-parens: 0*/
-import React from 'react'
 import Kefir from 'kefir'
-
-//import Card from 'material-ui/lib/card/card'
-//import CardActions from 'material-ui/lib/card/card-actions'
-//import CardText from 'material-ui/lib/card/card-text'
-//import CardTitle from 'material-ui/lib/card/card-title'
-//import FlatButton from 'material-ui/lib/flat-button'
-
-//import RaisedButton from 'material-ui/lib/raised-button'
+import React from 'react'
 
 import Tag from './Tag'
-import TagPicker from './TagPicker'
+import TagPickerContainer from './TagPickerContainer'
 
 
 /**
@@ -20,52 +12,24 @@ import TagPicker from './TagPicker'
  * - remove a tag from the list
  * - create a new tag and add it to the list
  */
-export default class TagList extends React.Component {
+const TagList = props => (
 
-  constructor(props) {
+    <div className='tags' style={{position: 'relative'}}>
 
-    super(props);
-  }
+      {props.previewMode ? '' : <TagPickerContainer {...props} />}
 
-  componentWillMount() {
+      <ul>
+        {props.tags.map(tag => {
+          return (
+            <li key={tag.uuid}>
+              <Tag {...tag}/>
+            </li>
+          );
+        })}
+      </ul>
 
-    this.unsub = [];
-  }
-
-  render() {
-
-    const previewMode = this.props.previewMode
-
-    return (
-      <div className='tags' style={{position: 'relative'}}>
-
-        {previewMode ?
-          '' :
-          <TagPicker
-            autocompleteTag={this.props.autocompleteTag}
-            addTag={this.props.addTag}
-            createTag={this.props.createTag}
-          />}
-
-        <ul>
-          {this.props.tags.map(tag => {
-            return (
-              <li key={tag.uuid}>
-                <Tag {...tag}/>
-              </li>
-            );
-          })}
-        </ul>
-
-      </div>
-    );
-  }
-
-  componentWillUnmount() {
-
-    this.unsub.forEach(unsub => unsub());
-  }
-}
+    </div>
+)
 
 TagList.defaultProps = {
 
@@ -87,3 +51,5 @@ TagList.defaultProps = {
    */
   tags: []
 };
+
+export default TagList

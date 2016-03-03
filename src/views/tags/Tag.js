@@ -2,29 +2,19 @@ import React from 'react'
 import TagData from '../../stores/tags/TagData'
 
 
-export default class Tag extends React.Component {
+const Tag = ({path, name}) => (
 
-  constructor(props) {
+  <div className="awesome-tag">
 
-    super(props);
-  }
+    <div className="path">
+      {path.reduce((label, cur) => `${label}/${cur.name}`, '') }
+    </div>
 
-  render() {
+    <div className="label">/{name}</div>
 
-    const path = this.props.path
-
-    return (
-      <div className="awesome-tag">
-
-        <div className="path">
-        {path.reduce((label, cur) => `${label}/${cur.name}`, '') }
-        </div>
-
-        <div className="label">/{this.props.name}</div>
-
-      </div>
-    );
-  }
-}
+  </div>
+)
 
 Tag.defaultProps = new TagData()
+
+export default Tag
