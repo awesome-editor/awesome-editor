@@ -2,77 +2,11 @@
 import React from 'react'
 import Kefir from 'kefir'
 
-import TextField from 'material-ui/lib/text-field'
-import Paper from 'material-ui/lib/paper';
-import Menu from 'material-ui/lib/menus/menu';
-import MenuItem from 'material-ui/lib/menus/menu-item'
-import IconButton from 'material-ui/lib/icon-button';
-import AddCircle from 'material-ui/lib/svg-icons/content/add-circle-outline'
-
-import Tag from './Tag'
-import TagData from '../../stores/tags/TagData'
-
 import kefirEmitter from '../../util/kefirEmitter'
+import {bindToInstance} from '../../util/Utils'
 
-
-const NewTagInput = ({currentTagName, addTag, onChange, onKeyDown, hideDropdown}) => {
-
-  const currentTagNameIsEmpty = currentTagName.trim().length === 0
-
-  return (
-    <div>
-      <TextField
-        hintText='Add tag'
-        value={currentTagName}
-        onChange={evt => onChange(evt.target.value)}
-        onKeyDown={evt => onKeyDown(evt, currentTagName)}
-        onBlur={hideDropdown}
-      />
-      <IconButton
-        disabled={currentTagNameIsEmpty}
-        tooltip='Add tag'
-        touch={true}
-        onTouchTap={() => addTag(new TagData({name: currentTagName}))}>
-        <AddCircle/>
-      </IconButton>
-    </div>
-  )
-}
-
-const tagPickerStyle = {
-  marginRight: 32,
-  marginBottom: 32,
-  float: 'left',
-  position: 'relative',
-  zIndex: 0
-};
-
-const TagPicker = ({autocompleteTagList, onTagItemTouchTap}) => (
-
-  <Paper
-    style={tagPickerStyle}
-    autoWidth={false}
-    zDepth={1}>
-
-    {autocompleteTagList.map((tag, i) => (
-      <MenuItem
-        key={i}
-        onTouchTap={() => onTagItemTouchTap(tag)}
-        children={<Tag {...tag}/>}
-      />
-    ))}
-
-  </Paper>
-)
-
-const Dropdown = props => (
-
-  <div>
-    <NewTagInput {...props} />
-    {props.autocompleteTagList.length ? <div><TagPicker {...props} /></div> : ''}
-  </div>
-)
-
+import TagData from '../../stores/tags/TagData'
+import TagPickerDropdown from './TagPickerDropdown'
 
 /**
  * Behavior:
@@ -91,12 +25,7 @@ export default class TagPickerContainer extends React.Component {
       autocompleteTagList: []
     };
 
-    this._onChange = this._onChange.bind(this)
-    this._onTagItemTouchTap = this._onTagItemTouchTap.bind(this)
-    this._onKeyDown = this._onKeyDown.bind(this)
-    this._addTag = this._addTag.bind(this)
-    this._clearSelection = this._clearSelection.bind(this)
-    this._hideDropdown = this._hideDropdown.bind(this)
+    bindToInstance(this, '_onChange', '_onTagItemTouchTap', '_onKeyDown', '_addTag', '_clearSelection', '_hideDropdown')
   }
 
   _onChange(currentTagName) {
@@ -171,7 +100,7 @@ export default class TagPickerContainer extends React.Component {
   render() {
 
     return (
-      <Dropdown
+      <TagPickerDropdown
         currentTagName={this.state.currentTagName}
         autocompleteTagList={this.state.autocompleteTagList}
         onTagItemTouchTap={this._onTagItemTouchTap}

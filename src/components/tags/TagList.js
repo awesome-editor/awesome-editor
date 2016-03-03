@@ -3,7 +3,7 @@ import Kefir from 'kefir'
 import React from 'react'
 
 import Tag from './Tag'
-import TagPickerContainer from './TagPickerContainer'
+import TagPickerContainer from './TagPickerDropdownContainer'
 
 
 /**
