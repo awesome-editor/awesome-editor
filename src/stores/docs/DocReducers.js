@@ -2,7 +2,7 @@
 import {upsert} from '../persistence/PersistenceActions'
 import {Channels, ActionTypes} from '../constants/Constants'
 import {DocActionTypes} from './DocConstants'
-import {stateWithSideEffects} from '../appstate/SideEffects'
+import {stateWithSideEffects} from '../../app/SideEffects'
 
 
 /**

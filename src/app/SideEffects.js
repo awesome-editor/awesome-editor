@@ -1,6 +1,6 @@
 import AppDispatcher from './AppDispatcher'
 
-import {persistence} from '../persistence/Persistence'
+import {persistence} from '../stores/persistence/Persistence'
 
 
 /**

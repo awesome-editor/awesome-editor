@@ -26,8 +26,7 @@ function _bindActionObservables(opts) {
  * Store actions are now pure functions.
  * We therefore bind these to the app dispatcher.
  *
- * @param appDispatcher
- * @param actions
+ * @param opts
  * @returns {Array}
  */
 function _bindActions(opts) {
@@ -54,15 +53,53 @@ function _bindActions(opts) {
  * and (b) use the word "observable" in the observables.
  * For example, `createDoc`, `docObservable`, etc.
  *
- * @param opts
+ * @param opts - storeName, appDispatcher, appStateObservable, actions, actionObservables
  * @returns {{}}
  */
 export function createStore(opts) {
-
-  const {storeName, appDispatcher, appStateObservable, actions, actionObservables = {}} = opts
 
   return {
     ..._bindActions(opts),
     ..._bindActionObservables(opts)
   }
 }
+
+import React from 'react'
+import _ from 'lodash'
+
+export function createContainer(observableToProps = [], props = {}, containerProps = {}) {
+
+  const {propTypes = {}, getDefaultProps = _.noop} = containerProps
+
+  return StatelessFunctionalContainer => React.createClass({
+
+    propTypes: propTypes,
+
+    getDefaultProps() {
+      return getDefaultProps()
+    },
+
+    getInitialState() {
+      return observableToProps.reduce((total, obj) => Object.assign(total, {[obj.property]: null}), {})
+    },
+
+    componentWillMount() {
+
+      const that = this
+
+      that.unsub = observableToProps.map(
+          obj => obj.observable._onValue(val => that.setState({[obj.property]: val}))
+        ) || []
+    },
+
+    componentWillUnmount() {
+
+      this.unsub.forEach(unsub => unsub())
+    },
+
+    render() {
+      return <StatelessFunctionalContainer {...this.state} {...props} />
+    }
+  })
+}
+

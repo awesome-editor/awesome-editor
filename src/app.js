@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import AppState from './stores/appstate/AppState'
-import Editor from './components/editor/Editor'
+import Editor from './components/editor/EditorContainer'
 import Preview from './components/editor/Preview'
 
 //import TagView from 'tags/TagsView'
