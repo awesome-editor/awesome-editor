@@ -5,6 +5,11 @@ import {DocActionTypes} from './DocConstants'
 import {stateWithSideEffects} from '../../app/SideEffects'
 
 
+const initialState = {
+  newDocUuid: null,
+  currentDocUuid: null
+}
+
 /**
  * Supports partial doc updates
  *
@@ -40,6 +45,11 @@ function _createDoc(docs, doc) {
   return upsert.combine(newDocUuid)
 }
 
+function _setCurrentDoc(docs, currentDocUuid) {
+
+  return stateWithSideEffects({...docs, ...{currentDocUuid}})
+}
+
 /**
  * payload:
  * - uuid (for doc)
@@ -62,7 +72,7 @@ function _addTagToDoc(docs, payload) {
   return stateWithSideEffects(docs)
 }
 
-export function docs(docs = {}, action) {
+export function docs(docs = initialState, action) {
 
   if (action.channel === Channels.docs) {
 
@@ -73,6 +83,10 @@ export function docs(docs = {}, action) {
         return _upsertDoc(docs, action.payload)
       case DocActionTypes.addTag:
         return _addTagToDoc(docs, action.payload)
+      case DocActionTypes.setCurrentDoc:
+        return _setCurrentDoc(docs, action.payload)
+      default:
+        throw new Error(`${action.actionType} not supported`)
     }
   }
 

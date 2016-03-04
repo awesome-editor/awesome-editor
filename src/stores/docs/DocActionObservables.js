@@ -1,23 +1,36 @@
-export function docObservable(docsObservable) {
+import _ from 'lodash'
 
-  return docUuid =>
-    docsObservable
-      .filter(docs => docs[docUuid])
-      .map(docs => docs[docUuid])
+
+export function currentDocUuidObservable(docsObservable) {
+
+  return docsObservable
+    .map(docs => docs.currentDocUuid)
+    .filter(uuid => uuid)
 }
 
-export function docTagsObservable(docsObservable) {
+export function currentDocObservable(docsObservable) {
 
-  return docUuid =>
-    docsObservable
-      .filter(docs => docs[docUuid])
-      .map(docs => docs[docUuid].tags)
+  return docsObservable
+    .map(docs => docs[docs.currentDocUuid])
+    .filter(doc => doc)
+}
+
+export function currentDocMinusTagsObservable(docsObservable) {
+
+  return currentDocObservable(docsObservable)
+      .map(doc => _.pick(doc, 'uuid', 'title', 'subtitle', 'content'))
+}
+
+export function currentDocTagsObservable(docsObservable) {
+
+  return currentDocObservable(docsObservable)
+      .map(doc => doc.tags)
 }
 
 export function newDocUuidObservable(docsObservable) {
 
   return docsObservable
-    .filter(docs => docs.newUuid)
-    .map(docs => docs.newUuid)
+    .filter(docs => docs.newDocUuid)
+    .map(docs => docs.newDocUuid)
     .skipDuplicates()
 }

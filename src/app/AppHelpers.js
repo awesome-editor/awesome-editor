@@ -64,42 +64,4 @@ export function createStore(opts) {
   }
 }
 
-import React from 'react'
-import _ from 'lodash'
-
-export function createContainer(observableToProps = [], props = {}, containerProps = {}) {
-
-  const {propTypes = {}, getDefaultProps = _.noop} = containerProps
-
-  return StatelessFunctionalContainer => React.createClass({
-
-    propTypes: propTypes,
-
-    getDefaultProps() {
-      return getDefaultProps()
-    },
-
-    getInitialState() {
-      return observableToProps.reduce((total, obj) => Object.assign(total, {[obj.property]: null}), {})
-    },
-
-    componentWillMount() {
-
-      const that = this
-
-      that.unsub = observableToProps.map(
-          obj => obj.observable._onValue(val => that.setState({[obj.property]: val}))
-        ) || []
-    },
-
-    componentWillUnmount() {
-
-      this.unsub.forEach(unsub => unsub())
-    },
-
-    render() {
-      return <StatelessFunctionalContainer {...this.state} {...props} />
-    }
-  })
-}
 

@@ -9,11 +9,9 @@ import AppState from './stores/appstate/AppState'
 import Editor from './components/editor/EditorContainer'
 import Preview from './components/editor/Preview'
 
-//import TagView from 'tags/TagsView'
-//import FilePreview from 'tags/file.preview'
 //required by material-ui
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+import injectTapEventPlugin from 'react-tap-event-plugin'
+injectTapEventPlugin()
 
 
 class Main extends React.Component {
@@ -33,12 +31,15 @@ class Main extends React.Component {
 
   componentWillMount() {
 
-    this.unsub = [];
+    this.unsub = []
 
     // create blank doc
-    const curDocUuid = AppState.createDoc()
+    AppState.createDoc()
+
+    AppState.newDocUuidObservable.take(1).onValue(AppState.setCurrentDoc)
+
     this.unsub.push(
-      AppState.newDocUuidObservable._onValue(curDocUuid => this.setState({curDocUuid}))
+      AppState.currentDocUuidObservable._onValue(curDocUuid => this.setState({curDocUuid}))
     )
 
 

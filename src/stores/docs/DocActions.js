@@ -1,4 +1,5 @@
 import {Channels, ActionTypes} from '../constants/Constants'
+import {DocActionTypes} from './DocConstants'
 import {cast} from '../../util/Utils'
 import DocData from './DocData'
 import uuid from 'uuid'
@@ -21,5 +22,14 @@ export function updateDoc(doc) {
     channel: Channels.docs,
     actionType: ActionTypes.update,
     payload: doc
+  }
+}
+
+export function setCurrentDoc(uuid) {
+
+  return {
+    channel: Channels.docs,
+    actionType: DocActionTypes.setCurrentDoc,
+    payload: uuid
   }
 }

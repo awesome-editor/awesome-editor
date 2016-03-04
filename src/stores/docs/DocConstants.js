@@ -1,4 +1,5 @@
 export const DocActionTypes = {
-  addTag: 'addTag'
+  addTag: 'addTag',
+  setCurrentDoc: 'setCurrentDoc'
 }
 

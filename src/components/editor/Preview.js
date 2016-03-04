@@ -27,29 +27,29 @@ export default class Preview extends React.Component {
 
   componentWillMount() {
 
-    this.unsub = [];
+    this.unsub = []
 
     this.unsub.push(
-      AppState.docObservable(this.props.uuid)
+      AppState.currentDocObservable
         .map(doc => doc.title)
         ._onValue(title => this.setState({title}))
-    );
+    )
 
     this.unsub.push(
-      AppState.docObservable(this.props.uuid)
+      AppState.currentDocObservable
         .map(doc => doc.subtitle)
         ._onValue(subtitle => this.setState({subtitle}))
-    );
+    )
 
     this.unsub.push(
-      AppState.docObservable(this.props.uuid)
+      AppState.currentDocObservable
         .map(doc => doc.content)
         .map(content => this.md.render(content))
         ._onValue(content => this.setState({content}))
-    );
+    )
 
     this.unsub.push(
-      AppState.docTagsObservable(this.props.uuid)
+      AppState.currentDocTagsObservable
         ._onValue(tags => this.setState({tags}))
     )
   }
