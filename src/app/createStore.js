@@ -56,7 +56,7 @@ function _bindActions(opts) {
  * @param opts - storeName, appDispatcher, appStateObservable, actions, actionObservables
  * @returns {{}}
  */
-export function createStore(opts) {
+export default function createStore(opts) {
 
   return {
     ..._bindActions(opts),

@@ -1,7 +1,18 @@
 import React from 'react'
 import _ from 'lodash'
 
-export default function createContainer(observableToProps = [], props = {}, containerProps = {}) {
+import {isObservable} from '../util/Utils'
+
+
+export default function createContainer(props = {}, containerProps = {}) {
+
+  const observables = Object.keys(props)
+    .filter(prop => isObservable(props[prop]))
+    .map(prop => ({property: prop, observable: props[prop]}))
+
+  const nonObservableProps = Object.keys(props)
+    .filter(prop => !isObservable(props[prop]))
+    .reduce((total, prop) => Object.assign(total, {[prop]: props[prop]}), {})
 
   const {propTypes = {}, getInitialState = {}, getDefaultProps = _.noop} = containerProps
 
@@ -13,15 +24,11 @@ export default function createContainer(observableToProps = [], props = {}, cont
       return getDefaultProps()
     },
 
-    getInitialState() {
-      return getInitialState()
-    },
-
     componentWillMount() {
 
       const that = this
 
-      that.unsub = observableToProps.map(
+      that.unsub = observables.map(
           obj => obj.observable._onValue(val => that.setState({[obj.property]: val}))
         ) || []
     },
@@ -32,7 +39,7 @@ export default function createContainer(observableToProps = [], props = {}, cont
     },
 
     render() {
-      return <StatelessFunctionalContainer {...this.state} {...props} />
+      return <StatelessFunctionalContainer {...this.state} {...nonObservableProps} {...this.props} />
     }
   })
 }

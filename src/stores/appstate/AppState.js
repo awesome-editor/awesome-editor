@@ -1,5 +1,5 @@
 import AppDispatcher from './../../app/AppDispatcher'
-import {createStore} from './../../app/AppHelpers'
+import createStore from './../../app/createStore'
 
 import {docs} from '../docs/DocReducers'
 import * as DocActionObservables from '../docs/DocActionObservables'
