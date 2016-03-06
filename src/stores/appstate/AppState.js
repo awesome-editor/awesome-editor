@@ -24,10 +24,12 @@ function _scanner(state, action) {
   }
 }
 
-const appStateObservable = AppDispatcher.scan(_scanner, initialState).onValue(state => {
+const appStateObservable = AppDispatcher
+  .scan(_scanner, initialState)
+  .onValue(state => {
 
-  state.sideEffects.forEach(sideEffect => AppDispatcher.emit(sideEffect))
-})
+    setTimeout(() => state.sideEffects.forEach(sideEffect => AppDispatcher.emit(sideEffect)), 0)
+  })
 
 
 /**
