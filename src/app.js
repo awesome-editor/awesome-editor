@@ -85,7 +85,7 @@ class Main extends React.Component {
           <Preview uuid={this.state.curDocUuid} />
         </div>
       </div>
-    );
+    )
   }
 }
 

@@ -1,7 +1,7 @@
 import {upsert} from '../persistence/PersistenceActions'
 import {Channels, ActionTypes} from '../constants/Constants'
 import {TagActionTypes} from './TagConstants'
-import {stateWithSideEffects} from '../../app/SideEffects'
+import {stateWithSideEffects} from '../sideeffects/SideEffects'
 import TagData from './TagData'
 import uuid from 'uuid'
 
