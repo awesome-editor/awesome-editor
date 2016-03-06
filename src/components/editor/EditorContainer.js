@@ -10,8 +10,11 @@ import Editor from './Editor'
 
 
 export default createContainer({
-  doc: AppState.currentDocMinusTagsObservable,
-  tags: AppState.currentDocTagsObservable,
   previewMode: false,
-  updateDoc: AppState.updateDoc
+  doc: AppState.currentDocMinusTagsObservable,
+  updateDoc: AppState.updateDoc,
+  tags: AppState.currentDocTagsObservable,
+  autocompleteTag: AppState.lookupTags,
+  createTag: AppState.createTag,
+  addTag: AppState.addTagToDoc
 })(Editor)

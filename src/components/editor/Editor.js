@@ -15,7 +15,7 @@ import '../../util/Utils.js'
 import AppState from '../../stores/appstate/AppState'
 
 
-const Editor = ({previewMode, doc, tags, updateDoc}) => (
+const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, addTag}) => (
 
   <Card style={{overflow: 'visible'}}>
 
@@ -47,9 +47,9 @@ const Editor = ({previewMode, doc, tags, updateDoc}) => (
 
     <CardText style={{overflow: 'visible'}}>
       <TagList
-        autocompleteTag={TagStore.lookupTags}
-        createTag={tag => TagStore.createTag(tag)}
-        addTag={tag => AppState.addTagToDoc(uuid, tag)}
+        autocompleteTag={autocompleteTag}
+        createTag={createTag}
+        addTag={tag => addTag(doc.uuid, tag)}
         tags={tags}
         previewMode={previewMode}/>
     </CardText>
@@ -62,7 +62,11 @@ Editor.defaultProps = {
   previewMode: false,
   doc: new DocData(),
   tags: [],
-  updateDoc: () => {}
+  updateDoc: () => undefined,
+  autocompleteTag: () => undefined,
+  createTag: () => undefined,
+  addTag: () => undefined
 }
+
 
 export default Editor
