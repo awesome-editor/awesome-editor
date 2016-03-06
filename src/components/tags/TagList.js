@@ -5,7 +5,7 @@ import React from 'react'
 import kefirEmitter from '../../util/kefirEmitter'
 
 import Tag from './Tag'
-import TagPickerContainer from './TagPickerDropdownContainer'
+import TagPickerDropdownContainer from './TagPickerDropdownContainer'
 
 
 /**
@@ -20,7 +20,7 @@ const TagList = props => (
 
   <div className='tags' style={{position: 'relative'}}>
 
-    {props.previewMode ? '' : <TagPickerContainer {...props} />}
+    {props.previewMode ? '' : <TagPickerDropdownContainer {...props} />}
 
     <ul>
       {props.tags.map(tag => (

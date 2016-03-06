@@ -1,7 +1,8 @@
 export const Channels = {
   docs: 'docs',
   persistence: 'persistence',
-  app: 'app'
+  app: 'app',
+  tags: 'tags'
 }
 
 export const ActionTypes = {

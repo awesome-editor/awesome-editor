@@ -92,11 +92,11 @@ export default class TagPickerContainer extends React.Component {
     this.unsub = []
 
     this.unsub.push(
-      this.autoCompleteEmitter
-        .debounce(300, {immediate: true})
-        .flatMap(name => this.props.autocompleteTag(name))
-        .filter(tags => tags)
-        ._onValue(autocompleteTagList => this.setState({autocompleteTagList}))
+      //this.autoCompleteEmitter
+      //  .debounce(300, {immediate: true})
+      //  .flatMap(name => this.props.autocompleteTag(name))
+      //  .filter(tags => tags)
+      //  ._onValue(autocompleteTagList => this.setState({autocompleteTagList}))
     )
   }
 
