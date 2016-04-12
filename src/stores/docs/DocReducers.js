@@ -1,12 +1,9 @@
 /*eslint no-use-before-define: 0*/
 import {upsert} from '../persistence/PersistenceActions'
-import {Channels} from '../constants/Constants'
-import {DocActionTypes} from './DocConstants'
-import createReducers from '../../app/createReducers'
 import {stateWithSideEffects} from '../sideeffects/StateWithSideEffects'
 
 
-const initialState = {
+export const initialState = {
   newDocUuid: null,
   currentDocUuid: null
 }
@@ -19,7 +16,7 @@ const initialState = {
  * @returns new docs
  * @private
  */
-function upsertDoc(docs, doc) {
+export function upsertDoc(docs, doc) {
 
   const curDoc = docs[doc.uuid] || {}
   const newDoc = {...curDoc, ...doc}
@@ -37,7 +34,7 @@ function upsertDoc(docs, doc) {
  * @returns {*}
  * @private
  */
-function createDoc(docs, doc) {
+export function createDoc(docs, doc) {
 
   const upsert = upsertDoc(docs, doc)
   const newDocUuid = stateWithSideEffects({newDocUuid: doc.uuid})
@@ -46,7 +43,7 @@ function createDoc(docs, doc) {
   return upsert.combine(newDocUuid)
 }
 
-function setCurrentDoc(docs, currentDocUuid) {
+export function setCurrentDoc(docs, currentDocUuid) {
 
   return stateWithSideEffects({...docs, ...{currentDocUuid}})
 }
@@ -58,7 +55,7 @@ function setCurrentDoc(docs, currentDocUuid) {
  *
  * If tag already exists, it won't add it again
  */
-function addTagToDoc(docs, payload) {
+export function addTagToDoc(docs, payload) {
 
   const doc = docs[payload.uuid]
   const newTag = payload.tag
@@ -72,5 +69,3 @@ function addTagToDoc(docs, payload) {
 
   return stateWithSideEffects(docs)
 }
-
-export const docs = createReducers(Channels.docs, DocActionTypes, {upsertDoc, createDoc, setCurrentDoc, addTagToDoc})
