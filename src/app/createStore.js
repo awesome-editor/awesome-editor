@@ -53,6 +53,8 @@ function _bindActions(opts) {
  * and (b) use the word "observable" in the observables.
  * For example, `createDoc`, `docObservable`, etc.
  *
+ * And yea, a "store" is just a set of action functions and action observables.
+ *
  * @param opts - storeName, appDispatcher, appStateObservable, actions, actionObservables
  * @returns {{}}
  */
