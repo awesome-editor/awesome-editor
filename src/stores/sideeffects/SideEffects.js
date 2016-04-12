@@ -1,4 +1,5 @@
-import AppDispatcher from './../../app/AppDispatcher'
+import AppDispatcher from '../../app/AppDispatcher'
+import AppState from '../appstate/AppState'
 
 import {persistence} from '../persistence/Persistence'
 
@@ -16,5 +17,8 @@ import {persistence} from '../persistence/Persistence'
  */
 AppDispatcher.onValue(action => {
 
-  persistence(action)
+  AppState.appStateObservable.take(1).onValue(state => {
+
+    persistence(action)
+  })
 })

@@ -1,3 +1,5 @@
+import {Observable} from 'kefir'
+
 export function cast(obj, Class) {
 
   return obj instanceof Class ? obj : new Class(obj)
@@ -10,5 +12,5 @@ export function bindToInstance(instance, ...functions) {
 
 export function isObservable(obj) {
 
-  return obj && obj._source && obj._name
+  return obj && obj instanceof Observable//._source && obj._name
 }

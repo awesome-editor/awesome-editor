@@ -1,7 +1,8 @@
 /*eslint no-use-before-define: 0*/
 import {upsert} from '../persistence/PersistenceActions'
-import {Channels, ActionTypes} from '../constants/Constants'
+import {Channels} from '../constants/Constants'
 import {DocActionTypes} from './DocConstants'
+import createReducers from '../../app/createReducers'
 import {stateWithSideEffects} from '../sideeffects/StateWithSideEffects'
 
 
@@ -18,7 +19,7 @@ const initialState = {
  * @returns new docs
  * @private
  */
-function _upsertDoc(docs, doc) {
+function upsertDoc(docs, doc) {
 
   const curDoc = docs[doc.uuid] || {}
   const newDoc = {...curDoc, ...doc}
@@ -36,16 +37,16 @@ function _upsertDoc(docs, doc) {
  * @returns {*}
  * @private
  */
-function _createDoc(docs, doc) {
+function createDoc(docs, doc) {
 
-  const upsert = _upsertDoc(docs, doc)
+  const upsert = upsertDoc(docs, doc)
   const newDocUuid = stateWithSideEffects({newDocUuid: doc.uuid})
 
   // adds newDocUuid property to doc state
   return upsert.combine(newDocUuid)
 }
 
-function _setCurrentDoc(docs, currentDocUuid) {
+function setCurrentDoc(docs, currentDocUuid) {
 
   return stateWithSideEffects({...docs, ...{currentDocUuid}})
 }
@@ -57,7 +58,7 @@ function _setCurrentDoc(docs, currentDocUuid) {
  *
  * If tag already exists, it won't add it again
  */
-function _addTagToDoc(docs, payload) {
+function addTagToDoc(docs, payload) {
 
   const doc = docs[payload.uuid]
   const newTag = payload.tag
@@ -66,30 +67,10 @@ function _addTagToDoc(docs, payload) {
 
     const newDoc = {...doc, tags: doc.tags.concat([newTag])}
 
-    return _upsertDoc(docs, newDoc)
+    return upsertDoc(docs, newDoc)
   }
 
   return stateWithSideEffects(docs)
 }
 
-export function docs(docs = initialState, action) {
-
-  if (action.channel === Channels.docs) {
-
-    switch (action.actionType) {
-      case ActionTypes.create:
-        return _createDoc(docs, action.payload)
-      case ActionTypes.update:
-        return _upsertDoc(docs, action.payload)
-      case DocActionTypes.addTag:
-        return _addTagToDoc(docs, action.payload)
-      case DocActionTypes.setCurrentDoc:
-        return _setCurrentDoc(docs, action.payload)
-      default:
-        throw new Error(`${action.actionType} not supported`)
-    }
-  }
-
-  return stateWithSideEffects(docs)
-}
-
+export const docs = createReducers(Channels.docs, DocActionTypes, {upsertDoc, createDoc, setCurrentDoc, addTagToDoc})

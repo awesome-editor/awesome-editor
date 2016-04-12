@@ -1,5 +1,8 @@
-export const DocActionTypes = {
-  addTag: 'addTag',
-  setCurrentDoc: 'setCurrentDoc'
-}
+import createActionTypes from '../../app/createActionTypes'
 
+export const DocActionTypes = createActionTypes([
+  'upsertDoc',
+  'createDoc',
+  'setCurrentDoc',
+  'addTagToDoc'
+])

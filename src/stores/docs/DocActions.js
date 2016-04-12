@@ -1,4 +1,4 @@
-import {Channels, ActionTypes} from '../constants/Constants'
+import {Channels} from '../constants/Constants'
 import {DocActionTypes} from './DocConstants'
 import {cast} from '../../util/Utils'
 import DocData from './DocData'
@@ -11,7 +11,7 @@ export function createDoc(doc) {
 
   return {
     channel: Channels.docs,
-    actionType: ActionTypes.create,
+    actionType: DocActionTypes.createDoc,
     payload: newDoc
   }
 }
@@ -20,7 +20,7 @@ export function updateDoc(doc) {
 
   return {
     channel: Channels.docs,
-    actionType: ActionTypes.update,
+    actionType: DocActionTypes.upsertDoc,
     payload: doc
   }
 }

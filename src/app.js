@@ -2,6 +2,9 @@ import 'flexboxgrid/css/flexboxgrid.css!'
 import './css/app.css!'
 import './util/kefirBaconJsOnValue'
 
+import './stores/appstate/AppState'
+import './stores/sideeffects/SideEffects'
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 

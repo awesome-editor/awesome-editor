@@ -38,6 +38,3 @@ export function call(fn, ...args) {
 
   return callObservable.filter(fn => fn.uuid === id).take(1).map(fn => fn.rslt)
 }
-
-
-
