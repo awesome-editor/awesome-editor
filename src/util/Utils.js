@@ -14,3 +14,8 @@ export function isObservable(obj) {
 
   return obj && obj instanceof Observable//._source && obj._name
 }
+
+export function assert(condition, message) {
+
+  if (!condition) { throw new Error(message) }
+}
