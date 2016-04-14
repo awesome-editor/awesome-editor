@@ -33,3 +33,12 @@ export function setCurrentDoc(uuid) {
     payload: uuid
   }
 }
+
+export function docListSelect(index) {
+
+  return {
+    channel: Channels.docs,
+    actionType: DocActionTypes.docListSelect,
+    payload: index
+  }
+}

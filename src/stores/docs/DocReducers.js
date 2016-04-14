@@ -6,6 +6,7 @@ import {withSideEffects} from '../sideeffects/StateWithSideEffects'
 export const initialState = {
   newDocUuid: null,
   currentDocUuid: null,
+  doclistSelectedIndex: 0,
   docs: {},
   doclist: []
 }
@@ -48,7 +49,7 @@ export function createDoc(docState, doc) {
 
 export function setCurrentDoc(docState, currentDocUuid) {
 
-  return withSideEffects({...docState, ...{currentDocUuid}})
+  return withSideEffects({...docState, currentDocUuid})
 }
 
 /**
@@ -72,4 +73,11 @@ export function addTagToDoc(docState, payload) {
   }
 
   return withSideEffects(docState)
+}
+
+export function docListSelect(docState, payload) {
+
+  const doclistSelectedIndex = payload
+
+  return withSideEffects({...docState, doclistSelectedIndex})
 }

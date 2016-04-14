@@ -4,5 +4,6 @@ export const DocActionTypes = createActionTypes([
   'upsertDoc',
   'createDoc',
   'setCurrentDoc',
-  'addTagToDoc'
+  'addTagToDoc',
+  'docListSelect'
 ])

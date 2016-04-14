@@ -31,6 +31,11 @@ export function newDocUuidObservable(docsObservable) {
 
   return docsObservable
     .filter(docState => docState.newDocUuid)
-    .map(docs => docs.newDocUuid)
+    .map(docState => docState.newDocUuid)
     .skipDuplicates()
+}
+
+export function docListObservable(docsObservable) {
+
+  return docsObservable.map(docState => docState.doclist)
 }
