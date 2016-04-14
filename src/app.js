@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom';
 
 import AppState from './stores/appstate/AppState'
 import Editor from './components/editor/EditorContainer'
-import Preview from './components/editor/Preview'
+import Preview from './components/editor/PreviewContainer'
 
 //required by material-ui
 import injectTapEventPlugin from 'react-tap-event-plugin'

@@ -1,84 +1,42 @@
 import React from 'react'
-import _ from 'lodash'
-import Remarkable from 'remarkable'
 
-import Card from 'material-ui/lib/card/card';
-//import CardActions from 'material-ui/lib/card/card-actions';
-import CardText from 'material-ui/lib/card/card-text';
-import CardTitle from 'material-ui/lib/card/card-title';
-//import FlatButton from 'material-ui/lib/flat-button';
+import Card from 'material-ui/lib/card/card'
+import CardText from 'material-ui/lib/card/card-text'
+import CardTitle from 'material-ui/lib/card/card-title'
+import CardActions from 'material-ui/lib/card/card-actions'
+import FlatButton from 'material-ui/lib/flat-button'
 
 import TagList from '../tags/TagList'
 
-import DocData from '../../stores/docs/DocData'
-import AppState from '../../stores/appstate/AppState'
 
+const Preview = ({docTitle, docHtmlContent, docTags, useDocToolbar, editDoc, deleteDoc}) => {
 
-export default class Preview extends React.Component {
+  return (
+    <Card>
 
-  constructor(props) {
+      <CardTitle
+        title={docTitle}/>
 
-    super(props);
+      <CardText>
+        <div dangerouslySetInnerHTML={{__html: docHtmlContent}}></div>
+      </CardText>
 
-    this.state = new DocData()
+      <CardText>
+        <TagList tags={docTags} previewMode={true}/>
+      </CardText>
 
-    this.md = new Remarkable();
-  }
+      {!useDocToolbar ? '' :
+        <CardActions>
+          <FlatButton label="Edit" onTouchStart={editDoc}/>
+          <FlatButton label="Delete" onTouchStart={deleteDoc}/>
+        </CardActions>}
 
-  componentWillMount() {
-
-    this.unsub = []
-
-    this.unsub.push(
-      AppState.currentDocObservable
-        .map(doc => doc.title)
-        ._onValue(title => this.setState({title}))
-    )
-
-    this.unsub.push(
-      AppState.currentDocObservable
-        .map(doc => doc.subtitle)
-        ._onValue(subtitle => this.setState({subtitle}))
-    )
-
-    this.unsub.push(
-      AppState.currentDocObservable
-        .map(doc => doc.content)
-        .map(content => this.md.render(content))
-        ._onValue(content => this.setState({content}))
-    )
-
-    this.unsub.push(
-      AppState.currentDocTagsObservable
-        ._onValue(tags => this.setState({tags}))
-    )
-  }
-
-  render() {
-
-    var that = this;
-
-    return (
-      <Card>
-
-        <CardTitle
-          title={that.state.title}
-          subtitle={that.state.subtitle}/>
-
-        <CardText>
-          <div dangerouslySetInnerHTML={{__html: that.state.content}}></div>
-        </CardText>
-
-        <CardText>
-          <TagList tags={this.state.tags} previewMode={true} />
-        </CardText>
-
-      </Card>
-    );
-  }
-
-  componentWillUnmount() {
-
-    this.unsub.forEach(unsub => unsub());
-  }
+    </Card>
+  )
 }
+
+Preview.defaultProps = {
+  enableToolbar: false
+}
+
+export default Preview
