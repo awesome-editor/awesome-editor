@@ -1,6 +1,6 @@
 /*eslint no-use-before-define: 0*/
 import {upsert} from '../persistence/PersistenceActions'
-import {withSideEffects} from '../sideeffects/StateWithSideEffects'
+import {withSideEffects} from '../../app/StateWithSideEffects'
 
 
 export const initialState = {

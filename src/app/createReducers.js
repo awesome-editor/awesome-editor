@@ -1,4 +1,4 @@
-import {withSideEffects} from '../stores/sideeffects/StateWithSideEffects'
+import {withSideEffects} from 'StateWithSideEffects'
 import {assert} from '../util/Utils'
 
 
