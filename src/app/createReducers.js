@@ -1,6 +1,5 @@
-import {withSideEffects} from 'StateWithSideEffects'
-import {assert} from '../util/Utils'
-
+import {StateWithSideEffects} from './StateWithSideEffects'
+import {assert, cast} from '../util/Utils'
 
 /**
  * This is just a helper function. All it does is hook up the action reducer functions to the action types.
@@ -30,9 +29,10 @@ export default function createReducers(storeStateName, channel, {actionTypes, ac
 
   const initialState = actionReducers.initialState || {}
 
-  return (state, action) => {
 
-    const storeState = state[storeStateName] || initialState
+  return (globalState, action) => {
+
+    const storeState = globalState[storeStateName] || initialState
 
     if (action.channel === channel) {
 
@@ -40,9 +40,9 @@ export default function createReducers(storeStateName, channel, {actionTypes, ac
 
       if (!handler) { throw new Error(`Channel ${channel} does not support ${action.actionType}`) }
 
-      return handler(storeState, action.payload)
+      return cast(handler(storeState, action.payload), StateWithSideEffects)
     }
 
-    return withSideEffects(storeState)
+    return new StateWithSideEffects(storeState)
   }
 }
