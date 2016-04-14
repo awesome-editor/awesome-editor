@@ -4,14 +4,14 @@ import _ from 'lodash'
 export function currentDocUuidObservable(docsObservable) {
 
   return docsObservable
-    .map(docs => docs.currentDocUuid)
+    .map(docState => docState.currentDocUuid)
     .filter(uuid => uuid)
 }
 
 export function currentDocObservable(docsObservable) {
 
   return docsObservable
-    .map(docs => docs[docs.currentDocUuid])
+    .map(docState => docState.docs[docState.currentDocUuid])
     .filter(doc => doc)
 }
 
@@ -30,7 +30,7 @@ export function currentDocTagsObservable(docsObservable) {
 export function newDocUuidObservable(docsObservable) {
 
   return docsObservable
-    .filter(docs => docs.newDocUuid)
+    .filter(docState => docState.newDocUuid)
     .map(docs => docs.newDocUuid)
     .skipDuplicates()
 }

@@ -50,7 +50,7 @@ export class StateWithSideEffects {
   }
 }
 
-export function stateWithSideEffects(state, ...sideEffects) {
+export function withSideEffects(state, ...sideEffects) {
 
   return new StateWithSideEffects(state, sideEffects)
 }

@@ -1,51 +1,54 @@
 /*eslint no-use-before-define: 0*/
 import {upsert} from '../persistence/PersistenceActions'
-import {stateWithSideEffects} from '../sideeffects/StateWithSideEffects'
+import {withSideEffects} from '../sideeffects/StateWithSideEffects'
 
 
 export const initialState = {
   newDocUuid: null,
-  currentDocUuid: null
+  currentDocUuid: null,
+  docs: {},
+  doclist: []
 }
 
 /**
  * Supports partial doc updates
  *
- * @param docs
+ * @param docState
  * @param doc
  * @returns new docs
  * @private
  */
-export function upsertDoc(docs, doc) {
+export function upsertDoc(docState, doc) {
 
+  const docs = docState.docs
   const curDoc = docs[doc.uuid] || {}
   const newDoc = {...curDoc, ...doc}
   const newDocEntry = {[doc.uuid]: newDoc}
-  const newDocs = {...docs, ...newDocEntry}
+  const newDocs = {docs: {...docs, ...newDocEntry}}
 
-  return stateWithSideEffects(newDocs, upsert(newDoc))
+  return withSideEffects({...docState, ...newDocs}, upsert(newDoc))
 }
 
 /**
  * Create the doc and tell the world about it
  *
- * @param docs
+ * @param docState
  * @param doc
  * @returns {*}
  * @private
  */
-export function createDoc(docs, doc) {
+export function createDoc(docState, doc) {
 
-  const upsert = upsertDoc(docs, doc)
-  const newDocUuid = stateWithSideEffects({newDocUuid: doc.uuid})
+  const upsert = upsertDoc(docState, doc)
+  const newDocUuid = withSideEffects({newDocUuid: doc.uuid})
 
   // adds newDocUuid property to doc state
   return upsert.combine(newDocUuid)
 }
 
-export function setCurrentDoc(docs, currentDocUuid) {
+export function setCurrentDoc(docState, currentDocUuid) {
 
-  return stateWithSideEffects({...docs, ...{currentDocUuid}})
+  return withSideEffects({...docState, ...{currentDocUuid}})
 }
 
 /**
@@ -55,8 +58,9 @@ export function setCurrentDoc(docs, currentDocUuid) {
  *
  * If tag already exists, it won't add it again
  */
-export function addTagToDoc(docs, payload) {
+export function addTagToDoc(docState, payload) {
 
+  const docs = docState.docs
   const doc = docs[payload.uuid]
   const newTag = payload.tag
 
@@ -64,8 +68,8 @@ export function addTagToDoc(docs, payload) {
 
     const newDoc = {...doc, tags: doc.tags.concat([newTag])}
 
-    return upsertDoc(docs, newDoc)
+    return upsertDoc(docState, newDoc)
   }
 
-  return stateWithSideEffects(docs)
+  return withSideEffects(docState)
 }

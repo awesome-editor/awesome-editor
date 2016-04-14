@@ -1,4 +1,4 @@
-import {stateWithSideEffects} from '../stores/sideeffects/StateWithSideEffects'
+import {withSideEffects} from '../stores/sideeffects/StateWithSideEffects'
 import {assert} from '../util/Utils'
 
 
@@ -43,6 +43,6 @@ export default function createReducers(storeStateName, channel, {actionTypes, ac
       return handler(storeState, action.payload)
     }
 
-    return stateWithSideEffects(storeState)
+    return withSideEffects(storeState)
   }
 }
