@@ -49,7 +49,7 @@ export function createDoc(docState, doc) {
 
 export function setCurrentDoc(docState, currentDocUuid) {
 
-  return withSideEffects({...docState, currentDocUuid})
+  return {...docState, currentDocUuid}
 }
 
 /**
@@ -72,12 +72,12 @@ export function addTagToDoc(docState, payload) {
     return upsertDoc(docState, newDoc)
   }
 
-  return withSideEffects(docState)
+  return docState
 }
 
 export function docListSelect(docState, payload) {
 
   const doclistSelectedIndex = payload
 
-  return withSideEffects({...docState, doclistSelectedIndex})
+  return {...docState, doclistSelectedIndex}
 }

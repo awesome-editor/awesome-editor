@@ -40,9 +40,13 @@ export default function createReducers(storeStateName, channel, {actionTypes, ac
 
       if (!handler) { throw new Error(`Channel ${channel} does not support ${action.actionType}`) }
 
-      return cast(handler(storeState, action.payload), StateWithSideEffects)
+      const newState = cast(handler(storeState, action.payload), StateWithSideEffects)
+
+      newState.state = {[storeStateName]: newState.state}
+
+      return newState
     }
 
-    return new StateWithSideEffects(storeState)
+    return new StateWithSideEffects({[storeStateName]: storeState})
   }
 }
