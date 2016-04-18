@@ -9,10 +9,10 @@ import TextField from 'material-ui/lib/text-field'
 
 import TagList from '../tags/TagList'
 import DocData from '../../stores/docs/DocData'
-import DivEdit from './DivEdit'
+import DivEdit from './../editor/DivEdit'
 import TagStore from '../../stores/tags/TagStore'
 import '../../util/Utils.js'
-import AppState from '../../stores/appstate/AppState'
+import AppState from '../../app/AppState'
 
 
 const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, addTag}) => (

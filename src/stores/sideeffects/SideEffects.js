@@ -1,5 +1,5 @@
 import AppDispatcher from '../../app/AppDispatcher'
-import AppState from '../appstate/AppState'
+import AppState from '../../app/AppState'
 
 import {persistence} from '../persistence/Persistence'
 

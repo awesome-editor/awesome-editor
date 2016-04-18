@@ -1,6 +1,7 @@
 /*eslint no-use-before-define: 0*/
 import {upsert} from '../persistence/PersistenceActions'
 import {withSideEffects} from '../../app/StateWithSideEffects'
+import {showDocPreview} from '../app/AppActions'
 
 
 export const initialState = {
@@ -75,9 +76,7 @@ export function addTagToDoc(docState, payload) {
   return docState
 }
 
-export function docListSelect(docState, payload) {
+export function docListSelect(docState, {doclistSelectedIndex, uuid}) {
 
-  const doclistSelectedIndex = payload
-
-  return {...docState, doclistSelectedIndex}
+  return withSideEffects({...docState, doclistSelectedIndex}, showDocPreview(uuid))
 }

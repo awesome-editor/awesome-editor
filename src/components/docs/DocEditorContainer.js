@@ -4,9 +4,9 @@ import React from 'react'
 import createContainer from '../../app/createContainer'
 
 import '../../util/Utils.js'
-import AppState from '../../stores/appstate/AppState'
+import AppState from '../../app/AppState'
 
-import Editor from './Editor'
+import Editor from './DocEditor'
 
 
 export default createContainer({

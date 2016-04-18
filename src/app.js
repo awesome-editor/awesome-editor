@@ -2,15 +2,15 @@ import 'flexboxgrid/css/flexboxgrid.css!'
 import './css/app.css!'
 import './util/kefirBaconJsOnValue'
 
-import './stores/appstate/AppState'
+import './app/AppState'
 import './stores/sideeffects/SideEffects'
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import AppState from './stores/appstate/AppState'
-import Editor from './components/editor/EditorContainer'
-import Preview from './components/editor/PreviewContainer'
+import AppState from './app/AppState'
+import Editor from './components/docs/DocEditorContainer'
+import Preview from './components/docs/DocPreviewContainer'
 
 //required by material-ui
 import injectTapEventPlugin from 'react-tap-event-plugin'

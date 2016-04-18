@@ -1,7 +1,7 @@
-import AppDispatcher from './../../app/AppDispatcher'
-import {Channels} from '../constants/Constants'
-import createStore from './../../app/createStore'
-import createReducers from '../../app/createReducers'
+import AppDispatcher from './AppDispatcher'
+import {Channels} from '../stores/constants/Constants'
+import createStore from './createStore'
+import createReducers from 'createReducers'
 //import {combine} from '../../app/StateWithSideEffects'
 
 
@@ -15,10 +15,10 @@ const appStateObservable = AppDispatcher
 // 3. add reducer to _scanner
 // 4. create the store
 // 5. export the store in the default exported object
-import {DocActionTypes} from '../docs/DocConstants'
-import * as DocActions from '../docs/DocActions'
-import * as DocReducers from '../docs/DocReducers'
-import * as DocActionObservables from '../docs/DocActionObservables'
+import {DocActionTypes} from '../stores/docs/DocConstants'
+import * as DocActions from '../stores/docs/DocActions'
+import * as DocReducers from '../stores/docs/DocReducers'
+import * as DocActionObservables from '../stores/docs/DocActionObservables'
 
 const docReducers = createReducers(
   'docs',

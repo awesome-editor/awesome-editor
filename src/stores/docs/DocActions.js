@@ -3,6 +3,7 @@ import {DocActionTypes} from './DocConstants'
 import {cast} from '../../util/Utils'
 import DocData from './DocData'
 import uuid from 'uuid'
+import {assert} from '../../util/Utils'
 
 
 export function createDoc(doc) {
@@ -34,11 +35,14 @@ export function setCurrentDoc(uuid) {
   }
 }
 
-export function docListSelect(index) {
+export function docListSelect(docInfo) {
+
+  assert(docInfo.doclistSelectedIndex, 'Need selected index')
+  assert(docInfo.uuid, 'Need uuid')
 
   return {
     channel: Channels.docs,
     actionType: DocActionTypes.docListSelect,
-    payload: index
+    payload: docInfo
   }
 }

@@ -2,8 +2,8 @@ import React from 'react'
 import Remarkable from 'remarkable'
 
 import createContainer from '../../app/createContainer'
-import AppState from '../../stores/appstate/AppState'
-import Preview from './Preview'
+import AppState from '../../app/AppState'
+import Preview from './DocPreview'
 
 
 const md = new Remarkable()
