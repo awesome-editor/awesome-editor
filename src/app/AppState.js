@@ -1,7 +1,7 @@
 import AppDispatcher from './AppDispatcher'
 import {Channels} from '../stores/constants/Constants'
 import createStore from './createStore'
-import createReducers from 'createReducers'
+import createReducers from './createReducers'
 //import {combine} from '../../app/StateWithSideEffects'
 
 
