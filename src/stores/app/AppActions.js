@@ -4,11 +4,34 @@ import {AppActionTypes} from './AppConstants'
 //import uuid from 'uuid'
 
 
-export function showDocPreview(uuid) {
+export function showDocEditor(uuid) {
 
   return {
-    channel: Channels.docs,
-    actionType: AppActionTypes.showDocPreview,
+    channel: Channels.app,
+    actionType: AppActionTypes.switchMainWindow,
+    payload: {
+      mainWindow: 'DocEditor',
+      currentDocUuid: uuid
+    }
+  }
+}
+
+export function showDocList() {
+
+  return {
+    channel: Channels.app,
+    actionType: AppActionTypes.switchMainWindow,
+    payload: {
+      mainWindow: 'DocList'
+    }
+  }
+}
+
+export function setCurrentDoc(uuid) {
+
+  return {
+    channel: Channels.app,
+    actionType: AppActionTypes.setCurrentDoc,
     payload: uuid
   }
 }
