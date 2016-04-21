@@ -26,18 +26,9 @@ export function updateDoc(doc) {
   }
 }
 
-export function setCurrentDoc(uuid) {
-
-  return {
-    channel: Channels.docs,
-    actionType: DocActionTypes.setCurrentDoc,
-    payload: uuid
-  }
-}
-
 export function docListSelect(docInfo) {
 
-  assert(docInfo.doclistSelectedIndex, 'Need selected index')
+  assert(docInfo.docListSelectedIndex, 'Need selected index')
   assert(docInfo.uuid, 'Need uuid')
 
   return {

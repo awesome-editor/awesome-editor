@@ -1,20 +1,25 @@
 /*eslint no-extra-parens: 0*/
 import React from 'react'
 
-import createContainer from '../../app/createContainer'
-
-import '../../util/Utils.js'
+import Container from '../../app/Container'
 import AppState from '../../app/AppState'
 
-import Editor from './DocEditor'
+import DocEditor from './DocEditor'
 
 
-export default createContainer({
-  previewMode: false,
-  doc: AppState.currentDocMinusTagsObservable,
-  updateDoc: AppState.updateDoc,
-  tags: AppState.currentDocTagsObservable,
-  autocompleteTag: AppState.lookupTags,
-  createTag: AppState.createTag,
-  addTag: AppState.addTagToDoc
-})(Editor)
+const DocEditorContainer = props => (
+
+  <Container
+    doc={AppState.docMinusTagsObservable(props.uuid)}
+    tags={AppState.docTagsObservable(props.uuid)}
+    updateDoc={AppState.updateDoc}
+    autocompleteTag={AppState.lookupTags}
+    createTag={AppState.createTag}
+    addTag={AppState.addTagToDoc}>
+
+    <DocEditor/>
+
+  </Container>
+)
+
+export default DocEditorContainer

@@ -5,11 +5,8 @@ import {showDocPreview} from '../app/AppActions'
 
 
 export const initialState = {
-  newDocUuid: null,
-  currentDocUuid: null,
-  doclistSelectedIndex: 0,
-  docs: {},
-  doclist: []
+  docListSelectedIndex: 0,
+  docs: {}
 }
 
 /**
@@ -48,11 +45,6 @@ export function createDoc(docState, doc) {
   return upsert.combine(newDocUuid)
 }
 
-export function setCurrentDoc(docState, currentDocUuid) {
-
-  return {...docState, currentDocUuid}
-}
-
 /**
  * payload:
  * - uuid (for doc)
@@ -76,7 +68,7 @@ export function addTagToDoc(docState, payload) {
   return docState
 }
 
-export function docListSelect(docState, {doclistSelectedIndex, uuid}) {
+export function docListSelect(docState, {docListSelectedIndex, uuid}) {
 
-  return withSideEffects({...docState, doclistSelectedIndex}, showDocPreview(uuid))
+  return withSideEffects({...docState, docListSelectedIndex}, showDocPreview(uuid))
 }

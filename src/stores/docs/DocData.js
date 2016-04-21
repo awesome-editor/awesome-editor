@@ -11,7 +11,6 @@ export default class DocData {
 
     this.uuid = args.uuid || uuid.v4()
     this.title = args.title || ''
-    this.subtitle = args.subtitle || ''
     this.content = args.content || ''
     this.tags = (args.tags || []).map(tag => cast(tag, TagData))
   }

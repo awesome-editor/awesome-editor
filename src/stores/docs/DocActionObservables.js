@@ -1,32 +1,26 @@
-import _ from 'lodash'
+export function docObservable(docsObservable) {
 
-
-export function currentDocUuidObservable(docsObservable) {
-
-  return docsObservable
-    .map(docState => docState.currentDocUuid)
-    .filter(uuid => uuid)
+  return uuid =>
+    docsObservable
+      .map(state => state.docs[uuid])
+      .filter(doc => doc)
 }
 
-export function currentDocObservable(docsObservable) {
+export function docMinusTagsObservable(docsObservable) {
 
-  return docsObservable
-    .map(docState => docState.docs[docState.currentDocUuid])
-    .filter(doc => doc)
+  const doc = docObservable(docsObservable) // function with uuid as input
+
+  return uuid => doc(uuid).map(doc => ({uuid: doc.uuid, title: doc.title, content: doc.content}))
 }
 
-export function currentDocMinusTagsObservable(docsObservable) {
+export function docTagsObservable(docsObservable) {
 
-  return currentDocObservable(docsObservable)
-      .map(doc => _.pick(doc, 'uuid', 'title', 'subtitle', 'content'))
+  const doc = docObservable(docsObservable) // function with uuid as input
+
+  return uuid => doc(uuid).map(doc => doc.tags)
 }
 
-export function currentDocTagsObservable(docsObservable) {
-
-  return currentDocObservable(docsObservable)
-      .map(doc => doc.tags)
-}
-
+// TODO delete
 export function newDocUuidObservable(docsObservable) {
 
   return docsObservable
@@ -35,7 +29,15 @@ export function newDocUuidObservable(docsObservable) {
     .skipDuplicates()
 }
 
+/**
+ * docList is currently computed from docs but that will change shortly
+ * @param docsObservable
+ */
 export function docListObservable(docsObservable) {
 
-  return docsObservable.map(docState => docState.doclist)
+  return docsObservable.map(docState =>
+    Object.keys(docState.docs)
+      .reduce((docList, uuid) => docList.concat([docState.docs[uuid]]), [])
+      .sort()
+  )
 }
