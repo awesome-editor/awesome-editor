@@ -8,25 +8,33 @@ import DocPreviewContainer from '../docs/DocPreviewContainer'
 
 const App = ({mainWindow, currentDocUuid}) => {
 
-  const showDocEditor = mainWindow === 'DocEditor'
-  const showDocPreview = currentDocUuid
-  const disableDocPreviewToolbar = showDocEditor
+  let Main
+  let Sidebar = ''
+
+  switch (mainWindow) {
+    case 'DocEditor':
+      Main = <DocEditorContainer uuid={currentDocUuid}/>
+      Sidebar = <DocPreviewContainer uuid={currentDocUuid} disableToolbar={true}/>
+      break
+
+    case 'DocList':
+      Main = <DocListContainer />
+      Sidebar = currentDocUuid ?
+        <DocPreviewContainer uuid={currentDocUuid} disableToolbar={false}/> :
+        ''
+      break
+
+    default:
+      throw new Error(`mainWindow ${mainWindow} not handled`)
+  }
 
   return (
     <div className='row'>
       <div className='col-sm-9'>
-        {
-          showDocEditor ?
-            <DocEditorContainer uuid={currentDocUuid}/> :
-            <DocListContainer />
-        }
+        {Main}
       </div>
       <div className='col-sm-3'>
-        {
-          showDocPreview ?
-            <DocPreviewContainer uuid={currentDocUuid} disableToolbar={disableDocPreviewToolbar} /> :
-            ''
-        }
+        {Sidebar}
       </div>
     </div>
   )
@@ -35,7 +43,9 @@ const App = ({mainWindow, currentDocUuid}) => {
 App.defaultProps = {
 
   mainWindow: 'DocList',
-  currentDocUuid: null
+  currentDocUuid: null,
+  switchToEditor: false,
+  switchToList: true
 }
 
 

@@ -9,7 +9,7 @@ import FlatButton from 'material-ui/lib/flat-button'
 import TagList from '../tags/TagList'
 
 
-const Preview = ({docTitle, docHtmlContent, docTags, useDocToolbar, editDoc, deleteDoc}) => {
+const Preview = ({docTitle, docHtmlContent, docTags, disableToolbar, editDoc, deleteDoc}) => {
 
   return (
     <Card>
@@ -25,7 +25,7 @@ const Preview = ({docTitle, docHtmlContent, docTags, useDocToolbar, editDoc, del
         <TagList tags={docTags} previewMode={true}/>
       </CardText>
 
-      {!useDocToolbar ? '' :
+      {disableToolbar ? '' :
         <CardActions>
           <FlatButton label="Edit" onTouchStart={editDoc}/>
           <FlatButton label="Delete" onTouchStart={deleteDoc}/>
@@ -36,7 +36,7 @@ const Preview = ({docTitle, docHtmlContent, docTags, useDocToolbar, editDoc, del
 }
 
 Preview.defaultProps = {
-  enableToolbar: false
+  disableToolbar: false
 }
 
 export default Preview
