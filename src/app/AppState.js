@@ -7,8 +7,7 @@ import createReducers from './createReducers'
 
 const appStateObservable = AppDispatcher
   .scan(_scanner, {})
-  .skip(1)
-  .onValue(() => undefined)
+  .skip(1) //always skip the first one (empty data)
 
 // This is how you a create a store
 // 1. import its action types, actions, reducers, and action observables
@@ -61,6 +60,12 @@ function _scanner(state, action) {
   }
 }
 
+// setup one-way data flow
+appStateObservable.onValue(appState => {
+
+  //remit all side effects
+  setTimeout(() => appState.sideEffects.forEach(AppDispatcher.emit), 0)
+})
 
 /**
  * This is the "public" interface for app state i.e., what React interfaces with.

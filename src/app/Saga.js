@@ -38,3 +38,8 @@ export function call(fn, ...args) {
 
   return callObservable.filter(fn => fn.uuid === id).take(1).map(fn => fn.rslt)
 }
+
+export function listen(channel, actionType) {
+
+  return AppDispatcher.filter(msg => msg.channel === channel && msg.actionType === actionType)
+}

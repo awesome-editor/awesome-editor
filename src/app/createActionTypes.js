@@ -1,4 +1,4 @@
-export default function createActionTypes(actions) {
+export default function createTypes(actions) {
 
   actions = actions || []
   actions = Array.isArray(actions) ? actions : [actions]
