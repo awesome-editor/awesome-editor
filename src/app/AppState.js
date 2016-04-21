@@ -7,6 +7,7 @@ import createReducers from './createReducers'
 
 const appStateObservable = AppDispatcher
   .scan(_scanner, {})
+  .skip(1)
   .onValue(() => undefined)
 
 // This is how you a create a store
