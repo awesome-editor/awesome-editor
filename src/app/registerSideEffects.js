@@ -27,5 +27,5 @@ export default function registerSideEffects(channel, actionTypes, sideEffectHand
     return null
   }
 
-  return AppDispatcher.onValue(listener)
+  return AppDispatcher.onValue(action => setTimeout(() => listener(action), 0))
 }
