@@ -36,7 +36,7 @@ export function newDocUuidObservable(docsObservable) {
 export function docListObservable(docsObservable) {
 
   return docsObservable.map(docState =>
-    Object.keys(docState.docs)
+    Object.keys(docState.docs || {})
       .reduce((docList, uuid) => docList.concat([docState.docs[uuid]]), [])
       .sort()
   )

@@ -52,6 +52,6 @@ export function systemBroadcastNewDocUuid(uuid) {
   return {
     channel: Channels.app,
     actionType: AppActionTypes.systemBroadcastNewDocUuid,
-    paylod: uuid
+    payload: uuid
   }
 }
