@@ -34,7 +34,7 @@ const DocList = ({docList, docListSelectedIndex, docListSelect, createDoc}) => {
 
       </SelectableList>
 
-      <FloatingActionButton onTouchEnd={createDoc}>
+      <FloatingActionButton onClick={createDoc}>
         <ContentAdd />
       </FloatingActionButton>
     </div>
