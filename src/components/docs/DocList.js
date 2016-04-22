@@ -24,8 +24,9 @@ const DocList = ({docList, docListSelectedIndex, docListSelect, createDoc}) => {
         insetSubheader={true}
         valueLink={{value: docListSelectedIndex, requestChange: docListSelect}}>
 
-        {docList.map(doc =>
+        {docList.map((doc, key) =>
           <ListItem
+            key={key}
             leftAvatar={<Avatar icon={<ActionAssignment />} />}
             rightIcon={<ActionInfo />}
             primaryText={doc.title}
