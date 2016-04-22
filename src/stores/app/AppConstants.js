@@ -1,6 +1,11 @@
-import createActionTypes from '../../app/createActionTypes'
+import createTypes from '../../app/createTypes'
 
-export const AppActionTypes = createActionTypes([
-  'switchMainWindow',
-  'setCurrentDoc'
+export const AppActionTypes = createTypes([
+  'systemSwitchMainWindow',
+  'systemSetCurrentDocUuid',
+  'systemBroadcastNewDocUuid'
+])
+
+export const AppSideEffectTypes = createTypes([
+  'systemCreateDoc'
 ])

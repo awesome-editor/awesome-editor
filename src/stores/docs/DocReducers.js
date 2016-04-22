@@ -1,7 +1,7 @@
 /*eslint no-use-before-define: 0*/
 import {upsert} from '../persistence/PersistenceActions'
 import {withSideEffects} from '../../app/StateWithSideEffects'
-import {showDocPreview} from '../app/AppActions'
+import {systemBroadcastNewDocUuid} from '../app/AppActions'
 
 
 export const initialState = {
@@ -38,11 +38,7 @@ export function upsertDoc(docState, doc) {
  */
 export function createDoc(docState, doc) {
 
-  const upsert = upsertDoc(docState, doc)
-  const newDocUuid = withSideEffects({newDocUuid: doc.uuid})
-
-  // adds newDocUuid property to doc state
-  return upsert.combine(newDocUuid)
+  return upsertDoc(docState, doc).combine(systemBroadcastNewDocUuid(doc.uuid))
 }
 
 /**

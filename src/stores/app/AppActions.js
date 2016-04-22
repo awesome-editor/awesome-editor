@@ -1,14 +1,12 @@
 import {Channels} from '../constants/Constants'
-import {AppActionTypes} from './AppConstants'
-//import {cast} from '../../util/Utils'
-//import uuid from 'uuid'
+import {AppActionTypes, AppSideEffectTypes} from './AppConstants'
 
 
-export function showDocEditor(uuid) {
+export function systemShowDocEditor(uuid) {
 
   return {
     channel: Channels.app,
-    actionType: AppActionTypes.switchMainWindow,
+    actionType: AppActionTypes.systemSwitchMainWindow,
     payload: {
       mainWindow: 'DocEditor',
       currentDocUuid: uuid
@@ -16,22 +14,44 @@ export function showDocEditor(uuid) {
   }
 }
 
-export function showDocList() {
+export function systemShowDocList() {
 
   return {
     channel: Channels.app,
-    actionType: AppActionTypes.switchMainWindow,
+    actionType: AppActionTypes.systemSwitchMainWindow,
     payload: {
       mainWindow: 'DocList'
     }
   }
 }
 
-export function setCurrentDoc(uuid) {
+export function systemSetCurrentDocUuid(uuid) {
 
   return {
     channel: Channels.app,
-    actionType: AppActionTypes.setCurrentDoc,
+    actionType: AppActionTypes.systemSetCurrentDocUuid,
     payload: uuid
+  }
+}
+
+export function systemCreateDoc() {
+
+  return {
+    channel: Channels.appSideEffects,
+    actionType: AppSideEffectTypes.systemCreateDoc
+  }
+}
+
+/**
+ * Tell the App about the newly created doc
+ *
+ * @param uuid
+ */
+export function systemBroadcastNewDocUuid(uuid) {
+
+  return {
+    channel: Channels.app,
+    actionType: AppActionTypes.systemBroadcastNewDocUuid,
+    paylod: uuid
   }
 }

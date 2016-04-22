@@ -1,5 +1,7 @@
 /*eslint no-use-before-define: 0*/
-// import {withSideEffects} from '../../app/StateWithSideEffects'
+//import {withSideEffects} from '../../app/StateWithSideEffects'
+//import {createDoc} from '../docs/DocActions'
+//import {systemShowDocEditor} from './AppActions'
 
 /**
  * You don't need explicit "switch to doc list" or "switch to doc editor" state because you can get that info
@@ -15,12 +17,17 @@ export const initialState = {
   currentDocUuid: null
 }
 
-export function switchMainWindow(appState, windowInfo) {
+export function systemSwitchMainWindow(appState, windowInfo) {
 
   return {...appState, ...{currentDocUuid: null}, ...windowInfo}
 }
 
-export function setCurrentDoc(appState, uuid) {
+export function systemSetCurrentDocUuid(appState, uuid) {
 
   return {...appState, ...{currentDocUuid: uuid}}
+}
+
+export function systemBroadcastNewDocUuid(appState) {
+
+  return {...appState}
 }

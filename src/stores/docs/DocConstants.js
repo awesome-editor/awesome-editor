@@ -1,6 +1,6 @@
-import createActionTypes from '../../app/createActionTypes'
+import createTypes from '../../app/createTypes'
 
-export const DocActionTypes = createActionTypes([
+export const DocActionTypes = createTypes([
   'createDoc',
   'upsertDoc',
   'addTagToDoc',

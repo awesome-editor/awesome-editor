@@ -6,6 +6,7 @@ const watch = require('gulp-watch')
 const batch = require('gulp-batch')
 // const concat = require('gulp-concat')
 const del = require('del')
+const plumber = require('gulp-plumber')
 
 
 gulp.task('server', ['watch'], function server() {
@@ -31,9 +32,11 @@ gulp.task('css', ['clean'], function css() {
 gulp.task('js', ['clean'], function js() {
 
   return gulp.src('src/**/*.js')
+    .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(babel({presets: ['es2015', 'react'], plugins: ['transform-object-rest-spread']}))
     .pipe(sourcemaps.write('.'))
+    .pipe(plumber.stop())
     .pipe(gulp.dest('dist'))
 })
 
