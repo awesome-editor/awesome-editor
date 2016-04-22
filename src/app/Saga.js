@@ -1,10 +1,10 @@
 import uuid from 'uuid'
-import Kefir from 'Kefir'
+import Kefir from 'kefir'
 
 import kefirEmitter from '../util/kefirEmitter'
 import {isObservable} from '../util/Utils'
 
-import AppDispatcher from 'AppDispatcher'
+import AppDispatcher from './AppDispatcher'
 
 
 export const sideEffects = kefirEmitter()
