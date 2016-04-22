@@ -27,7 +27,7 @@ export class StateWithSideEffects {
  * @param b
  * @returns {*}
  */
-export function combine(a, b) {
+export function combineSideEffects(a, b) {
 
   const aIsStateWithSideEffects = a instanceof StateWithSideEffects
   const bIsStateWithSideEffects = b instanceof StateWithSideEffects
@@ -50,7 +50,12 @@ export function combine(a, b) {
   }
 }
 
-export function withSideEffects(state, ...sideEffects) {
+export function addSideEffects(state, ...sideEffects) {
 
   return new StateWithSideEffects(state, sideEffects)
+}
+
+export function sideEffects(...sideEffects) {
+
+  return new StateWithSideEffects({}, sideEffects)
 }

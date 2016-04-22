@@ -2,7 +2,7 @@ import AppDispatcher from './AppDispatcher'
 import {Channels} from '../stores/constants/Constants'
 import createStore from './createStore'
 import createReducers from './createReducers'
-//import {combine} from '../../app/StateWithSideEffects'
+//import {combineSideEffects} from '../../app/StateWithSideEffects'
 
 
 const appStateObservable = AppDispatcher
@@ -50,7 +50,7 @@ const appStore = createStore(
 function _scanner(state, action) {
 
   // reducers take the whole state as input but return only the store state
-  // this allows you to #combine different reducers
+  // this allows you to #combineSideEffects different reducers
   const newState = docReducers(state, action)
     .combine(appReducers(state, action))
 

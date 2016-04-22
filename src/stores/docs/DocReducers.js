@@ -1,6 +1,6 @@
 /*eslint no-use-before-define: 0*/
 import {upsert} from '../persistence/PersistenceActions'
-import {withSideEffects} from '../../app/StateWithSideEffects'
+import {addSideEffects, sideEffects} from '../../app/StateWithSideEffects'
 import {systemBroadcastNewDocUuid} from '../app/AppActions'
 
 
@@ -25,7 +25,7 @@ export function upsertDoc(docState, doc) {
   const newDocEntry = {[doc.uuid]: newDoc}
   const newDocs = {docs: {...docs, ...newDocEntry}}
 
-  return withSideEffects({...docState, ...newDocs}, upsert(newDoc))
+  return addSideEffects({...docState, ...newDocs}, upsert(newDoc))
 }
 
 /**
@@ -38,7 +38,9 @@ export function upsertDoc(docState, doc) {
  */
 export function createDoc(docState, doc) {
 
-  return upsertDoc(docState, doc).combine(systemBroadcastNewDocUuid(doc.uuid))
+  const broadcast = sideEffects(systemBroadcastNewDocUuid(doc.uuid))
+
+  return upsertDoc(docState, doc).combine(broadcast)
 }
 
 /**
@@ -66,5 +68,5 @@ export function addTagToDoc(docState, payload) {
 
 export function docListSelect(docState, {docListSelectedIndex, uuid}) {
 
-  return withSideEffects({...docState, docListSelectedIndex}, showDocPreview(uuid))
+  return addSideEffects({...docState, docListSelectedIndex})//, showDocPreview(uuid))
 }
