@@ -4,6 +4,8 @@ import Remarkable from 'remarkable'
 import Container from '../../app/Container'
 import AppState from '../../app/AppState'
 
+import DocPreview from './DocPreview'
+
 
 const md = new Remarkable()
 
@@ -19,7 +21,7 @@ const DocPreviewContainer = props => (
     addTag={AppState.addTagToDoc}
     >
 
-    <DocPreviewContainer/>
+    <DocPreview/>
 
   </Container>
 )
