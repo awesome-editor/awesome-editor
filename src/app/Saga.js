@@ -41,5 +41,7 @@ export function call(fn, ...args) {
 
 export function listen(channel, actionType) {
 
-  return AppDispatcher.filter(msg => msg.channel === channel && msg.actionType === actionType)
+  return AppDispatcher
+    .filter(action => action.channel === channel && action.actionType === actionType)
+    .map(action => action.payload)
 }
