@@ -9,7 +9,7 @@ import FlatButton from 'material-ui/lib/flat-button'
 import TagList from '../tags/TagList'
 
 
-const Preview = ({docTitle, docHtmlContent, docTags, disableToolbar, editDoc, deleteDoc}) => {
+const DocPreview = ({docTitle, docHtmlContent, docTags, disableToolbar, editDoc, deleteDoc}) => {
 
   return (
     <Card>
@@ -35,8 +35,8 @@ const Preview = ({docTitle, docHtmlContent, docTags, disableToolbar, editDoc, de
   )
 }
 
-Preview.defaultProps = {
+DocPreview.defaultProps = {
   disableToolbar: false
 }
 
-export default Preview
+export default DocPreview

@@ -110,7 +110,6 @@ function _observables(props) {
 function _callbacks(component, observables) {
 
   return observables.map(obj => val => {
-    console.log('hi')
     component.setState({[obj.property]: val})
   })
 }

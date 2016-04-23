@@ -12,7 +12,7 @@ const md = new Remarkable()
 const DocPreviewContainer = props => (
 
   <Container
-    docTitle={AppState.docObservable(props.uuid)}
+    docTitle={AppState.docObservable(props.uuid).map(doc => doc.title)}
     docHtmlContent={AppState.docObservable(props.uuid).map(doc => doc.content).map(content => md.render(content))}
     docTags={AppState.docTagsObservable(props.uuid)}
     disableToolbar={props.disableToolbar}

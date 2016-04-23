@@ -26,13 +26,6 @@ const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, 
           fullWidth={true}
           onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, title: evt.target.value})}
         />
-        <TextField
-          hintText="Subtitle"
-          multiLine={true}
-          value={doc.subtitle}
-          fullWidth={true}
-          onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, subtitle: evt.target.value})}
-        />
       </CardText>
 
       <CardText>

@@ -27,5 +27,7 @@ ReactDOM.render(
 )
 
 import AppDispatcher from './app/AppDispatcher'
+import AppState from './app/AppState'
 
-AppDispatcher.onValue(foo => console.log(foo))
+AppDispatcher.log('dispatcher')
+AppState.appStateObservable.sampledBy(AppDispatcher).log('app state')
