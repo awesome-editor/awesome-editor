@@ -60,9 +60,7 @@ export default class Container extends React.Component {
   componentWillMount() {
 
     this.normalProps = _normalProps(this.props)
-    this.observables = _observables(this.props)
-    this.callbacks = _callbacks(this, this.observables)
-    this.setState(this.props.children.type.defaultProps || {}, () => _subscribe(this.observables, this.callbacks))
+    _setupObservables(this, this.props)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,9 +71,7 @@ export default class Container extends React.Component {
     _unsubscribe(this.observables, this.callbacks)
 
     //subscribe new
-    this.observables = _observables(nextProps)
-    this.callbacks = _callbacks(this, this.observables)
-    this.setState(nextProps.children.type.defaultProps || {}, () => _subscribe(this.observables, this.callbacks))
+    _setupObservables(this, nextProps)
   }
 
   componentWillUnmount() {
@@ -91,6 +87,16 @@ export default class Container extends React.Component {
       props: {...this.state, ...this.normalProps}
     }
   }
+}
+
+function _setupObservables(component, props) {
+
+  component.observables = _observables(props)
+  component.callbacks = _callbacks(component, component.observables)
+  component.setState(
+    props.children.type.defaultProps || {},
+    () => _subscribe(component.observables, component.callbacks)
+  )
 }
 
 function _observables(props) {
