@@ -7,19 +7,23 @@ import AppState from '../../app/AppState'
 import DocEditor from './DocEditor'
 
 
-const DocEditorContainer = props => (
+const DocEditorContainer = ({uuid}) => {
 
-  <Container
-    doc={AppState.docMinusTagsObservable(props.uuid)}
-    tags={AppState.docTagsObservable(props.uuid)}
-    updateDoc={AppState.updateDoc}
-    autocompleteTag={AppState.lookupTags}
-    createTag={AppState.createTag}
-    addTag={AppState.addTagToDoc}>
+  return (
 
-    <DocEditor/>
+    <Container
+      uuid={uuid}
+      doc={AppState.docMinusTagsObservable(uuid)}
+      tags={AppState.docTagsObservable(uuid)}
+      updateDoc={AppState.updateDoc}
+      autocompleteTag={AppState.lookupTags}
+      createTag={AppState.createTag}
+      addTag={AppState.addTagToDoc}>
 
-  </Container>
-)
+      <DocEditor/>
+
+    </Container>
+  )
+}
 
 export default DocEditorContainer

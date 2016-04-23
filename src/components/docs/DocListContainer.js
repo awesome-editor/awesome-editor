@@ -9,7 +9,7 @@ const DocListContainer = props => (
   <Container
     docList={AppState.docListObservable}
     docListSelect={AppState.docListSelect}
-    createDoc={AppState.systemCreateDoc}
+    systemCreateDoc={AppState.systemCreateDoc}
   >
     <DocList/>
   </Container>

@@ -40,14 +40,7 @@ gulp.task('js', ['clean'], function js() {
     .pipe(gulp.dest('dist'))
 })
 
-gulp.task('build', ['css', 'js'], function build() {
-
-  return gulp.src('src/**/*.js')
-    .pipe(sourcemaps.init())
-    .pipe(babel({presets: ['es2015', 'react'], plugins: ['transform-object-rest-spread']}))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('dist'))
-})
+gulp.task('build', ['css', 'js'])
 
 gulp.task('watch', ['build'], function _watch() {
 

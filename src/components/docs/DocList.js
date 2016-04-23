@@ -14,7 +14,7 @@ import ContentAdd from 'material-ui/lib/svg-icons/content/add'
 
 const SelectableList = selectableContainerEnhance(List)
 
-const DocList = ({docList, docListSelectedIndex, docListSelect, createDoc}) => {
+const DocList = ({docList, docListSelectedIndex, docListSelect, systemCreateDoc}) => {
 
   return (
 
@@ -35,7 +35,7 @@ const DocList = ({docList, docListSelectedIndex, docListSelect, createDoc}) => {
 
       </SelectableList>
 
-      <FloatingActionButton onClick={createDoc}>
+      <FloatingActionButton onClick={systemCreateDoc}>
         <ContentAdd />
       </FloatingActionButton>
     </div>
@@ -46,7 +46,7 @@ DocList.defaultProps = {
   docList: [],
   docListSelectedIndex: 0,
   docListSelect: () => undefined,
-  createDoc: () => undefined
+  systemCreateDoc: () => undefined
 }
 
 export default DocList

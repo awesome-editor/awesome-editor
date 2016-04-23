@@ -12,47 +12,50 @@ import DivEdit from './../editor/DivEdit'
 
 const noop = () => undefined
 
-const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, addTag}) => (
+const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, addTag}) => {
 
-  <Card style={{overflow: 'visible'}}>
+  return (
 
-    <CardText>
-      <TextField
-        hintText="Title"
-        multiLine={true}
-        value={doc.title}
-        fullWidth={true}
-        onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, title: evt.target.value})}
-      />
-      <TextField
-        hintText="Subtitle"
-        multiLine={true}
-        value={doc.subtitle}
-        fullWidth={true}
-        onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, subtitle: evt.target.value})}
-      />
-    </CardText>
+    <Card style={{overflow: 'visible'}}>
 
-    <CardText>
-      <DivEdit
-        key="Content"
-        style={{minHeight: '3em'}}
-        html={doc.content}
-        onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, content: evt.target.value})}>
-      </DivEdit>
-    </CardText>
+      <CardText>
+        <TextField
+          hintText="Title"
+          multiLine={true}
+          value={doc.title}
+          fullWidth={true}
+          onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, title: evt.target.value})}
+        />
+        <TextField
+          hintText="Subtitle"
+          multiLine={true}
+          value={doc.subtitle}
+          fullWidth={true}
+          onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, subtitle: evt.target.value})}
+        />
+      </CardText>
 
-    <CardText style={{overflow: 'visible'}}>
-      <TagList
-        autocompleteTag={autocompleteTag}
-        createTag={createTag}
-        addTag={tag => addTag(doc.uuid, tag)}
-        tags={tags}
-        previewMode={previewMode}/>
-    </CardText>
+      <CardText>
+        <DivEdit
+          key="Content"
+          style={{minHeight: '3em'}}
+          html={doc.content}
+          onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, content: evt.target.value})}>
+        </DivEdit>
+      </CardText>
 
-  </Card>
-)
+      <CardText style={{overflow: 'visible'}}>
+        <TagList
+          autocompleteTag={autocompleteTag}
+          createTag={createTag}
+          addTag={tag => addTag(doc.uuid, tag)}
+          tags={tags}
+          previewMode={previewMode}/>
+      </CardText>
+
+    </Card>
+  )
+}
 
 Editor.defaultProps = {
 
