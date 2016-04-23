@@ -13,8 +13,8 @@ const App = ({mainWindow, currentDocUuid}) => {
 
   switch (mainWindow) {
     case 'DocEditor':
-      Main = <DocEditorContainer uuid={currentDocUuid}/>
-      Sidebar = <DocPreviewContainer uuid={currentDocUuid} disableToolbar={true}/>
+      Main = <DocEditorContainer key="DocEditor" uuid={currentDocUuid}/>
+      Sidebar = <DocPreviewContainer key="DocPreview" uuid={currentDocUuid} disableToolbar={true}/>
       break
 
     case 'DocList':

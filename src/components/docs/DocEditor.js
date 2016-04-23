@@ -28,7 +28,7 @@ const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, 
         />
       </CardText>
 
-      <CardText>
+      <CardText key="CardContent">
         <DivEdit
           key="Content"
           style={{minHeight: '3em'}}

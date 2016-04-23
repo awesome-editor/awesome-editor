@@ -1,7 +1,5 @@
 import React from 'react'
 
-import {saveSelection, restoreSelection} from './Selection'
-
 
 //thanks https://github.com/lovasoa/react-contenteditable/blob/master/src/react-contenteditable.js
 export default class DivEdit extends React.Component {
@@ -37,8 +35,6 @@ export default class DivEdit extends React.Component {
     if ( this.htmlEl && this.props.html !== this.htmlEl.innerText ) {
 
       this.htmlEl.innerText = this.props.html
-      restoreSelection(this.selection)
-      this.htmlEl.focus()
     }
   }
 
@@ -51,7 +47,6 @@ export default class DivEdit extends React.Component {
     if (this.props.onChange && html !== this.lastHtml) {
 
       evt.target = {value: html}
-      this.selection = saveSelection()
 
       this.props.onChange(evt)
     }

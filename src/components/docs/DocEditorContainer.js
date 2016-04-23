@@ -12,6 +12,7 @@ const DocEditorContainer = ({uuid}) => {
   return (
 
     <Container
+      key="DocEditor"
       uuid={uuid}
       doc={AppState.docMinusTagsObservable(uuid)}
       tags={AppState.docTagsObservable(uuid)}
