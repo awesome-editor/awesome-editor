@@ -25,7 +25,7 @@ const callObservable = sideEffects
 
     return resultObservable.map(rslt => ({uuid, rslt}))
   })
-  .toProperty()
+  .onValue(() => undefined)
 
 export function put(action) {
 
@@ -36,7 +36,7 @@ export function call(fn, ...args) {
 
   const id = uuid.v4()
 
-  sideEffects.emit({action: 'CALL', payload: {fn, args, uuid: id}})
+  setTimeout(() => sideEffects.emit({action: 'CALL', payload: {fn, args, uuid: id}}), 0)
 
   return callObservable.filter(fn => fn.uuid === id).map(fn => fn.rslt).take(1)
 }
