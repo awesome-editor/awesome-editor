@@ -34,7 +34,7 @@ const App = ({mainWindow, currentDocUuid, systemCreateDoc, systemShowDocList}) =
         ''
       title = 'Notes'
       ActionButton = (
-        <FloatingActionButton onClick={systemCreateDoc} style={{position: 'absolute', bottom: '-1em', right: 0}}>
+        <FloatingActionButton onClick={systemCreateDoc} style={{position: 'absolute', bottom: '1em', right: 0}}>
           <ContentAdd />
         </FloatingActionButton>
       )

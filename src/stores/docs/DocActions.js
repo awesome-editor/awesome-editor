@@ -26,14 +26,13 @@ export function updateDoc(doc) {
   }
 }
 
-export function docListSelect(docInfo) {
+export function docListSelect(uuid) {
 
-  assert(docInfo.docListSelectedIndex, 'Need selected index')
-  assert(docInfo.uuid, 'Need uuid')
+  assert(uuid, 'Need uuid')
 
   return {
     channel: Channels.docs,
     actionType: DocActionTypes.docListSelect,
-    payload: docInfo
+    payload: uuid
   }
 }

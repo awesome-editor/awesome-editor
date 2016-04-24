@@ -66,7 +66,8 @@ export function addTagToDoc(docState, payload) {
   return docState
 }
 
-export function docListSelect(docState, {docListSelectedIndex, uuid}) {
+export function docListSelect(docState, uuid) {
 
+  console.log(docListSelectedIndex, uuid)
   return addSideEffects({...docState, docListSelectedIndex})//, showDocPreview(uuid))
 }
