@@ -1,9 +1,9 @@
 export const Channels = {
   app: 'app',
-  appSideEffects: 'appSideEffects',
   docs: 'docs',
   tags: 'tags',
-  persistence: 'persistence'
+  appSideEffects: 'appSideEffects',
+  storageSideEffects: 'storageSideEffects'
 }
 
 export const ActionTypes = {

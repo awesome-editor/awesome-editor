@@ -4,6 +4,7 @@ import createStore from './createStore'
 import createReducers from './createReducers'
 //import {combineSideEffects} from '../../app/StateWithSideEffects'
 
+import {storageLoadDocs} from '../stores/storage/StorageActions'
 
 const appStateObservable = AppDispatcher
   .scan(_scanner, {})
@@ -66,6 +67,8 @@ appStateObservable.onValue(appState => {
   //remit all side effects
   setTimeout(() => appState.sideEffects.forEach(AppDispatcher.emit), 0)
 })
+
+AppDispatcher.emit(storageLoadDocs())
 
 /**
  * This is the "public" interface for app state i.e., what React interfaces with.

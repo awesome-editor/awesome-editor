@@ -1,7 +1,7 @@
 import AppDispatcher from '../../app/AppDispatcher'
 import AppState from '../../app/AppState'
 
-import {persistence} from '../persistence/Persistence'
+import {persistence} from '../storage/StorageSideEffects'
 
 
 /**

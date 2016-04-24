@@ -1,5 +1,5 @@
 /*eslint no-use-before-define: 0*/
-import {upsert} from '../storage/PersistenceActions'
+import {storageUpdateDoc, storageCreateDoc} from '../storage/StorageActions'
 import {addSideEffects, sideEffects} from '../../app/StateWithSideEffects'
 import {systemBroadcastNewDocUuid} from '../app/AppActions'
 
@@ -25,7 +25,7 @@ export function upsertDoc(docState, doc) {
   const newDocEntry = {[doc.uuid]: newDoc}
   const newDocs = {docs: {...docs, ...newDocEntry}}
 
-  return addSideEffects({...docState, ...newDocs}, upsert(newDoc))
+  return addSideEffects({...docState, ...newDocs}, storageUpdateDoc(newDoc))
 }
 
 /**
@@ -38,9 +38,12 @@ export function upsertDoc(docState, doc) {
  */
 export function createDoc(docState, doc) {
 
+  const create = sideEffects(storageCreateDoc(doc))
   const broadcast = sideEffects(systemBroadcastNewDocUuid(doc.uuid))
 
-  return upsertDoc(docState, doc).combine(broadcast)
+  return upsertDoc(docState, doc)
+    .combine(create)
+    .combine(broadcast)
 }
 
 /**
@@ -66,3 +69,7 @@ export function addTagToDoc(docState, payload) {
   return docState
 }
 
+export function setDocs(docState, docs) {
+
+  return {...docState, docs: {...docs}}
+}

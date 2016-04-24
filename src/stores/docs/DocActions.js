@@ -25,3 +25,12 @@ export function updateDoc(doc) {
     payload: doc
   }
 }
+
+export function setDocs(docs) {
+
+  return {
+    channel: Channels.docs,
+    actionType: DocActionTypes.setDocs,
+    payload: docs
+  }
+}
