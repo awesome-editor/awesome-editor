@@ -20,15 +20,6 @@ export function docTagsObservable(docsObservable) {
   return uuid => doc(uuid).map(doc => doc.tags)
 }
 
-// TODO delete
-export function newDocUuidObservable(docsObservable) {
-
-  return docsObservable
-    .filter(docState => docState.newDocUuid)
-    .map(docState => docState.newDocUuid)
-    .skipDuplicates()
-}
-
 /**
  * docList is currently computed from docs but that will change shortly
  * @param docsObservable

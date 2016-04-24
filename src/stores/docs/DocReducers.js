@@ -1,5 +1,5 @@
 /*eslint no-use-before-define: 0*/
-import {upsert} from '../persistence/PersistenceActions'
+import {upsert} from '../storage/PersistenceActions'
 import {addSideEffects, sideEffects} from '../../app/StateWithSideEffects'
 import {systemBroadcastNewDocUuid} from '../app/AppActions'
 
@@ -66,8 +66,3 @@ export function addTagToDoc(docState, payload) {
   return docState
 }
 
-export function docListSelect(docState, uuid) {
-
-  console.log(docListSelectedIndex, uuid)
-  return addSideEffects({...docState, docListSelectedIndex})//, showDocPreview(uuid))
-}

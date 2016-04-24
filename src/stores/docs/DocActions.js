@@ -25,14 +25,3 @@ export function updateDoc(doc) {
     payload: doc
   }
 }
-
-export function docListSelect(uuid) {
-
-  assert(uuid, 'Need uuid')
-
-  return {
-    channel: Channels.docs,
-    actionType: DocActionTypes.docListSelect,
-    payload: uuid
-  }
-}
