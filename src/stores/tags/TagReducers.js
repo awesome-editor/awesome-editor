@@ -1,9 +1,8 @@
-import {upsert} from '../persistence/PersistenceActions'
+import {storageUpdateDoc} from '../storage/StorageActions'
 import {Channels, ActionTypes} from '../constants/Constants'
 import {TagActionTypes} from './TagConstants'
 import {stateWithSideEffects} from '../sideeffects/SideEffects'
-import TagData from './TagData'
-import uuid from 'uuid'
+
 
 const initialState = {
   newTagUuid: null
@@ -24,7 +23,7 @@ function _upsertTag(tags, tag) {
   const newTagEntry = {[tag.uuid]: newTag}
   const newTags = {...tags, ...newTagEntry}
 
-  return stateWithSideEffects(newTags, upsert(newTag))
+  return stateWithSideEffects(newTags, storageUpdateDoc(newTag))
 }
 
 /**

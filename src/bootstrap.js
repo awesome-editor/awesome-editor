@@ -7,4 +7,6 @@ injectTapEventPlugin()
 
 import './util/kefirBaconJsOnValue'
 import './stores/app/AppSideEffects'
+import './stores/storage/StorageSideEffects'
 
+import './app/AppState'
