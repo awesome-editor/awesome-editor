@@ -12,18 +12,20 @@ export const sideEffects = kefirEmitter()
 const putObservable = sideEffects
   .filter(action => action.action === 'PUT')
   .map(action => action.payload)
-  .onValue(AppDispatcher.emit)
+  .onValue(payload => setTimeout(() => AppDispatcher.emit(payload), 0))
 
 const callObservable = sideEffects
   .filter(action => action.action === 'CALL')
   .map(action => action.payload)
   .flatMap(action => {
 
+    const uuid = action.uuid
     const result = action.fn(...action.args)
     const resultObservable = isObservable(result) ? result : Kefir.constant(result)
 
-    return resultObservable.map(rslt => ({uuid: action.uuid, rslt}))
+    return resultObservable.map(rslt => ({uuid, rslt}))
   })
+  .toProperty()
 
 export function put(action) {
 
@@ -36,7 +38,7 @@ export function call(fn, ...args) {
 
   sideEffects.emit({action: 'CALL', payload: {fn, args, uuid: id}})
 
-  return callObservable.filter(fn => fn.uuid === id).take(1).map(fn => fn.rslt)
+  return callObservable.filter(fn => fn.uuid === id).map(fn => fn.rslt).take(1)
 }
 
 export function listen(channel, actionType) {
