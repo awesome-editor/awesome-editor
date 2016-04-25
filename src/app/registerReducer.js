@@ -1,3 +1,5 @@
+import * as Reducers from './Reducers'
+
 import {StateWithSideEffects} from './StateWithSideEffects'
 import {assert, cast} from '../util/Utils'
 
@@ -13,7 +15,7 @@ import {assert, cast} from '../util/Utils'
  * @param actionReducers
  * @returns {Function}
  */
-export default function createReducers(storeStateName, channel, {actionTypes, actionReducers}) {
+export function createReducer(storeStateName, channel, {actionTypes, actionReducers}) {
 
   assert(storeStateName, 'Neeed a store state name (i.e., the property name in the global state for this store')
   assert(typeof storeStateName === 'string', 'Store state name needs to be a string')
@@ -49,4 +51,13 @@ export default function createReducers(storeStateName, channel, {actionTypes, ac
 
     return new StateWithSideEffects({[storeStateName]: storeState})
   }
+}
+
+export default function registerReducer(storeStateName, channel, {actionTypes, actionReducers}) {
+
+  const reducer = createReducer(storeStateName, channel, {actionTypes, actionReducers})
+
+  Reducers.registerReducer(reducer)
+
+  return reducer
 }

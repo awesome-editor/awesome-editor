@@ -2,7 +2,7 @@ import {assert} from '../util/Utils'
 import AppDispatcher from './AppDispatcher'
 
 
-export default function registerSideEffects(channel, actionTypes, sideEffectHandlers) {
+export default function registerSideEffects(channel, actionTypes, {sideEffectHandlers}) {
 
   assert(typeof channel === 'string', 'Channel needs to be a string')
   assert(actionTypes, 'Need action types')

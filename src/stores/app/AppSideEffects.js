@@ -1,5 +1,4 @@
 import {put, listen} from '../../app/Saga'
-import registerSideEffects from '../../app/registerSideEffects'
 
 import {Channels} from '../constants/Constants'
 
@@ -23,9 +22,3 @@ export function systemCreateDoc() {
 
   put(createDoc())
 }
-
-registerSideEffects(
-  Channels.appSideEffects,
-  AppSideEffectTypes,
-  {systemCreateDoc}
-)

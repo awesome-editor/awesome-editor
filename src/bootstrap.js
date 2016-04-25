@@ -6,7 +6,10 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
 import './util/kefirBaconJsOnValue'
-import './stores/app/AppSideEffects'
+
+import './stores/app/AppStore'
+import './stores/docs/DocStore'
 import './stores/storage/StorageSideEffects'
 
+// make sure to load this last
 import './app/AppState'

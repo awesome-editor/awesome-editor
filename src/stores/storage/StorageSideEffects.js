@@ -52,6 +52,6 @@ function upsertTag(tag) {
 registerSideEffects(
   Channels.storageSideEffects,
   StorageSideEffectTypes,
-  {storageCreateDoc, storageUpdateDoc, storageLoadDoc, storageLoadDocs}
+  {sideEffectHandlers: {storageCreateDoc, storageUpdateDoc, storageLoadDoc, storageLoadDocs}}
 )
 
