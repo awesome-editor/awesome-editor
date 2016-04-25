@@ -1,8 +1,8 @@
 import React from 'react'
 import Remarkable from 'remarkable'
 
-import Container from '../../app/Container'
-import AppState from '../../app/AppState'
+import Container from '../../rflux/Container'
+import AppState from '../../rflux/AppState'
 
 import DocPreview from './DocPreview'
 

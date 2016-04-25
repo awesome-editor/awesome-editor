@@ -1,8 +1,8 @@
 /*eslint no-extra-parens: 0*/
 import React from 'react'
 
-import Container from '../../app/Container'
-import AppState from '../../app/AppState'
+import Container from '../../rflux/Container'
+import AppState from '../../rflux/AppState'
 
 import DocEditor from './DocEditor'
 

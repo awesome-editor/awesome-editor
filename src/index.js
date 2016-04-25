@@ -26,8 +26,8 @@ ReactDOM.render(
   document.getElementById('app')
 )
 
-//import AppDispatcher from './app/AppDispatcher'
-//import AppState from './app/AppState'
+//import AppDispatcher from './rflux/AppDispatcher'
+//import AppState from './rflux/AppState'
 //
 //AppDispatcher.log('dispatcher')
 //AppState.appStateObservable.sampledBy(AppDispatcher).log('app state')

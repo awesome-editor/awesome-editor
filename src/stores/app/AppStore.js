@@ -1,7 +1,7 @@
 import {Channels} from '../constants/Constants'
-import registerReducer from '../../app/registerReducer'
-import registerSideEffects from '../../app/registerSideEffects'
-import registerStore from '../../app/registerStore'
+import registerReducer from '../../rflux/registerReducer'
+import registerSideEffects from '../../rflux/registerSideEffects'
+import registerStore from '../../rflux/registerStore'
 
 // This is how you a create a store
 // 1. import its action types, actions, reducers, and action observables

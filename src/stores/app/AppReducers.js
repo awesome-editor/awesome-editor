@@ -1,5 +1,5 @@
 /*eslint no-use-before-define: 0*/
-//import {addSideEffects} from '../../app/StateWithSideEffects'
+//import {addSideEffects} from '../../rflux/StateWithSideEffects'
 //import {createDoc} from '../docs/DocActions'
 //import {systemShowDocEditor} from './AppActions'
 

@@ -1,4 +1,4 @@
-import createTypes from '../../app/support/createTypes'
+import createTypes from '../../rflux/support/createTypes'
 
 export const StorageSideEffectTypes = createTypes([
   'storageCreateDoc',

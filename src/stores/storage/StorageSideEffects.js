@@ -1,9 +1,9 @@
 import Kefir from 'kefir'
 
-import {put, call} from '../../app/Saga'
+import {put, call} from '../../rflux/Saga'
 
 import {Channels} from '../constants/Constants'
-import registerSideEffects from '../../app/registerSideEffects'
+import registerSideEffects from '../../rflux/registerSideEffects'
 
 import {StorageSideEffectTypes} from './StorageContants'
 import {setDocs} from '../docs/DocActions'

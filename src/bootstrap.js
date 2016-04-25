@@ -12,4 +12,4 @@ import './stores/docs/DocStore'
 import './stores/storage/StorageSideEffects'
 
 // make sure to load this last
-import './app/AppState'
+import 'rflux/AppState'
