@@ -1,6 +1,6 @@
 import AppDispatcher from './AppDispatcher'
 import {StateWithSideEffects} from './StateWithSideEffects'
-import Reducers from './Reducers'
+import Reducers from './support/Reducers'
 
 import createStore from './createStore'
 //import {combineSideEffects} from '../../app/StateWithSideEffects'

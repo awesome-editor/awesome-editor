@@ -21,11 +21,12 @@ registerReducer(
   {actionTypes: AppActionTypes, actionReducers: AppReducers}
 )
 
-//registerStore(
-//  'docs',
-//  {actionFuncs: DocActions, actionObservables: DocActionObservables},
-//  {AppDispatcher, appStateObservable}
-//)
+const appStore = createStore(
+  'app',
+  {actionFuncs: AppActions, actionObservables: AppActionObservables},
+  {AppDispatcher, appStateObservable}
+)
+
 
 registerSideEffects(
   Channels.appSideEffects,

@@ -1,4 +1,4 @@
-import createTypes from '../../app/createTypes'
+import createTypes from '../../app/support/createTypes'
 
 export const DocActionTypes = createTypes([
   'createDoc',
