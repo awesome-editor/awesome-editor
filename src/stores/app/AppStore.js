@@ -1,6 +1,7 @@
 import {Channels} from '../constants/Constants'
 import registerReducer from '../../app/registerReducer'
 import registerSideEffects from '../../app/registerSideEffects'
+import registerStore from '../../app/registerStore'
 
 // This is how you a create a store
 // 1. import its action types, actions, reducers, and action observables
@@ -21,12 +22,10 @@ registerReducer(
   {actionTypes: AppActionTypes, actionReducers: AppReducers}
 )
 
-const appStore = createStore(
+registerStore(
   'app',
-  {actionFuncs: AppActions, actionObservables: AppActionObservables},
-  {AppDispatcher, appStateObservable}
+  {actionFuncs: AppActions, actionObservables: AppActionObservables}
 )
-
 
 registerSideEffects(
   Channels.appSideEffects,

@@ -1,4 +1,4 @@
-import Reducers from './support/Reducers'
+import {reducers} from './support/Collections'
 
 import {StateWithSideEffects} from './StateWithSideEffects'
 import {assert, cast} from '../util/Utils'
@@ -57,7 +57,7 @@ export default function registerReducer(storeStateName, channel, {actionTypes, a
 
   const reducer = createReducer(storeStateName, channel, {actionTypes, actionReducers})
 
-  Reducers.registerReducer(reducer)
+  reducers.push(reducer)
 
   return reducer
 }

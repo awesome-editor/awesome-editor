@@ -1,5 +1,6 @@
 import {Channels} from '../constants/Constants'
 import registerReducer from '../../app/registerReducer'
+import registerStore from '../../app/registerStore'
 
 // This is how you a create a store
 // 1. import its action types, actions, reducers, and action observables
@@ -19,8 +20,7 @@ registerReducer(
   {actionTypes: DocActionTypes, actionReducers: DocReducers}
 )
 
-//registerStore(
-//  'docs',
-//  {actionFuncs: DocActions, actionObservables: DocActionObservables},
-//  {AppDispatcher, appStateObservable}
-//)
+registerStore(
+  'docs',
+  {actionFuncs: DocActions, actionObservables: DocActionObservables}
+)
