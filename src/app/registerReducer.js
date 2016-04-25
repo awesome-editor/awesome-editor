@@ -1,4 +1,4 @@
-import * as Reducers from './Reducers'
+import Reducers from './Reducers'
 
 import {StateWithSideEffects} from './StateWithSideEffects'
 import {assert, cast} from '../util/Utils'

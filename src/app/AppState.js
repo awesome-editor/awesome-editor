@@ -1,5 +1,5 @@
 import AppDispatcher from './AppDispatcher'
-import StateWithSideEffects from './StateWithSideEffects'
+import {StateWithSideEffects} from './StateWithSideEffects'
 import Reducers from './Reducers'
 
 import createStore from './createStore'
@@ -40,7 +40,7 @@ function _scanner(state, action) {
 
     return newState.combine(storeState)
 
-  }, new StateWithSideEffects)
+  }, new StateWithSideEffects())
 
   return {
     ...newState.state,
