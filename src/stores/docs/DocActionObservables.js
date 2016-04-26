@@ -29,6 +29,6 @@ export function docListObservable(docsObservable) {
   return docsObservable.map(docState =>
     Object.keys(docState.docs || {})
       .reduce((docList, uuid) => docList.concat([docState.docs[uuid]]), [])
-      .sort()
+      .sort((doc1, doc2) => doc1.title.localeCompare(doc2.title))
   )
 }

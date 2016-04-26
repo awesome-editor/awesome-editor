@@ -9,6 +9,11 @@ const del = require('del')
 const plumber = require('gulp-plumber')
 
 
+gulp.task('watch', ['build'], function _watch() {
+
+  watch('src/**/*', batch((events, done) => gulp.start('build', done)))
+})
+
 gulp.task('server', ['watch'], function server() {
 
   return gulp.src(['./'])
@@ -40,9 +45,15 @@ gulp.task('js', ['clean'], function js() {
     .pipe(gulp.dest('dist'))
 })
 
+gulp.task('js:prod', ['clean'], function js() {
+
+  return gulp.src('src/**/*.js')
+    .pipe(plumber())
+    .pipe(babel({presets: ['es2015', 'react'], plugins: ['transform-object-rest-spread'], comments: false}))
+    .pipe(plumber.stop())
+    .pipe(gulp.dest('dist'))
+})
+
 gulp.task('build', ['css', 'js'])
 
-gulp.task('watch', ['build'], function _watch() {
-
-  watch('src/**/*', batch((events, done) => gulp.start('build', done)))
-})
+gulp.task('build:prod', ['css', 'js:prod'])
