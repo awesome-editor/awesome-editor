@@ -28,14 +28,14 @@ export function storageCreateDoc(AppState, doc) {
     .map(docList => docList || [])
     .map(docList => docList.concat([doc.uuid]))
     .flatMap(docList => call(setItem, 'docList', docList))
-    .flatMap(() => storageUpdateDoc(doc))
+    .flatMap(() => storageUpdateDoc(AppState, doc))
     .onValue(() => undefined)
 }
 
-export function storageLoadDocs() {
+export function storageLoadDocs(AppState) {
 
   return call(getItem, 'docList')
-    .map(docList => docList.map(storageLoadDoc))
+    .map(docList => docList.map(doc => storageLoadDoc(AppState, doc)))
     .flatMap(docs => Kefir.merge(docs))
     .scan((docs, doc) => ({...docs, [doc.uuid]: doc}), {})
     .last()
