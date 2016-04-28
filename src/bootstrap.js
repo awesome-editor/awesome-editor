@@ -14,3 +14,10 @@ import './stores/storage/StorageSideEffects'
 
 // make sure to load this last
 import './rflux/AppState'
+
+import AppDispatcher from './rflux/AppDispatcher'
+import {storageLoadDocs} from './stores/storage/StorageActions'
+
+
+// this needs to go in bootstrap.js
+AppDispatcher.emit(storageLoadDocs())

@@ -2,9 +2,7 @@
 
 import AppDispatcher from './AppDispatcher'
 import {StateWithSideEffects} from './StateWithSideEffects'
-import {reducers, storeFuncs} from './support/Collections'
-
-import {storageLoadDocs} from '../stores/storage/StorageActions'
+import {reducers, storeFuncs, sideEffectFuncs} from './support/Collections'
 
 
 function _scanner(state, action) {
@@ -29,22 +27,30 @@ const appStateObservable = AppDispatcher
   .scan(_scanner, {})
   .skip(1) //always skip the first one (empty data)
 
-// setup one-way data flow
-appStateObservable.onValue(appState => {
-
-  //remit all side effects
-  setTimeout(() => appState.sideEffects.forEach(AppDispatcher.emit), 0)
-})
-
-AppDispatcher.emit(storageLoadDocs())
-
 /**
  * This is the "public" interface for app state i.e., what React interfaces with.
  */
-export default storeFuncs.reduce((api, storeFn) => {
+const AppState = storeFuncs.reduce((api, storeFn) => {
 
   const store = storeFn(AppDispatcher, appStateObservable)
 
   return {...api, ...store}
 
 }, appStateObservable)
+
+
+// setup one-way data flow
+appStateObservable.onValue(() => undefined)
+
+//remit all side effects generated in reducers
+appStateObservable.onValue(appState => {
+
+  setTimeout(() => appState.sideEffects.forEach(AppDispatcher.emit), 0)
+})
+
+//actually run side effects
+AppDispatcher.onValue(action => sideEffectFuncs.forEach(
+  sideEffect => setTimeout(() => sideEffect(AppState, action), 0)
+))
+
+export default AppState

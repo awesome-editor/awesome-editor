@@ -1,6 +1,23 @@
 import {assert} from '../util/Utils'
-import AppDispatcher from './AppDispatcher'
+import {sideEffectFuncs} from './support/Collections'
 
+
+export function createSideEffect(channel, sideEffectHandlers) {
+
+  return (AppState, action) => {
+
+    if (action.channel === channel) {
+
+      const handler = sideEffectHandlers[action.actionType]
+
+      assert(handler, `Channel ${channel} does not support ${action.actionType}`)
+
+      return handler(AppState, action.payload)
+    }
+
+    return null
+  }
+}
 
 export default function registerSideEffects(channel, actionTypes, {sideEffectHandlers}) {
 
@@ -13,19 +30,10 @@ export default function registerSideEffects(channel, actionTypes, {sideEffectHan
     assert(sideEffectHandlers[action], `Channel ${channel} does not support ${action}`)
   )
 
-  const listener = action => {
+  const listener = createSideEffect(channel, sideEffectHandlers)
 
-    if (action.channel === channel) {
+  sideEffectFuncs.push(listener)
 
-      const handler = sideEffectHandlers[action.actionType]
-
-      assert(handler, `Channel ${channel} does not support ${action.actionType}`)
-
-      return handler(action.payload)
-    }
-
-    return null
-  }
-
-  return AppDispatcher.onValue(action => setTimeout(() => listener(action), 0))
+  return listener
 }
+
