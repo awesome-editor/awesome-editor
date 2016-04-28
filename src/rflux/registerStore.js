@@ -1,6 +1,7 @@
 /* eslint no-use-before-define: 0*/
 import {assert} from '../util/Utils'
 import {storeFuncs} from './support/Collections'
+import bindActionsToAppDispatcher from './bindActionsToAppDispatcher'
 
 
 /**
@@ -53,10 +54,36 @@ export function createStore(storeStateName, {actionFuncs, actionObservables}) {
     actionObservables
   }
 
-  return (AppDispatcher, appStateObservable) => ({
-    ..._bindActionsToAppDispatcher({...opts, AppDispatcher, appStateObservable}),
-    ..._bindActionObservablesToStoreObservable({...opts, AppDispatcher, appStateObservable})
-  })
+  return (AppDispatcher, appStateObservable) => {
+
+    const actions = bindActionsToAppDispatcher({...opts, AppDispatcher, appStateObservable})
+    const observables = _bindActionObservablesToStoreObservable({...opts, AppDispatcher, appStateObservable})
+
+    const combined = Object.keys(actions).reduce((combined, action) => {
+
+      if (observables[`${action}Observable`]) {
+
+        combined[action] = (...args) => {
+
+          setTimeout(() => actions[action](...args), 0)
+
+          return observables[`${action}Observable`].take(1)
+        }
+      }
+      else {
+
+        combined[action] = actions[action]
+      }
+
+      return combined
+
+    }, {})
+
+    return {
+      ...combined,
+      ...observables
+    }
+  }
 }
 
 /**
@@ -71,9 +98,7 @@ export function createStore(storeStateName, {actionFuncs, actionObservables}) {
  * @returns {*}
  * @private
  */
-function _bindActionObservablesToStoreObservable(opts) {
-
-  const {storeStateName, appStateObservable, actionObservables} = opts
+function _bindActionObservablesToStoreObservable({storeStateName, appStateObservable, actionObservables}) {
 
   const mainStoreObservable = appStateObservable.map(app => app[storeStateName])
 
@@ -84,29 +109,4 @@ function _bindActionObservablesToStoreObservable(opts) {
     })
 
   }, {[`${storeStateName}Observable`]: mainStoreObservable})
-}
-
-/**
- * Store actions are pure functions.
- * We therefore bind these to the app dispatcher.
- *
- * @param opts
- * @returns {Array}
- */
-function _bindActionsToAppDispatcher(opts) {
-
-  const {AppDispatcher, actionFuncs} = opts
-
-  return Object.keys(actionFuncs).reduce((total, action) => {
-
-    return Object.assign(total, {
-      [action]: (...args) => {
-
-        const actionFn = actionFuncs[action]
-        const actionPayload = actionFn(...args)
-
-        AppDispatcher.emit(actionPayload)
-      }
-    })
-  }, {})
 }

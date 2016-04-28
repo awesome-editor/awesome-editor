@@ -1,8 +1,12 @@
 import {assert} from '../util/Utils'
 import {sideEffectFuncs} from './support/Collections'
+import bindActionsToAppDispatcher from './bindActionsToAppDispatcher'
+import AppDispatcher from './AppDispatcher'
 
 
-export function createSideEffect(channel, sideEffectHandlers) {
+export function createSideEffects(channel, sideEffectActionFuncs, sideEffectHandlers) {
+
+  // const actions = bindActionsToAppDispatcher({AppDispatcher, actionFuncs: sideEffectActionFuncs})
 
   return (AppState, action) => {
 
@@ -19,10 +23,11 @@ export function createSideEffect(channel, sideEffectHandlers) {
   }
 }
 
-export default function registerSideEffects(channel, actionTypes, {sideEffectHandlers}) {
+export default function registerSideEffects(channel, actionTypes, {sideEffectActionFuncs, sideEffectHandlers}) {
 
   assert(typeof channel === 'string', 'Channel needs to be a string')
   assert(actionTypes, 'Need action types')
+  // assert(sideEffectActionFuncs, 'Need side effect action functions')
   assert(sideEffectHandlers, 'Need side effects')
 
   //every action must map to a handler
@@ -30,7 +35,7 @@ export default function registerSideEffects(channel, actionTypes, {sideEffectHan
     assert(sideEffectHandlers[action], `Channel ${channel} does not support ${action}`)
   )
 
-  const listener = createSideEffect(channel, sideEffectHandlers)
+  const listener = createSideEffects(channel, sideEffectActionFuncs, sideEffectHandlers)
 
   sideEffectFuncs.push(listener)
 

@@ -43,10 +43,7 @@ const AppState = storeFuncs.reduce((api, storeFn) => {
 appStateObservable.onValue(() => undefined)
 
 //remit all side effects generated in reducers
-appStateObservable.onValue(appState => {
-
-  setTimeout(() => appState.sideEffects.forEach(AppDispatcher.emit), 0)
-})
+appStateObservable.onValue(appState => setTimeout(() => appState.sideEffects.forEach(AppDispatcher.emit), 0))
 
 //actually run side effects
 AppDispatcher.onValue(action => sideEffectFuncs.forEach(
