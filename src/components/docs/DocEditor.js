@@ -12,6 +12,8 @@ import DivEdit from './../editor/DivEdit'
 
 const noop = () => undefined
 
+const fonts = '\'M+ 1M\', \'SOURCE CODE PRO\', \'FIRA MONO\', \'DROID SANS MONO\', Consolas, Monospace'
+
 const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, addTag}) => {
 
   return (
@@ -21,6 +23,7 @@ const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, 
       <CardText>
         <TextField
           hintText="Title"
+          style={{fontFamily: `${fonts} !important`}}
           multiLine={true}
           value={doc.title}
           fullWidth={true}
@@ -31,7 +34,7 @@ const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, 
       <CardText key="CardContent">
         <DivEdit
           key="Content"
-          style={{minHeight: '3em'}}
+          style={{minHeight: '3em', fontFamily: `${fonts} !important`}}
           html={doc.content}
           onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, content: evt.target.value})}>
         </DivEdit>
