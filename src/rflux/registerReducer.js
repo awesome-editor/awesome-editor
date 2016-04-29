@@ -1,6 +1,7 @@
-import {reducers} from './support/Collections'
-
+import AppDispatcher from './AppDispatcher'
+import {Channels, ActionTypes} from './Constants'
 import {StateWithSideEffects} from './StateWithSideEffects'
+
 import {assert, cast} from '../util/Utils'
 
 /**
@@ -32,9 +33,9 @@ export function createReducer(storeStateName, channel, {actionTypes, actionReduc
   const initialState = actionReducers.initialState || {}
 
 
-  return (globalState, action) => {
+  return (appStoreState, action) => {
 
-    const storeState = globalState[storeStateName] || initialState
+    const storeState = appStoreState[storeStateName] || initialState
 
     if (action.channel === channel) {
 
@@ -57,7 +58,7 @@ export default function registerReducer(storeStateName, channel, {actionTypes, a
 
   const reducer = createReducer(storeStateName, channel, {actionTypes, actionReducers})
 
-  reducers.push(reducer)
+  AppDispatcher.emit({channel: Channels.appMeta, actionType: ActionTypes.registerReducer, payload: reducer})
 
   return reducer
 }

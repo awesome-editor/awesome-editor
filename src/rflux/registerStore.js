@@ -54,10 +54,10 @@ export function createStore(storeStateName, {actionFuncs, actionObservables}) {
     actionObservables
   }
 
-  return (AppDispatcher, appStateObservable) => {
+  return (AppDispatcher, appStoreStateObservable) => {
 
-    const actions = bindActionsToAppDispatcher({...opts, AppDispatcher, appStateObservable})
-    const observables = _bindActionObservablesToStoreObservable({...opts, AppDispatcher, appStateObservable})
+    const actions = bindActionsToAppDispatcher({...opts, AppDispatcher, appStoreStateObservable})
+    const observables = _bindActionObservablesToStoreObservable({...opts, AppDispatcher, appStoreStateObservable})
 
     const combined = Object.keys(actions).reduce((combined, action) => {
 
@@ -93,14 +93,14 @@ export function createStore(storeStateName, {actionFuncs, actionObservables}) {
  * You always get one for free... the mainStoreObservable listens to the entire store.
  *
  * @param storeStateName
- * @param appStateObservable
+ * @param appStoreStateObservable
  * @param actionObservables
  * @returns {*}
  * @private
  */
-function _bindActionObservablesToStoreObservable({storeStateName, appStateObservable, actionObservables}) {
+function _bindActionObservablesToStoreObservable({storeStateName, appStoreStateObservable, actionObservables}) {
 
-  const mainStoreObservable = appStateObservable.map(app => app[storeStateName])
+  const mainStoreObservable = appStoreStateObservable.map(appStores => appStores[storeStateName]).log('store')
 
   return Object.keys(actionObservables).reduce((total, observable) => {
 
