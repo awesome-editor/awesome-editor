@@ -1,19 +1,12 @@
 import AppDispatcher from './AppDispatcher'
-import {storeFuncs, sideEffectFuncs} from './support/Collections'
+import {sideEffectFuncs} from './support/Collections'
 import {appStateObservable, appStoreStateObservable} from './AppObservables'
 
 
 /**
  * This is the "public" interface for app state i.e., what React interfaces with.
  */
-const AppState = storeFuncs.reduce((api, storeFn) => {
-
-  const store = storeFn(AppDispatcher, appStoreStateObservable)
-
-  return {...api, ...store}
-
-}, appStateObservable)
-
+const AppState = {appStoreStateObservable, appStateObservable}
 
 // setup one-way data flow
 appStoreStateObservable.onValue(() => undefined)
@@ -25,5 +18,10 @@ appStateObservable.onValue(appState => setTimeout(() => appState.sideEffects.for
 AppDispatcher.onValue(action => sideEffectFuncs.forEach(
   sideEffect => setTimeout(() => sideEffect(AppState, action), 0)
 ))
+
+export function registerStoreFactory(storeFactory) {
+
+  Object.assign(AppState, storeFactory(AppDispatcher, appStoreStateObservable))
+}
 
 export default AppState

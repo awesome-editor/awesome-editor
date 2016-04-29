@@ -1,7 +1,7 @@
 /* eslint no-use-before-define: 0*/
 import {assert} from '../util/Utils'
-import {storeFuncs} from './support/Collections'
 import bindActionsToAppDispatcher from './bindActionsToAppDispatcher'
+import {registerStoreFactory} from './AppState'
 
 
 /**
@@ -23,11 +23,9 @@ import bindActionsToAppDispatcher from './bindActionsToAppDispatcher'
  */
 export default function registerStore(storeStateName, {actionFuncs, actionObservables}) {
 
-  const store = createStore(storeStateName, {actionFuncs, actionObservables})
+  const storeFactory = createStoreFactory(storeStateName, {actionFuncs, actionObservables})
 
-  storeFuncs.push(store)
-
-  return store
+  registerStoreFactory(storeFactory)
 }
 
 /**
@@ -41,7 +39,7 @@ export default function registerStore(storeStateName, {actionFuncs, actionObserv
  * @param actionObservables (optional) - you always get one for free... the observable that listens to the entire store
  * @returns {Function}
  */
-export function createStore(storeStateName, {actionFuncs, actionObservables}) {
+export function createStoreFactory(storeStateName, {actionFuncs, actionObservables}) {
 
   assert(storeStateName, 'Need store state name')
   assert(actionFuncs, 'Need action functions')

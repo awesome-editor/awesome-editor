@@ -59,6 +59,4 @@ export default function registerReducer(storeStateName, channel, {actionTypes, a
   const reducer = createReducer(storeStateName, channel, {actionTypes, actionReducers})
 
   AppDispatcher.emit({channel: Channels.appMeta, actionType: ActionTypes.registerReducer, payload: reducer})
-
-  return reducer
 }
