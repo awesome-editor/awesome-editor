@@ -35,7 +35,7 @@ export function createReducer(storeStateName, channel, {actionTypes, actionReduc
 
   return (appStoreState, action) => {
 
-    const storeState = appStoreState[storeStateName] || initialState
+    const storeState = (appStoreState || {})[storeStateName] || initialState
 
     if (action.channel === channel) {
 

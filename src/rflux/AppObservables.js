@@ -7,7 +7,7 @@ function _registerReducer(state, action) {
 
   const reducers = state.reducers.concat([action.payload])
 
-  return {...state, ...reducers}
+  return {...state, reducers}
 }
 
 // reducers take the whole state as input but return only the store state
@@ -44,6 +44,6 @@ export const appStateObservable = AppDispatcher
   .skip(1) //always skip the first one (empty data)
 
 export const appStoreStateObservable = appStateObservable
-  .map(state => state.storeState)
+  .map(state => state.appStoreState)
   .filter(appStoreState => appStoreState)
 

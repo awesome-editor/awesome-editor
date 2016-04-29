@@ -100,7 +100,7 @@ export function createStore(storeStateName, {actionFuncs, actionObservables}) {
  */
 function _bindActionObservablesToStoreObservable({storeStateName, appStoreStateObservable, actionObservables}) {
 
-  const mainStoreObservable = appStoreStateObservable.map(appStores => appStores[storeStateName]).log('store')
+  const mainStoreObservable = appStoreStateObservable.map(appStores => appStores[storeStateName])
 
   return Object.keys(actionObservables).reduce((total, observable) => {
 
