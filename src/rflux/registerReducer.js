@@ -1,5 +1,4 @@
-import AppDispatcher from './AppDispatcher'
-import {Channels, ActionTypes} from './Constants'
+import {reducers} from './AppRegistration'
 import {StateWithSideEffects} from './StateWithSideEffects'
 
 import {assert, cast} from '../util/Utils'
@@ -58,5 +57,5 @@ export default function registerReducer(storeStateName, channel, {actionTypes, a
 
   const reducer = createReducer(storeStateName, channel, {actionTypes, actionReducers})
 
-  AppDispatcher.emit({channel: Channels.appMeta, actionType: ActionTypes.registerReducer, payload: reducer})
+  reducers.push(reducer)
 }

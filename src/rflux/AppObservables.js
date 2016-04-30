@@ -1,49 +1,35 @@
 import AppDispatcher from './AppDispatcher'
 import {StateWithSideEffects} from './StateWithSideEffects'
-import {Channels, ActionTypes} from './Constants'
+import {reducers} from './AppRegistration'
 
 
-function _registerReducer(state, action) {
+function _scanner(state, action) {
 
-  const reducers = state.reducers.concat([action.payload])
+  // reducers take the whole state as input but return only the store state
+  // this allows you to #combineSideEffects different reducers
+  const appStoreState = reducers.reduce((total, reducer) => {
 
-  return {...state, reducers}
-}
-
-// reducers take the whole state as input but return only the store state
-// this allows you to #combineSideEffects different reducers
-function _processAction(state, action) {
-
-  const appStoreState = state.reducers.reduce((total, reducer) => {
-
-    const _appStoreState = reducer(state.appStoreState, action)
+    const _appStoreState = reducer(state, action)
 
     return total.combine(_appStoreState)
 
   }, new StateWithSideEffects)
 
   return {
-    ...state,
-    appStoreState: {...appStoreState.state},
+    ...appStoreState.state,
     sideEffects: appStoreState.sideEffects
   }
 }
 
-function _scanner(state, action) {
-
-  if (action.channel === Channels.appMeta && action.actionType === ActionTypes.registerReducer) {
-
-    return _registerReducer(state, action)
-  }
-
-  return _processAction(state, action)
-}
-
-export const appStateObservable = AppDispatcher
-  .scan(_scanner, {reducers: [], sideEffects: [], appStoreState: null})
-  .skip(1) //always skip the first one (empty data)
+/**
+ * The net effect is that you wait for everyone to register before firing.
+ * Then once you get an action, use the latest registered stores, sideeffects, etc.
+ */
+export const appStateObservable =
+  AppDispatcher
+    .scan(_scanner, {})
+    .skip(1) //always skip the first one (empty data)
 
 export const appStoreStateObservable = appStateObservable
-  .map(state => state.appStoreState)
-  .filter(appStoreState => appStoreState)
+  .map(state => state)
 

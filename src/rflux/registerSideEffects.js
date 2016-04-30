@@ -6,8 +6,6 @@ import AppDispatcher from './AppDispatcher'
 
 export function createSideEffects(channel, sideEffectActionFuncs, sideEffectHandlers) {
 
-  // const actions = bindActionsToAppDispatcher({AppDispatcher, actionFuncs: sideEffectActionFuncs})
-
   return (AppState, action) => {
 
     if (action.channel === channel) {
