@@ -46,16 +46,11 @@ export function createStoreFactory(storeStateName, {actionFuncs, actionObservabl
 
   actionObservables = actionObservables || {}
 
-  const opts = {
-    storeStateName,
-    actionFuncs,
-    actionObservables
-  }
 
   return (AppDispatcher, appStoreStateObservable) => {
 
-    const actions = bindActionsToAppDispatcher({...opts, AppDispatcher, appStoreStateObservable})
-    const observables = _bindActionObservablesToStoreObservable({...opts, AppDispatcher, appStoreStateObservable})
+    const actions = bindActionsToAppDispatcher({AppDispatcher, actionFuncs})
+    const observables = _bindActionObservablesToStoreObservable({storeStateName, appStoreStateObservable, actionObservables})
 
     const combined = Object.keys(actions).reduce((combined, action) => {
 

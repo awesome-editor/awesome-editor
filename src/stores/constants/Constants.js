@@ -5,9 +5,3 @@ export const Channels = {
   appSideEffects: 'appSideEffects',
   storageSideEffects: 'storageSideEffects'
 }
-
-export const ActionTypes = {
-  create: 'create',
-  update: 'update',
-  upsert: 'upsert'
-}

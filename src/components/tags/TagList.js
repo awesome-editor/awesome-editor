@@ -16,22 +16,27 @@ import TagPickerDropdownContainer from './TagPickerDropdownContainer'
  * @param{Object} props
  * @constructor
  */
-const TagList = props => (
+const TagList = ({previewMode, tags, autocompleteTag, addTag, createTag}) => {
 
-  <div className='tags' style={{position: 'relative'}}>
+  const opts = {previewMode, tags, autocompleteTag, addTag, createTag}
 
-    {props.previewMode ? '' : <TagPickerDropdownContainer {...props} />}
+  return (
 
-    <ul>
-      {props.tags.map(tag => (
-        <li key={tag.uuid}>
-          <Tag {...tag}/>
-        </li>
-      ))}
-    </ul>
+    <div className='tags' style={{position: 'relative'}}>
 
-  </div>
-)
+      {previewMode ? '' : <TagPickerDropdownContainer {...opts} />}
+
+      <ul>
+        {tags.map(tag => (
+          <li key={tag.uuid}>
+            <Tag {...tag}/>
+          </li>
+        ))}
+      </ul>
+
+    </div>
+  )
+}
 
 TagList.defaultProps = {
 
@@ -44,9 +49,9 @@ TagList.defaultProps = {
    */
   autocompleteTag: () => Kefir.constant([]),
 
-  addTag: () => kefirEmitter(),
+  addTag: () => undefined,
 
-  createTag: () => kefirEmitter(),
+  createTag: () => undefined,
 
   /**
    * Current tags

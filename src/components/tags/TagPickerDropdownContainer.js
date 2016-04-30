@@ -53,7 +53,7 @@ export default class TagPickerContainer extends React.Component {
         return this._hideDropdown()
 
       default:
-        break;
+        break
     }
   }
 
@@ -92,9 +92,15 @@ export default class TagPickerContainer extends React.Component {
     this.unsub = []
 
     this.unsub.push(
-      //this.autoCompleteEmitter
-      //  .debounce(300, {immediate: true})
-      //  .flatMap(name => this.props.autocompleteTag(name))
+      this.autoCompleteEmitter
+        .debounce(300, {immediate: true})
+        // TODO one of the things that we lost is the nice cause-and-effect between doing a tagLookup
+        // and getting the results
+        ._onValue(name => this.props.autocompleteTag(name))
+    )
+
+    this.unsub.push(
+      //this.props.systemTagLookupResultsObservable
       //  .filter(tags => tags)
       //  ._onValue(autocompleteTagList => this.setState({autocompleteTagList}))
     )
@@ -129,8 +135,9 @@ TagPickerContainer.defaultProps = {
    * @returns {stream} with tag matches
    */
   autocompleteTag: () => Kefir.constant([]),
+  systemTagLookupResultsObservable: () => Kefir.constant([]),
 
-  addTag: () => kefirEmitter(),
+  addTag: () => undefined,
 
-  createTag: () => kefirEmitter()
+  createTag: () => undefined
 }

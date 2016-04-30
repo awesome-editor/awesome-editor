@@ -3,7 +3,7 @@ import Kefir from 'kefir'
 import {put, call} from '../../rflux/Saga'
 
 import {Channels} from '../constants/Constants'
-import registerSideEffects from '../../rflux/registerSideEffects'
+import registerSideEffectsChannel from '../../rflux/registerSideEffectsChannel'
 
 import {StorageSideEffectTypes} from './StorageContants'
 import {setDocs} from '../docs/DocActions'
@@ -49,7 +49,7 @@ function upsertTag(tag) {
 }
 
 
-registerSideEffects(
+registerSideEffectsChannel(
   Channels.storageSideEffects,
   StorageSideEffectTypes,
   {sideEffectHandlers: {storageCreateDoc, storageUpdateDoc, storageLoadDoc, storageLoadDocs}}

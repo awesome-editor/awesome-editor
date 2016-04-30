@@ -52,7 +52,7 @@ export function createReducer(storeStateName, channel, {actionTypes, actionReduc
   }
 }
 
-export default function registerReducer(storeStateName, channel, {actionTypes, actionReducers}) {
+export default function registerReducersChannel(storeStateName, channel, {actionTypes, actionReducers}) {
 
   const reducer = createReducer(storeStateName, channel, {actionTypes, actionReducers})
 

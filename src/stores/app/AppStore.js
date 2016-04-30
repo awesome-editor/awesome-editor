@@ -1,6 +1,6 @@
 import {Channels} from '../constants/Constants'
-import registerReducer from '../../rflux/registerReducer'
-import registerSideEffects from '../../rflux/registerSideEffects'
+import registerReducersChannel from '../../rflux/registerReducersChannel'
+import registerSideEffectsChannel from '../../rflux/registerSideEffectsChannel'
 import registerStore from '../../rflux/registerStore'
 
 // This is how you a create a store
@@ -16,7 +16,7 @@ import * as AppActionObservables from './AppActionObservables'
 import * as AppSideEffects from './AppSideEffects'
 
 
-registerReducer(
+registerReducersChannel(
   'app',
   Channels.app,
   {actionTypes: AppActionTypes, actionReducers: AppReducers}
@@ -27,7 +27,7 @@ registerStore(
   {actionFuncs: AppActions, actionObservables: AppActionObservables}
 )
 
-registerSideEffects(
+registerSideEffectsChannel(
   Channels.appSideEffects,
   AppSideEffectTypes,
   {sideEffectHandlers: AppSideEffects}
