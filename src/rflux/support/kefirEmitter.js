@@ -25,9 +25,9 @@ export default function() {
     emitter = _emitter
 
     return () => emitter = null
-  });
+  })
 
-  stream.emit = function(x) {
+  stream.emit = function emit(x) {
 
     if (emitter) {
 
@@ -39,5 +39,5 @@ export default function() {
     }
   }
 
-  return stream;
+  return stream
 }

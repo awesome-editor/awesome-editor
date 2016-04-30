@@ -15,11 +15,7 @@ import {assert, cast} from '../util/Utils'
  * @param actionReducers
  * @returns {Function}
  */
-export function createReducer(storeStateName, channel, {actionTypes, actionReducers}) {
-
-  assert(storeStateName, 'Neeed a store state name (i.e., the property name in the app state for this store')
-  assert(typeof storeStateName === 'string', 'Store state name needs to be a string')
-  assert(typeof channel === 'string', 'Channel needs to be a string')
+function _createChannelReducers(storeStateName, channel, {actionTypes, actionReducers}) {
 
   //every action must map to a handler
   Object.keys(actionTypes || {}).forEach(action => {
@@ -30,6 +26,7 @@ export function createReducer(storeStateName, channel, {actionTypes, actionReduc
   if (!actionReducers.initialState) { console.warn(`Channel ${channel} needs an initialState`) }
 
   const initialState = actionReducers.initialState || {}
+
 
   return (appStoreState, action) => {
 
@@ -52,9 +49,13 @@ export function createReducer(storeStateName, channel, {actionTypes, actionReduc
   }
 }
 
-export default function registerReducersChannel(storeStateName, channel, {actionTypes, actionReducers}) {
+export default function registerChannelReducers(storeStateName, channel, {actionTypes, actionReducers}) {
 
-  const reducer = createReducer(storeStateName, channel, {actionTypes, actionReducers})
+  assert(storeStateName, 'Neeed a store state name (i.e., the property name in the app state for this store')
+  assert(typeof storeStateName === 'string', 'Store state name needs to be a string')
+  assert(typeof channel === 'string', 'Channel needs to be a string')
+
+  const reducer = _createChannelReducers(storeStateName, channel, {actionTypes, actionReducers})
 
   reducers.push(reducer)
 }

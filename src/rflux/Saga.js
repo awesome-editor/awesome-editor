@@ -1,10 +1,11 @@
 import uuid from 'uuid'
 import Kefir from 'kefir'
 
-import kefirEmitter from '../util/kefirEmitter'
+import kefirEmitter from './support/kefirEmitter'
 import {isObservable} from '../util/Utils'
 
 import AppDispatcher from './AppDispatcher'
+import {Channels, ActionTypes} from './Constants'
 
 
 export const sideEffects = kefirEmitter()
@@ -39,6 +40,19 @@ export function call(fn, ...args) {
   setTimeout(() => sideEffects.emit({action: 'CALL', payload: {fn, args, uuid: id}}), 0)
 
   return callObservable.filter(fn => fn.uuid === id).map(fn => fn.rslt).take(1)
+}
+
+export function result(rslt) {
+
+  const action = {
+    channel: Channels.system,
+    actionType: ActionTypes.sideEffectResult,
+    payload: rslt
+  }
+
+  setTimeout(() => sideEffects.emit({action: 'PUT', payload: action}), 0)
+
+  return rslt
 }
 
 export function listen(channel, actionType) {

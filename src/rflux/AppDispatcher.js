@@ -1,4 +1,4 @@
-import kefirEmitter from '../util/kefirEmitter'
+import kefirEmitter from './support/kefirEmitter'
 
 /**
  * Use one global stream.

@@ -2,7 +2,7 @@
 import React from 'react'
 import Kefir from 'kefir'
 
-import kefirEmitter from '../../util/kefirEmitter'
+import kefirEmitter from '../../rflux/support/kefirEmitter'
 import {bindToInstance} from '../../util/Utils'
 
 import TagData from '../../stores/tags/TagData'

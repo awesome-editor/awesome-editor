@@ -7,9 +7,9 @@ import {appStateObservable, appStoreStateObservable} from './AppObservables'
  */
 const AppState = {appStoreStateObservable, appStateObservable}
 
-export function addStore(storeFactory) {
+export function addModule(factory) {
 
-  Object.assign(AppState, storeFactory(AppDispatcher, appStoreStateObservable))
+  Object.assign(AppState, factory(AppDispatcher, appStoreStateObservable))
 }
 
 export default AppState
