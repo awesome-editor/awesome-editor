@@ -2,10 +2,6 @@ import Kefir from 'kefir'
 
 import {put, call} from '../../rflux/Saga'
 
-import {Channels} from '../constants/Constants'
-import registerSideEffectsChannel from '../../rflux/registerSideEffectsChannel'
-
-import {StorageSideEffectTypes} from './StorageContants'
 import {setDocs} from '../docs/DocActions'
 
 const setItem = (key, value) => localStorage.setItem(key, JSON.stringify(value))
@@ -47,11 +43,3 @@ function upsertTag(tag) {
   localStorage.setItem(`tag${tag.uuid}`, tag)
   return Kefir.constant(tag)
 }
-
-
-registerSideEffectsChannel(
-  Channels.storageSideEffects,
-  StorageSideEffectTypes,
-  {sideEffectHandlers: {storageCreateDoc, storageUpdateDoc, storageLoadDoc, storageLoadDocs}}
-)
-

@@ -1,5 +1,5 @@
 import {Channels} from '../constants/Constants'
-import registerReducersChannel from '../../rflux/registerReducersChannel'
+import registerChannelReducers from '../../rflux/registerChannelReducers'
 import registerStore from '../../rflux/registerStore'
 
 // This is how you a create a store
@@ -14,7 +14,7 @@ import * as DocReducers from './DocReducers'
 import * as DocActionObservables from './DocActionObservables'
 
 
-registerReducersChannel(
+registerChannelReducers(
   'docs',
   Channels.docs,
   {actionTypes: DocActionTypes, actionReducers: DocReducers}

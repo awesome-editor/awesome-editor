@@ -10,14 +10,11 @@ import './util/kefirBaconJsOnValue'
 
 import './stores/app/AppStore'
 import './stores/docs/DocStore'
-import './stores/storage/StorageSideEffects'
+import './stores/storage/StorageStore'
 
 // make sure to load this last
 import './rflux/bootApp'
-
-import AppDispatcher from './rflux/AppDispatcher'
-import {storageLoadDocs} from './stores/storage/StorageActions'
+import AppState from './rflux/AppState'
 
 
-// this needs to go in bootstrap.js
-AppDispatcher.emit(storageLoadDocs())
+AppState.storageLoadDocs()

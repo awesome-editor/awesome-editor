@@ -38,7 +38,7 @@ function _createSideEffectAction(AppDispatcher, sideEffectActionFunc) {
   }
 }
 
-function _createSideEffectsFactory({sideEffectActionFuncs}) {
+function _createSideEffectsFactory(sideEffectActionFuncs) {
 
   return AppDispatcher =>
 
