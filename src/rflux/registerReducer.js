@@ -17,12 +17,12 @@ import {assert, cast} from '../util/Utils'
  */
 export function createReducer(storeStateName, channel, {actionTypes, actionReducers}) {
 
-  assert(storeStateName, 'Neeed a store state name (i.e., the property name in the global state for this store')
+  assert(storeStateName, 'Neeed a store state name (i.e., the property name in the app state for this store')
   assert(typeof storeStateName === 'string', 'Store state name needs to be a string')
   assert(typeof channel === 'string', 'Channel needs to be a string')
 
   //every action must map to a handler
-  Object.keys(actionTypes).forEach(action => {
+  Object.keys(actionTypes || {}).forEach(action => {
     assert(actionReducers[action], `Channel ${channel} does not support ${action}`)
   })
 
@@ -30,7 +30,6 @@ export function createReducer(storeStateName, channel, {actionTypes, actionReduc
   if (!actionReducers.initialState) { console.warn(`Channel ${channel} needs an initialState`) }
 
   const initialState = actionReducers.initialState || {}
-
 
   return (appStoreState, action) => {
 

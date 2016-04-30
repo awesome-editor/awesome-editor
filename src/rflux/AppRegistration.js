@@ -11,4 +11,4 @@
  */
 export const reducers = []
 export const storeFactories = []
-export const sideEffects = []
+export const sideEffectHandlers = []

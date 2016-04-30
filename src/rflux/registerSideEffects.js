@@ -1,5 +1,5 @@
 import {assert} from '../util/Utils'
-import {sideEffectFuncs} from './support/Collections'
+import {sideEffectHandlers as _sideEffectHandlers} from './AppRegistration'
 import bindActionsToAppDispatcher from './bindActionsToAppDispatcher'
 import AppDispatcher from './AppDispatcher'
 
@@ -35,7 +35,7 @@ export default function registerSideEffects(channel, actionTypes, {sideEffectAct
 
   const listener = createSideEffects(channel, sideEffectActionFuncs, sideEffectHandlers)
 
-  sideEffectFuncs.push(listener)
+  _sideEffectHandlers.push(listener)
 
   return listener
 }

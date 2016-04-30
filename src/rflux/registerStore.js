@@ -1,7 +1,7 @@
 /* eslint no-use-before-define: 0*/
 import {assert} from '../util/Utils'
 import bindActionsToAppDispatcher from './bindActionsToAppDispatcher'
-import {registerStoreFactory} from './AppState'
+import {addStore} from './AppState'
 
 
 /**
@@ -25,7 +25,7 @@ export default function registerStore(storeStateName, {actionFuncs, actionObserv
 
   const storeFactory = createStoreFactory(storeStateName, {actionFuncs, actionObservables})
 
-  registerStoreFactory(storeFactory)
+  addStore(storeFactory)
 }
 
 /**
