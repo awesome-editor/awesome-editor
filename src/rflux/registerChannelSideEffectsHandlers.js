@@ -12,7 +12,7 @@ function _createChannelSideEffectsHandlers(channel, sideEffectHandlers) {
 
       assert(handler, `Channel ${channel} does not support ${action.actionType}`)
 
-      return handler(AppState, action.payload)
+      return handler(action.payload, AppState)
     }
 
     return null
