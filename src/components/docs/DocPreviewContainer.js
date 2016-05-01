@@ -16,13 +16,15 @@ const md = new Remarkable({
       try {
         return '<div class="hljs">' + hljs.highlight(lang, str).value + '</div>'
       }
-      catch (err) { }
+      catch (err) {
+      }
     }
 
     try {
       return '<div class="hljs">' + hljs.highlightAuto(str).value + '</div>'
     }
-    catch (err) { }
+    catch (err) {
+    }
 
     return '' // use external default escaping
   }
@@ -33,22 +35,25 @@ md.block.ruler.enable([
   'deflist'
 ])
 
-const DocPreviewContainer = props => (
+const DocPreviewContainer = props => {
 
-  <Container
-    docTitle={AppState.docObservable(props.uuid).map(doc => doc.title)}
-    docHtmlContent={AppState.docObservable(props.uuid).map(doc => doc.content).map(content => md.render(content))}
-    docTags={AppState.docTagsObservable(props.uuid)}
-    disableToolbar={props.disableToolbar}
-    editDoc={() => undefined}
-    deleteDoc={() => undefined}
-    addTag={AppState.addTagToDoc}
-  >
+  return (
+    <Container
+      docTitle={AppState.docObservable(props.uuid).map(doc => doc.title)}
+      docHtmlContent={AppState.docObservable(props.uuid).map(doc => doc.content).map(content => md.render(content))}
+      docTags={AppState.docTagsObservable(props.uuid)}
+      disableToolbar={props.disableToolbar}
+      editDoc={() => undefined}
+      deleteDoc={() => undefined}
+      addTag={AppState.addTagToDoc}
+      lookupTag={AppState.lookupTag}
+    >
 
-    <DocPreview/>
+      <DocPreview/>
 
-  </Container>
-)
+    </Container>
+  )
+}
 
 export default DocPreviewContainer
 
