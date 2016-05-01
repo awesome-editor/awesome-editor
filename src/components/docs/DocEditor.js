@@ -14,7 +14,7 @@ const noop = () => undefined
 
 const fonts = '\'M+ 1M\', \'SOURCE CODE PRO\', \'FIRA MONO\', \'DROID SANS MONO\', Consolas, Monospace'
 
-const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, addTag}) => {
+const Editor = ({previewMode, uuid, doc, updateDoc, ...tagStuff}) => {
 
   return (
 
@@ -41,12 +41,7 @@ const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, 
       </CardText>
 
       <CardText style={{overflow: 'visible'}}>
-        <TagList
-          autocompleteTag={autocompleteTag}
-          createTag={createTag}
-          addTag={tag => addTag(doc.uuid, tag)}
-          tags={tags}
-          previewMode={previewMode}/>
+        <TagList {...tagStuff} previewMode={previewMode}/>
       </CardText>
 
     </Card>
@@ -56,12 +51,9 @@ const Editor = ({previewMode, doc, tags, updateDoc, autocompleteTag, createTag, 
 Editor.defaultProps = {
 
   previewMode: false,
+  uuid: null,
   doc: new DocData(),
-  tags: [],
-  updateDoc: () => undefined,
-  autocompleteTag: () => undefined,
-  createTag: () => undefined,
-  addTag: () => undefined
+  updateDoc: () => undefined
 }
 
 

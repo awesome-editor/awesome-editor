@@ -42,17 +42,21 @@ export function call(fn, ...args) {
   return callObservable.filter(fn => fn.uuid === id).map(fn => fn.rslt).take(1)
 }
 
-export function result(rslt) {
+export function result(__sideEffectCallId) {
 
-  const action = {
-    channel: Channels.system,
-    actionType: ActionTypes.sideEffectResult,
-    payload: rslt
+  return rslt => {
+
+    const action = {
+      channel: Channels.system,
+      actionType: ActionTypes.sideEffectResult,
+      __sideEffectCallId,
+      payload: rslt
+    }
+
+    setTimeout(() => sideEffects.emit({action: 'PUT', payload: action}), 0)
+
+    return rslt
   }
-
-  setTimeout(() => sideEffects.emit({action: 'PUT', payload: action}), 0)
-
-  return rslt
 }
 
 export function listen(channel, actionType) {

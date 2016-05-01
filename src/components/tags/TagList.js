@@ -16,9 +16,9 @@ import TagPickerDropdownContainer from './TagPickerDropdownContainer'
  * @param{Object} props
  * @constructor
  */
-const TagList = ({previewMode, tags, autocompleteTag, addTag, createTag}) => {
+const TagList = ({previewMode, tags, lookupTag, addTag, createTag}) => {
 
-  const opts = {previewMode, tags, autocompleteTag, addTag, createTag}
+  const opts = {previewMode, tags, lookupTag, addTag, createTag}
 
   return (
 
@@ -47,10 +47,8 @@ TagList.defaultProps = {
    *
    * @returns {stream} with tag matches
    */
-  autocompleteTag: () => Kefir.constant([]),
-
+  lookupTag: () => Kefir.constant([]),
   addTag: () => undefined,
-
   createTag: () => undefined,
 
   /**

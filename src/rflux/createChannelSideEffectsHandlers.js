@@ -1,5 +1,5 @@
+import {result} from './Saga'
 import {assert} from '../util/Utils'
-import {sideEffectHandlers as _sideEffectHandlers} from './AppRegistration'
 
 
 function _createChannelSideEffectsHandlers(channel, sideEffectHandlers) {
@@ -12,14 +12,14 @@ function _createChannelSideEffectsHandlers(channel, sideEffectHandlers) {
 
       assert(handler, `Channel ${channel} does not support ${action.actionType}`)
 
-      return handler(action.payload, AppState)
+      return handler(action.payload, AppState, result(action.__sideEffectCallId))
     }
 
     return null
   }
 }
 
-export default function registerChannelSideEffectsHandlers(channel, actionTypes, {sideEffectHandlers}) {
+export default function createChannelSideEffectsHandlers(channel, actionTypes, {sideEffectHandlers}) {
 
   assert(typeof channel === 'string', 'Channel needs to be a string')
   assert(actionTypes, 'Need action types')
@@ -30,8 +30,6 @@ export default function registerChannelSideEffectsHandlers(channel, actionTypes,
     assert(sideEffectHandlers[action], `Channel ${channel} does not support ${action}`)
   )
 
-  const handler = _createChannelSideEffectsHandlers(channel, sideEffectHandlers)
-
-  _sideEffectHandlers.push(handler)
+  return _createChannelSideEffectsHandlers(channel, sideEffectHandlers)
 }
 

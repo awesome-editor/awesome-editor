@@ -30,7 +30,7 @@ const App = ({mainWindow, currentDocUuid, systemCreateDoc, systemShowDocList}) =
     case 'DocList':
       Main = <DocListContainer />
       Sidebar = currentDocUuid ?
-        <DocPreviewContainer uuid={currentDocUuid} disableToolbar={false}/> :
+        <DocPreviewContainer key="DocPreview" uuid={currentDocUuid} disableToolbar={false}/> :
         ''
       title = 'Notes'
       ActionButton = (

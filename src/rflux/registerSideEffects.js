@@ -1,39 +1,38 @@
 import uuid from 'uuid'
 
-import {Channels, ActionTypes} from './Constants'
+import {sideEffectHandlers as _sideEffectHandlers} from './AppRegistration'
 import {addModule} from './AppState'
-import registerChannelSideEffectsHandlers from './registerChannelSideEffectsHandlers'
+import createChannelSideEffectsHandlers from './createChannelSideEffectsHandlers'
 
 import {assert} from '../util/Utils'
 
 
 /**
- * It's live because it emits to the AppDispatcher
+ * It's live because it emits to the AppDispatcher.
+ * Also we inject a sideEffectCallId to the payload.
  *
  * @param AppDispatcher
  * @param actionFunc
  * @returns {Function}
  * @private
  */
-function _liveActionFunction(AppDispatcher, __sideEffectCallId, actionFunc) {
+function _liveActionFunction(AppDispatcher, actionFunc) {
 
-  return (...args) => AppDispatcher.emit({...actionFunc(...args), __sideEffectCallId})
+  return __sideEffectCallId => (...args) => AppDispatcher.emit({...actionFunc(...args), __sideEffectCallId})
 }
 
-function _createSideEffectAction(AppDispatcher, sideEffectActionFunc) {
+function _createSideEffectActionWithObserver(AppDispatcher, sideEffectActionFunc) {
 
-  const __sideEffectCallId = uuid.v4()
-  const liveActionFunc = _liveActionFunction(AppDispatcher, __sideEffectCallId, sideEffectActionFunc)
+  const liveSideEffectAction = _liveActionFunction(AppDispatcher, sideEffectActionFunc)
 
   return (...args) => {
 
-    setTimeout(() => liveActionFunc(...args), 0)
+    const __sideEffectCallId = uuid.v4()
+
+    setTimeout(() => liveSideEffectAction(__sideEffectCallId)(...args), 0)
 
     return AppDispatcher
-      .filter(action =>
-      action.channel === Channels.system &&
-      action.actionType === ActionTypes.sideEffectResult &&
-      action.payload.__sideEffectCallId === __sideEffectCallId)
+      .filter(action => action.__sideEffectCallId === __sideEffectCallId)
       .take(1)
   }
 }
@@ -44,7 +43,10 @@ function _createSideEffectsFactory(sideEffectActionFuncs) {
 
     Object.keys(sideEffectActionFuncs).reduce((sideEffects, action) =>
 
-        Object.assign(sideEffects, {[action]: _createSideEffectAction(AppDispatcher, sideEffectActionFuncs[action])})
+        Object.assign(
+          sideEffects,
+          {[action]: _createSideEffectActionWithObserver(AppDispatcher, sideEffectActionFuncs[action])}
+        )
 
       , {})
 }
@@ -62,11 +64,12 @@ export default function registerSideEffects(channel, actionTypes, {sideEffectAct
     assert(sideEffectActionFuncs[action], `Channel ${channel} needs an action function for ${action}`)
   })
 
+  const channelHandlers = createChannelSideEffectsHandlers(channel, actionTypes, {sideEffectHandlers})
   const sideEffectsFactory = _createSideEffectsFactory(sideEffectActionFuncs)
 
   addModule(sideEffectsFactory)
 
-  registerChannelSideEffectsHandlers(channel, actionTypes, {sideEffectHandlers})
+  _sideEffectHandlers.push(channelHandlers)
 }
 
 

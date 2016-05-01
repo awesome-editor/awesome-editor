@@ -45,8 +45,6 @@ const DocPreviewContainer = props => {
       disableToolbar={props.disableToolbar}
       editDoc={() => undefined}
       deleteDoc={() => undefined}
-      addTag={AppState.addTagToDoc}
-      lookupTag={AppState.lookupTag}
     >
 
       <DocPreview/>

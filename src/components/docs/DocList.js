@@ -33,7 +33,7 @@ const DocList = ({docList, onDocListIemSelect}) => {
 
 DocList.defaultProps = {
   docList: [],
-  docListSelect: () => undefined
+  onDocListItemSelect: () => undefined
 }
 
 export default DocList
