@@ -1,7 +1,7 @@
 import uuid from 'uuid'
 
-import {Channels, ActionTypes} from '../constants/Constants'
-import {TagActionTypes} from './TagConstants'
+import {Channels} from '../constants/Constants'
+import {TagActionTypes, TagSideEffectTypes} from './TagConstants'
 
 import {cast} from '../../util/Utils'
 
@@ -10,14 +10,14 @@ import TagData from './TagData'
 
 /**
  * Looks up tags that are similar
- * @param tagUuid
+ * @param tagName
  */
-export function lookupTag(tagUuid) {
+export function lookupTag(tagName) {
 
   return {
-    channel: Channels.tags,
-    actionType: TagActionTypes.lookupTag,
-    payload: tagUuid
+    channel: Channels.tagSideEffects,
+    actionType: TagSideEffectTypes.lookupTag,
+    payload: tagName
   }
 }
 
@@ -33,7 +33,7 @@ export function createTag(tag) {
 
   return {
     channel: Channels.tags,
-    actionType: ActionTypes.create,
+    actionType: TagActionTypes.createTag,
     payload: newTag
   }
 }

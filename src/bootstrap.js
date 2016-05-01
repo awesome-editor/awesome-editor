@@ -11,6 +11,7 @@ import './util/kefirBaconJsOnValue'
 import './stores/app/AppStore'
 import './stores/docs/DocStore'
 import './stores/storage/StorageStore'
+import './stores/tags/TagStore'
 
 // make sure to load this last
 import './rflux/bootApp'
