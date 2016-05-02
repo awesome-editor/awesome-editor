@@ -10,17 +10,17 @@ import {addModule} from './AppState'
  *
  * @param storeStateName
  * @param appStoreStateObservable
- * @param actionObservables
+ * @param ActionObservables
  * @returns {*}
  * @private
  */
-function _createStoreObservables({storeStateName, appStoreStateObservable, actionObservables}) {
+function _createStoreObservables({storeStateName, appStoreStateObservable, ActionObservables}) {
 
   const mainStoreObservable = appStoreStateObservable.map(appStores => appStores[storeStateName])
 
-  return Object.keys(actionObservables).reduce((total, observable) =>
+  return Object.keys(ActionObservables).reduce((total, observable) =>
 
-    Object.assign(total, {[observable]: actionObservables[observable](mainStoreObservable)}),
+    Object.assign(total, {[observable]: ActionObservables[observable](mainStoreObservable)}),
 
     {[`${storeStateName}Observable`]: mainStoreObservable})
 }
@@ -38,11 +38,11 @@ function _liveActionFunction(AppDispatcher, actionFunc) {
   return (...args) => AppDispatcher.emit(actionFunc(...args))
 }
 
-function _createStoreActions({AppDispatcher, actionFuncs, observables}) {
+function _createStoreActions({AppDispatcher, ActionFuncs, observables}) {
 
-  return Object.keys(actionFuncs).reduce((storeActions, action) => {
+  return Object.keys(ActionFuncs).reduce((storeActions, action) => {
 
-    const liveActionFunc = _liveActionFunction(AppDispatcher, actionFuncs[action])
+    const liveActionFunc = _liveActionFunction(AppDispatcher, ActionFuncs[action])
 
     if (observables[`${action}Observable`]) {
 
@@ -70,18 +70,18 @@ function _createStoreActions({AppDispatcher, actionFuncs, observables}) {
  * 2. binds the appStateObservable to the store observables
  *
  * @param storeStateName
- * @param actionFuncs
- * @param actionObservables (optional) - you always get one for free... the observable that listens to the entire store
+ * @param ActionFuncs
+ * @param ActionObservables (optional) - you always get one for free... the observable that listens to the entire store
  * @returns {Function}
  */
-function _createStoreFactory(storeStateName, {actionFuncs, actionObservables}) {
+function _createStoreFactory(storeStateName, {ActionFuncs, ActionObservables}) {
 
   return (AppDispatcher, appStoreStateObservable) => {
 
-    const observables = _createStoreObservables({storeStateName, appStoreStateObservable, actionObservables})
+    const observables = _createStoreObservables({storeStateName, appStoreStateObservable, ActionObservables})
 
     return {
-      ..._createStoreActions({AppDispatcher, actionFuncs, observables}),
+      ..._createStoreActions({AppDispatcher, ActionFuncs, observables}),
       ...observables
     }
   }
@@ -100,18 +100,18 @@ function _createStoreFactory(storeStateName, {actionFuncs, actionObservables}) {
  * 2. use the word "observable" in the observables. Ex: docObservable
  *
  * @param storeStateName
- * @param actionFuncs
- * @param actionObservables (optional) - you always get one for free... the observable that listens to the entire store
+ * @param ActionFuncs
+ * @param ActionObservables (optional) - you always get one for free... the observable that listens to the entire store
  * @returns {{}}
  */
-export default function registerStore(storeStateName, {actionFuncs, actionObservables}) {
+export default function registerStore(storeStateName, {ActionFuncs, ActionObservables}) {
 
-  actionObservables = actionObservables || {}
+  ActionObservables = ActionObservables || {}
 
   assert(storeStateName, 'Need store state name')
-  assert(actionFuncs, 'Need action functions')
+  assert(ActionFuncs, 'Need action functions')
 
-  const storeFactory = _createStoreFactory(storeStateName, {actionFuncs, actionObservables})
+  const storeFactory = _createStoreFactory(storeStateName, {ActionFuncs, ActionObservables})
 
   addModule(storeFactory)
 }

@@ -11,21 +11,21 @@ import {assert, cast} from '../util/Utils'
  *
  * @param storeStateName
  * @param channel
- * @param actionTypes
- * @param actionReducers
+ * @param ActionTypes
+ * @param ActionReducers
  * @returns {Function}
  */
-function _createChannelReducers(storeStateName, channel, {actionTypes, actionReducers}) {
+function _createChannelReducers(storeStateName, channel, {ActionTypes, ActionReducers}) {
 
   //every action must map to a handler
-  Object.keys(actionTypes || {}).forEach(action => {
-    assert(actionReducers[action], `Channel ${channel} does not support ${action}`)
+  Object.keys(ActionTypes || {}).forEach(action => {
+    assert(ActionReducers[action], `Channel ${channel} does not support ${action}`)
   })
 
   //need an initial state; otherwise defaults to {}
-  if (!actionReducers.initialState) { console.warn(`Channel ${channel} needs an initialState`) }
+  if (!ActionReducers.initialState) { console.warn(`Channel ${channel} needs an initialState`) }
 
-  const initialState = actionReducers.initialState || {}
+  const initialState = ActionReducers.initialState || {}
 
 
   return (appStoreState, action) => {
@@ -34,7 +34,7 @@ function _createChannelReducers(storeStateName, channel, {actionTypes, actionRed
 
     if (action.channel === channel) {
 
-      const handler = actionReducers[action.actionType]
+      const handler = ActionReducers[action.actionType]
 
       if (!handler) { throw new Error(`Channel ${channel} does not support ${action.actionType}`) }
 
@@ -49,13 +49,15 @@ function _createChannelReducers(storeStateName, channel, {actionTypes, actionRed
   }
 }
 
-export default function registerChannelReducers(storeStateName, channel, {actionTypes, actionReducers}) {
+export default function registerChannelReducers(storeStateName, channel, {ActionTypes, ActionReducers}) {
 
   assert(storeStateName, 'Neeed a store state name (i.e., the property name in the app state for this store')
   assert(typeof storeStateName === 'string', 'Store state name needs to be a string')
   assert(typeof channel === 'string', 'Channel needs to be a string')
+  assert(ActionTypes, 'Need ActionTypes')
+  assert(ActionReducers, 'Need ActionReducers')
 
-  const reducer = _createChannelReducers(storeStateName, channel, {actionTypes, actionReducers})
+  const reducer = _createChannelReducers(storeStateName, channel, {ActionTypes, ActionReducers})
 
   reducers.push(reducer)
 }

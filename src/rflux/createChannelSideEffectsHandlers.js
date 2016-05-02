@@ -2,13 +2,13 @@ import {result} from './Saga'
 import {assert} from '../util/Utils'
 
 
-function _createChannelSideEffectsHandlers(channel, sideEffectHandlers) {
+function _createChannelSideEffectsHandlers(channel, SideEffectHandlers) {
 
   return (AppState, action) => {
 
     if (action.channel === channel) {
 
-      const handler = sideEffectHandlers[action.actionType]
+      const handler = SideEffectHandlers[action.actionType]
 
       assert(handler, `Channel ${channel} does not support ${action.actionType}`)
 
@@ -19,17 +19,16 @@ function _createChannelSideEffectsHandlers(channel, sideEffectHandlers) {
   }
 }
 
-export default function createChannelSideEffectsHandlers(channel, actionTypes, {sideEffectHandlers}) {
+export default function createChannelSideEffectsHandlers(channel, SideEffectTypes, {SideEffectHandlers}) {
 
   assert(typeof channel === 'string', 'Channel needs to be a string')
-  assert(actionTypes, 'Need action types')
-  assert(sideEffectHandlers, 'Need side effects')
+  assert(SideEffectTypes, 'Need sideEffectTypes')
+  assert(SideEffectHandlers, 'Need SideEffectHandlers')
 
   //every action must map to a handler
-  Object.keys(actionTypes).forEach(action =>
-    assert(sideEffectHandlers[action], `Channel ${channel} does not support ${action}`)
+  Object.keys(SideEffectTypes).forEach(action =>
+    assert(SideEffectHandlers[action], `Channel ${channel} does not support ${action}`)
   )
 
-  return _createChannelSideEffectsHandlers(channel, sideEffectHandlers)
+  return _createChannelSideEffectsHandlers(channel, SideEffectHandlers)
 }
-

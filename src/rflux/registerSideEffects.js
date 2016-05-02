@@ -3,6 +3,7 @@ import uuid from 'uuid'
 import {sideEffectHandlers as _sideEffectHandlers} from './AppRegistration'
 import {addModule} from './AppState'
 import createChannelSideEffectsHandlers from './createChannelSideEffectsHandlers'
+import {ActionTypes} from './Constants'
 
 import {assert} from '../util/Utils'
 
@@ -32,8 +33,11 @@ function _createSideEffectActionWithObserver(AppDispatcher, sideEffectActionFunc
     setTimeout(() => liveSideEffectAction(__sideEffectCallId)(...args), 0)
 
     return AppDispatcher
-      .filter(action => action.__sideEffectCallId === __sideEffectCallId)
+      .filter(action =>
+      action.actionType === ActionTypes.sideEffectResult &&
+      action.__sideEffectCallId === __sideEffectCallId)
       .take(1)
+      .map(action => action.payload)
   }
 }
 
@@ -51,21 +55,24 @@ function _createSideEffectsFactory(sideEffectActionFuncs) {
       , {})
 }
 
-export default function registerSideEffects(channel, actionTypes, {sideEffectActionFuncs, sideEffectHandlers}) {
+export default function registerSideEffects(channel, SideEffectTypes, {ActionFuncs, SideEffectHandlers}) {
 
   assert(typeof channel === 'string', 'Channel needs to be a string')
-  assert(actionTypes, 'Need action types')
-  assert(sideEffectActionFuncs, 'Need side effect action functions')
-  assert(sideEffectHandlers, 'Need side effects')
+  assert(SideEffectTypes, 'Need sideEffectTypes')
+  assert(ActionFuncs, 'Need ActionFuncs')
+  assert(SideEffectHandlers, 'Need SideEffectHandlers')
 
   //every action must map to a handler and an action function
-  Object.keys(actionTypes).forEach(action => {
-    assert(sideEffectHandlers[action], `Channel ${channel} does not support ${action}`)
-    assert(sideEffectActionFuncs[action], `Channel ${channel} needs an action function for ${action}`)
+  Object.keys(SideEffectTypes).forEach(action => {
+    assert(SideEffectHandlers[action], `Channel ${channel} does not support ${action}`)
+    assert(ActionFuncs[action], `Channel ${channel} needs an action function for ${action}`)
   })
 
-  const channelHandlers = createChannelSideEffectsHandlers(channel, actionTypes, {sideEffectHandlers})
-  const sideEffectsFactory = _createSideEffectsFactory(sideEffectActionFuncs)
+  const SideEffectFuncs = Object.keys(ActionFuncs).reduce((total, action) =>
+    SideEffectTypes[action] ? {...total, [action]: ActionFuncs[action]} : total, {})
+
+  const channelHandlers = createChannelSideEffectsHandlers(channel, SideEffectTypes, {SideEffectHandlers})
+  const sideEffectsFactory = _createSideEffectsFactory(SideEffectFuncs)
 
   addModule(sideEffectsFactory)
 
