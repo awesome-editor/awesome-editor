@@ -9,26 +9,26 @@ import registerStore from '../../rflux/registerStore'
 // 3. add reducer to _scanner
 // 4. create the store
 // 5. export the store in the default exported object
-import {AppActionTypes, AppSideEffectTypes} from './AppConstants'
-import * as AppActions from './AppActions'
-import * as AppReducers from './AppReducers'
-import * as AppActionObservables from './AppActionObservables'
-import * as AppSideEffects from './AppSideEffects'
+import {AppActionTypes as ActionTypes, AppSideEffectTypes as SideEffectTypes} from './AppConstants'
+import * as ActionFuncs from './AppActions'
+import * as ActionReducers from './AppReducers'
+import * as ActionObservables from './AppActionObservables'
+import * as SideEffectHandlers from './AppSideEffects'
 
 
 registerChannelReducers(
   'app',
   Channels.app,
-  {actionTypes: AppActionTypes, actionReducers: AppReducers}
+  {ActionTypes, ActionReducers}
 )
 
 registerStore(
   'app',
-  {actionFuncs: AppActions, actionObservables: AppActionObservables}
+  {ActionFuncs, ActionObservables}
 )
 
 registerSideEffects(
   Channels.appSideEffects,
-  AppSideEffectTypes,
-  {sideEffectActionFuncs: AppActions, sideEffectHandlers: AppSideEffects}
+  SideEffectTypes,
+  {ActionFuncs, SideEffectHandlers}
 )

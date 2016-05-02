@@ -8,19 +8,19 @@ import registerStore from '../../rflux/registerStore'
 // 3. add reducer to _scanner
 // 4. create the store
 // 5. export the store in the default exported object
-import {DocActionTypes} from './DocConstants'
-import * as DocActions from './DocActions'
-import * as DocReducers from './DocReducers'
-import * as DocActionObservables from './DocActionObservables'
+import {DocActionTypes as ActionTypes} from './DocConstants'
+import * as ActionFuncs from './DocActions'
+import * as ActionReducers from './DocReducers'
+import * as ActionObservables from './DocActionObservables'
 
 
 registerChannelReducers(
   'docs',
   Channels.docs,
-  {actionTypes: DocActionTypes, actionReducers: DocReducers}
+  {ActionTypes, ActionReducers}
 )
 
 registerStore(
   'docs',
-  {actionFuncs: DocActions, actionObservables: DocActionObservables}
+  {ActionFuncs, ActionObservables}
 )

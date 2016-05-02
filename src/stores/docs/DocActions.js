@@ -34,3 +34,12 @@ export function setDocs(docs) {
     payload: docs
   }
 }
+
+export function addTagToDoc(tag, docUuid) {
+
+  return {
+    channel: Channels.docs,
+    actionType: DocActionTypes.addTagToDoc,
+    payload: {tag, docUuid}
+  }
+}

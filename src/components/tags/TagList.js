@@ -16,15 +16,15 @@ import TagPickerDropdownContainer from './TagPickerDropdownContainer'
  * @param{Object} props
  * @constructor
  */
-const TagList = ({previewMode, tags, lookupTag, addTag, createTag}) => {
+const TagList = props => {
 
-  const opts = {previewMode, tags, lookupTag, addTag, createTag}
+  const {previewMode, tags, ...tagStuff} = props
 
   return (
 
     <div className='tags' style={{position: 'relative'}}>
 
-      {previewMode ? '' : <TagPickerDropdownContainer {...opts} />}
+      {previewMode ? '' : <TagPickerDropdownContainer {...tagStuff} />}
 
       <ul>
         {tags.map(tag => (
@@ -41,6 +41,10 @@ const TagList = ({previewMode, tags, lookupTag, addTag, createTag}) => {
 TagList.defaultProps = {
 
   previewMode: false,
+  /**
+   * Current tags
+   */
+  tags: [],
 
   /**
    * Look up potential tag matches
@@ -48,13 +52,8 @@ TagList.defaultProps = {
    * @returns {stream} with tag matches
    */
   lookupTag: () => Kefir.constant([]),
-  addTag: () => undefined,
-  createTag: () => undefined,
-
-  /**
-   * Current tags
-   */
-  tags: []
+  addTagToDoc: () => undefined,
+  createTag: () => undefined
 }
 
 export default TagList
