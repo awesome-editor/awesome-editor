@@ -78,10 +78,13 @@ export default class TagPickerContainer extends React.Component {
 
       if (!tag.uuid) {
 
-        return this.props.createTag(tag).log('tag').onValue(this.props.addTag).onValue(this._clearSelection)
+        // TODO store creation hardening, reducer hardening... check actionTypes map to action funcs
+        // TODO Dang we lost the nice cause and effect
+        this.props.createTag(tag)
+          .log('tag').onValue(this.props.addTagToDoc).onValue(this._clearSelection)
       }
 
-      this.props.addTag(tag).onValue(this._clearSelection)
+      this.props.addTagToDoc(tag).onValue(this._clearSelection)
     }
   }
 
@@ -132,6 +135,6 @@ TagPickerContainer.defaultProps = {
    * @returns {stream} with tag matches
    */
   lookupTag: () => Kefir.constant([]),
-  addTag: () => undefined,
+  addTagDoc: () => undefined,
   createTag: () => undefined
 }

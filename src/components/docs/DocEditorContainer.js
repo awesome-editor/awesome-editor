@@ -18,7 +18,7 @@ const DocEditorContainer = ({uuid}) => {
       updateDoc={AppState.updateDoc}
       tags={AppState.docTagsObservable(uuid)}
       lookupTag={AppState.lookupTag}
-      createTag={AppState.createTag}
+      createTag={AppState.createTagResult}
       addTagToDoc={tag => AppState.addTagToDoc(tag, uuid)}>
 
       <DocEditor/>

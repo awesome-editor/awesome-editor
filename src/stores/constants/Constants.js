@@ -4,5 +4,6 @@ export const Channels = {
   tags: 'tags',
   appSideEffects: 'appSideEffects',
   storageSideEffects: 'storageSideEffects',
+  docSideEffects: 'docSideEffects',
   tagSideEffects: 'tagSideEffects'
 }

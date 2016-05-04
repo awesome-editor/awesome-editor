@@ -6,5 +6,6 @@ export const Channels = createTypes([
 ])
 
 export const ActionTypes = createTypes([
-  'sideEffectResult'
+  'sideEffectResult',
+  'result'
 ])

@@ -3,6 +3,10 @@ import createTypes from '../../rflux/support/createTypes'
 export const DocActionTypes = createTypes([
   'createDoc',
   'upsertDoc',
-  'addTagToDoc',
+  'addTagToDocResult',
   'setDocs'
+])
+
+export const DocSideEffectTypes = createTypes([
+  'addTagToDoc'
 ])

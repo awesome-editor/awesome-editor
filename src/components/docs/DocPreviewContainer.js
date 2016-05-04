@@ -35,14 +35,14 @@ md.block.ruler.enable([
   'deflist'
 ])
 
-const DocPreviewContainer = props => {
+const DocPreviewContainer = ({uuid, disableToolbar}) => {
 
   return (
     <Container
-      docTitle={AppState.docObservable(props.uuid).map(doc => doc.title)}
-      docHtmlContent={AppState.docObservable(props.uuid).map(doc => doc.content).map(content => md.render(content))}
-      docTags={AppState.docTagsObservable(props.uuid)}
-      disableToolbar={props.disableToolbar}
+      docTitle={AppState.docMinusTagsObservable(uuid).map(doc => doc.title)}
+      docHtmlContent={AppState.docMinusTagsObservable(uuid).map(doc => doc.content).map(content => md.render(content))}
+      tags={AppState.docTagsObservable(uuid)}
+      disableToolbar={disableToolbar}
       editDoc={() => undefined}
       deleteDoc={() => undefined}
     >

@@ -1,7 +1,19 @@
 import {reducers} from './AppRegistration'
 import {StateWithSideEffects} from './StateWithSideEffects'
+import {Channels, ActionTypes} from './Constants'
 
 import {assert, cast} from '../util/Utils'
+
+
+function _result(__actionCallId) {
+
+  return rslt => ({
+    channel: Channels.system,
+    actionType: ActionTypes.result,
+    __actionCallId,
+    payload: rslt
+  })
+}
 
 /**
  * This is just a helper function. All it does is hook up the action reducer functions to the action types.
@@ -38,7 +50,7 @@ function _createChannelReducers(storeStateName, channel, {ActionTypes, ActionRed
 
       if (!handler) { throw new Error(`Channel ${channel} does not support ${action.actionType}`) }
 
-      const newState = cast(handler(storeState, action.payload), StateWithSideEffects)
+      const newState = cast(handler(storeState, action.payload, _result(action.__actionCallId)), StateWithSideEffects)
 
       newState.state = {[storeStateName]: newState.state}
 

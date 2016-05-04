@@ -1,4 +1,8 @@
+import uuid from 'uuid'
+
 import {assert} from '../util/Utils'
+
+import {Channels, ActionTypes} from './Constants'
 import {addModule} from './AppState'
 
 
@@ -20,7 +24,7 @@ function _createStoreObservables({storeStateName, appStoreStateObservable, Actio
 
   return Object.keys(ActionObservables).reduce((total, observable) =>
 
-    Object.assign(total, {[observable]: ActionObservables[observable](mainStoreObservable)}),
+      Object.assign(total, {[observable]: ActionObservables[observable](mainStoreObservable)}),
 
     {[`${storeStateName}Observable`]: mainStoreObservable})
 }
@@ -35,7 +39,7 @@ function _createStoreObservables({storeStateName, appStoreStateObservable, Actio
  */
 function _liveActionFunction(AppDispatcher, actionFunc) {
 
-  return (...args) => AppDispatcher.emit(actionFunc(...args))
+  return __actionCallId => (...args) => AppDispatcher.emit({...actionFunc(...args), __actionCallId})
 }
 
 function _createStoreActions({AppDispatcher, ActionFuncs, observables}) {
@@ -44,18 +48,26 @@ function _createStoreActions({AppDispatcher, ActionFuncs, observables}) {
 
     const liveActionFunc = _liveActionFunction(AppDispatcher, ActionFuncs[action])
 
-    if (observables[`${action}Observable`]) {
+    if (/Result$/.test(action)) {
 
       storeActions[action] = (...args) => {
 
-        setTimeout(() => liveActionFunc(...args), 0)
+        const __actionCallId = uuid.v4()
 
-        return observables[`${action}Observable`].take(1)
+        setTimeout(() => liveActionFunc(__actionCallId)(...args), 0)
+
+        return AppDispatcher
+          .filter(action =>
+          action.channel === Channels.system &&
+          action.actionType === ActionTypes.result &&
+          action.__actionCallId === __actionCallId)
+          .take(1)
+          .map(action => action.payload)
       }
     }
     else {
 
-      storeActions[action] = liveActionFunc
+      storeActions[action] = liveActionFunc(null)
     }
 
     return storeActions

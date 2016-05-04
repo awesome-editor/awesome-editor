@@ -18,4 +18,6 @@ import './rflux/bootApp'
 import AppState from './rflux/AppState'
 
 
+// TODO this should probably be abstracted away
 AppState.storageLoadDocs()
+AppState.storageLoadTags()

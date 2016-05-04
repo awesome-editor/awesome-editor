@@ -9,19 +9,11 @@ export const initialState = {
   docs: {}
 }
 
-/**
- * Supports partial doc updates
- *
- * @param docState
- * @param doc
- * @returns new docs
- * @private
- */
 export function upsertDoc(docState, doc) {
 
   const docs = docState.docs
-  const curDoc = docs[doc.uuid] || {}
-  const newDoc = {...curDoc, ...doc}
+  const cur = docs[doc.uuid] || {}
+  const newDoc = {...cur, ...doc}
   const newDocEntry = {[doc.uuid]: newDoc}
   const newDocs = {docs: {...docs, ...newDocEntry}}
 
@@ -53,22 +45,28 @@ export function createDoc(docState, doc) {
  *
  * If tag already exists, it won't add it again
  */
-export function addTagToDoc(docState, payload) {
+export function addTagToDocResult(docState, {tag, docUuid}, result) {
 
   const docs = docState.docs
-  const doc = docs[payload.uuid]
-  const newTag = payload.tag
+  const doc = docs[docUuid]
 
-  if (!doc.tags.find(tag => tag.uuid === newTag.uuid)) {
+  if (!doc.tags.find(tag => tag.uuid === tag.uuid)) {
 
-    const newDoc = {...doc, tags: doc.tags.concat([newTag])}
+    const newDoc = {...doc, tags: doc.tags.concat([tag])}
 
-    return upsertDoc(docState, newDoc)
+    return upsertDoc(docState, newDoc).combine(sideEffects(result(newDoc)))
   }
 
-  return docState
+  return addSideEffects(docState, result(doc))
 }
 
+/**
+ * You probably don't ever want to call this directly
+ *
+ * @param docState
+ * @param docs
+ * @returns {{docs: {}}}
+ */
 export function setDocs(docState, docs) {
 
   return {...docState, docs: {...docs}}

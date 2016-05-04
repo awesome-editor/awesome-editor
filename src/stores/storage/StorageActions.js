@@ -11,6 +11,15 @@ export function storageCreateDoc(doc) {
   }
 }
 
+export function storageCreateTag(tag) {
+
+  return {
+    channel: Channels.storageSideEffects,
+    actionType: StorageSideEffectTypes.storageCreateTag,
+    payload: tag
+  }
+}
+
 export function storageUpdateDoc(doc) {
 
   return {

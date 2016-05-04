@@ -1,9 +1,8 @@
 import {Channels} from '../constants/Constants'
-import {DocActionTypes} from './DocConstants'
+import {DocActionTypes, DocSideEffectTypes} from './DocConstants'
 import {cast} from '../../util/Utils'
 import DocData from './DocData'
 import uuid from 'uuid'
-import {assert} from '../../util/Utils'
 
 
 export function createDoc(doc) {
@@ -35,11 +34,20 @@ export function setDocs(docs) {
   }
 }
 
-export function addTagToDoc(tag, docUuid) {
+export function addTagToDocResult(tag, docUuid) {
 
   return {
     channel: Channels.docs,
-    actionType: DocActionTypes.addTagToDoc,
+    actionType: DocActionTypes.addTagToDocResult,
+    payload: {tag, docUuid}
+  }
+}
+
+export function addTagToDoc(tag, docUuid) {
+
+  return {
+    channel: Channels.docSideEffects,
+    actionType: DocSideEffectTypes.addTagToDoc,
     payload: {tag, docUuid}
   }
 }

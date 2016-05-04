@@ -26,6 +26,7 @@ function _createSideEffectActionWithObserver(AppDispatcher, sideEffectActionFunc
 
   const liveSideEffectAction = _liveActionFunction(AppDispatcher, sideEffectActionFunc)
 
+  // TODO only add if action ends in result
   return (...args) => {
 
     const __sideEffectCallId = uuid.v4()
