@@ -54,7 +54,8 @@ export function storageCreateTag(tag) {
 export function storageLoadDocs() {
 
   return call(getItem, 'docList')
-    .map(docList => docList.map(doc => _storageLoadDoc(doc)))
+    .map(list => list || [])
+    .map(list => list.map(doc => _storageLoadDoc(doc)))
     .flatMap(docs => Kefir.merge(docs))
     .scan((docs, doc) => ({...docs, [doc.uuid]: doc}), {})
     .last()
@@ -64,6 +65,7 @@ export function storageLoadDocs() {
 export function storageLoadTags() {
 
   return call(getItem, 'tagList')
+    .map(list => list || [])
     .map(list => list.map(tag => _storageLoadTag(tag)))
     .flatMap(tags => Kefir.merge(tags))
     .scan((tags, tag) => ({...tags, [tag.uuid]: tag}), {})
