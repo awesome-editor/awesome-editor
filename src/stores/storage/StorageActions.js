@@ -20,6 +20,15 @@ export function storageUpdateDoc(doc) {
   }
 }
 
+export function storageUpdateTag(tag) {
+
+  return {
+    channel: Channels.storageSideEffects,
+    actionType: StorageSideEffectTypes.storageUpdateTag,
+    payload: tag
+  }
+}
+
 export function storageLoadDocs() {
 
   return {
@@ -27,3 +36,12 @@ export function storageLoadDocs() {
     actionType: StorageSideEffectTypes.storageLoadDocs
   }
 }
+
+export function storageLoadTags() {
+
+  return {
+    channel: Channels.storageSideEffects,
+    actionType: StorageSideEffectTypes.storageLoadTags
+  }
+}
+
