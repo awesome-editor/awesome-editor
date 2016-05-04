@@ -21,19 +21,37 @@ export function lookupTag(tagName) {
   }
 }
 
+export function upsertTag(tag) {
+
+  return {
+    channel: Channels.tags,
+    actionType: TagActionTypes.upsertTag,
+    payload: tag
+  }
+}
+
 /**
  * Returns a stream that fires with the new tag and then ends
  *
  * @param tag
  * @returns {*}
  */
-export function createTag(tag) {
+export function createTagResult(tag) {
 
   const newTag = {...cast(tag, TagData), uuid: uuid.v4()}
 
   return {
     channel: Channels.tags,
-    actionType: TagActionTypes.createTag,
+    actionType: TagActionTypes.createTagResult,
     payload: newTag
+  }
+}
+
+export function setTags(tags) {
+
+  return {
+    channel: Channels.tags,
+    actionType: TagActionTypes.setTags,
+    payload: tags
   }
 }

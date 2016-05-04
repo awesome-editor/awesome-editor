@@ -1,61 +1,43 @@
-import {storageUpdateDoc} from '../storage/StorageActions'
-import {Channels, ActionTypes} from '../constants/Constants'
-import {TagActionTypes} from './TagConstants'
-import {stateWithSideEffects} from '../sideeffects/SideEffects'
+import {storageUpdateTag, storageCreateTag} from '../storage/StorageActions'
+import {addSideEffects, sideEffects} from '../../rflux/StateWithSideEffects'
 
 
-const initialState = {
-  newTagUuid: null
+export const initialState = {
+  tags: {}
 }
 
-/**
- * Supports partial tag updates
- *
- * @param tags
- * @param tag
- * @returns new tags
- * @private
- */
-function _upsertTag(tags, tag) {
+export function upsertTag(tagState, tag) {
 
-  const curTag = tags[tag.uuid] || {}
-  const newTag = {...curTag, ...tag}
+  const tags = tagState.tags
+  const cur = tags[tag.uuid] || {}
+  const newTag = {...cur, ...tag}
   const newTagEntry = {[tag.uuid]: newTag}
-  const newTags = {...tags, ...newTagEntry}
+  const newTags = {tags: {...tags, ...newTagEntry}}
 
-  return stateWithSideEffects(newTags, storageUpdateDoc(newTag))
+  return addSideEffects(
+    {...tagState, ...newTags},
+    storageUpdateTag(newTag)
+  )
+}
+
+export function createTagResult(tagState, tag, result) {
+
+  const create = sideEffects(storageCreateTag(tag))
+  const broadcast = sideEffects(result(tag))
+
+  return upsertTag(tagState, tag)
+    .combine(create)
+    .combine(broadcast)
 }
 
 /**
- * Create the tag and tell the world about it
+ * You probably don't ever want to call this directly
  *
- * @param tags
+ * @param tagState
  * @param tag
- * @returns {*}
- * @private
  */
-function _createTag(tags, tag) {
+export function setTags(tagState, tags) {
 
-  const upsert = _upsertTag(tags, tag)
-  const newTagUuid = stateWithSideEffects({newTagUuid: tag.uuid})
-
-  return upsert.combine(newTagUuid)
-}
-
-export function tags(tags = initialState, action) {
-
-  if (action.channel === Channels.tags) {
-
-    switch (action.actionType) {
-      case ActionTypes.create:
-        return _createTag(tags, action.payload)
-      case TagActionTypes.lookupTag:
-        return _lookupTag(tags, action.payload)
-      default:
-        throw new Error(`${action.actionType} not supported`)
-    }
-  }
-
-  return stateWithSideEffects(tags)
+  return {...tagState, tags: {...tags}}
 }
 
