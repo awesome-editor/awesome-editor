@@ -1,5 +1,5 @@
 import Kefir from 'kefir'
-import {call} from '../../rflux/Saga'
+import {call} from 'rflux/Saga'
 
 
 export function addTagToDoc({tag, docUuid}, AppState, result) {

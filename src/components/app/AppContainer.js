@@ -1,6 +1,6 @@
-import createContainer from '../../rflux/createContainer'
+import createContainer from 'rflux/createContainer'
 
-import AppState from '../../rflux/AppState'
+import AppState from 'rflux/AppState'
 import App from './App'
 
 

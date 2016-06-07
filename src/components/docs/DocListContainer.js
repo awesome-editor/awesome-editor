@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Container from '../../rflux/Container'
-import AppState from '../../rflux/AppState'
+import Container from 'rflux/Container'
+import AppState from 'rflux/AppState'
 import DocList from './DocList'
 
 const DocListContainer = () => (

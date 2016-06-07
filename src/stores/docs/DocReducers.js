@@ -1,6 +1,6 @@
 /*eslint no-use-before-define: 0*/
 import {storageUpdateDoc, storageCreateDoc} from '../storage/StorageActions'
-import {addSideEffects, sideEffects} from '../../rflux/StateWithSideEffects'
+import {addSideEffects, sideEffects} from 'rflux/StateWithSideEffects'
 import {systemBroadcastNewDocUuid} from '../app/AppActions'
 
 

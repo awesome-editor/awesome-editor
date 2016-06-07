@@ -1,5 +1,5 @@
 import {storageUpdateTag, storageCreateTag} from '../storage/StorageActions'
-import {addSideEffects, sideEffects} from '../../rflux/StateWithSideEffects'
+import {addSideEffects, sideEffects} from 'rflux/StateWithSideEffects'
 
 
 export const initialState = {

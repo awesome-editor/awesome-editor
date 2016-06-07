@@ -1,4 +1,4 @@
-import {put, listen} from '../../rflux/Saga'
+import {put, listen} from 'rflux/Saga'
 
 import {Channels} from '../constants/Constants'
 
