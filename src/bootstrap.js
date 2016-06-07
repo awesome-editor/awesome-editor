@@ -14,7 +14,6 @@ import './stores/storage/StorageStore'
 import './stores/tags/TagStore'
 
 // make sure to load this last
-import './rflux/bootApp'
 import AppState from 'rflux/AppState'
 
 

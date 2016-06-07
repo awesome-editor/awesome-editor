@@ -16,7 +16,7 @@ export function createDoc(doc) {
   }
 }
 
-export function updateDoc(doc) {
+export function upsertDoc(doc) {
 
   return {
     channel: Channels.docs,

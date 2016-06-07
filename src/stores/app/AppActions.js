@@ -2,27 +2,28 @@ import {Channels} from '../constants/Constants'
 import {AppActionTypes, AppSideEffectTypes} from './AppConstants'
 
 
-export function systemShowDocEditor(uuid) {
+export function systemSwitchMainWindow(payload) {
 
   return {
     channel: Channels.app,
     actionType: AppActionTypes.systemSwitchMainWindow,
-    payload: {
-      mainWindow: 'DocEditor',
-      currentDocUuid: uuid
-    }
+    payload
   }
+}
+
+export function systemShowDocEditor(uuid) {
+
+  return systemSwitchMainWindow({
+    mainWindow: 'DocEditor',
+    currentDocUuid: uuid
+  })
 }
 
 export function systemShowDocList() {
 
-  return {
-    channel: Channels.app,
-    actionType: AppActionTypes.systemSwitchMainWindow,
-    payload: {
-      mainWindow: 'DocList'
-    }
-  }
+  return systemSwitchMainWindow({
+    mainWindow: 'DocList'
+  })
 }
 
 export function systemSetCurrentDocUuid(uuid) {

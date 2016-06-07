@@ -15,7 +15,7 @@ const DocEditorContainer = ({uuid}) => {
       key="DocEditor"
       uuid={uuid}
       doc={AppState.docMinusTagsObservable(uuid)}
-      updateDoc={AppState.updateDoc}
+      upsertDoc={AppState.upsertDoc}
       tags={AppState.docTagsObservable(uuid)}
       lookupTag={AppState.lookupTag}
       createTag={AppState.createTagResult}

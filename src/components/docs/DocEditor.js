@@ -14,7 +14,7 @@ const noop = () => undefined
 
 const fonts = '\'M+ 1M\', \'SOURCE CODE PRO\', \'FIRA MONO\', \'DROID SANS MONO\', Consolas, Monospace'
 
-const Editor = ({previewMode, uuid, doc, updateDoc, ...tagStuff}) => {
+const Editor = ({previewMode, uuid, doc, upsertDoc, ...tagStuff}) => {
 
   return (
 
@@ -27,7 +27,7 @@ const Editor = ({previewMode, uuid, doc, updateDoc, ...tagStuff}) => {
           multiLine={true}
           value={doc.title}
           fullWidth={true}
-          onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, title: evt.target.value})}
+          onChange={previewMode ? noop : evt => upsertDoc({uuid: doc.uuid, title: evt.target.value})}
         />
       </CardText>
 
@@ -36,7 +36,7 @@ const Editor = ({previewMode, uuid, doc, updateDoc, ...tagStuff}) => {
           key="Content"
           style={{minHeight: '3em', fontFamily: `${fonts} !important`}}
           html={doc.content}
-          onChange={previewMode ? noop : evt => updateDoc({uuid: doc.uuid, content: evt.target.value})}>
+          onChange={previewMode ? noop : evt => upsertDoc({uuid: doc.uuid, content: evt.target.value})}>
         </DivEdit>
       </CardText>
 
@@ -53,7 +53,7 @@ Editor.defaultProps = {
   previewMode: false,
   uuid: null,
   doc: new DocData(),
-  updateDoc: () => undefined
+  upsertDoc: () => undefined
 }
 
 
