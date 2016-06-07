@@ -15,7 +15,7 @@ import './stores/tags/TagStore'
 
 // make sure to load this last
 import './rflux/bootApp'
-import AppState from './rflux/AppState'
+import AppState from 'rflux/AppState'
 
 
 // TODO this should probably be abstracted away
