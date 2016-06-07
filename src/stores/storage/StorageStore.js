@@ -1,14 +1,13 @@
 import {Channels} from '../constants/Constants'
-import registerSideEffects from '../../rflux/registerSideEffects'
+import {registerSideEffects} from 'rflux/AppState'
 
-import {StorageSideEffectTypes} from './StorageContants'
-import * as ActionFuncs from './StorageActions'
+import {StorageSideEffectTypes as SideEffects} from './StorageContants'
+import * as SideEffectActionFunctions from './StorageActions'
 import * as SideEffectHandlers from './StorageSideEffects'
 
 
 registerSideEffects(
   Channels.storageSideEffects,
-  StorageSideEffectTypes,
-  {ActionFuncs, SideEffectHandlers}
+  {SideEffects, SideEffectActionFunctions, SideEffectHandlers}
 )
 

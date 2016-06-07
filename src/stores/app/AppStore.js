@@ -1,5 +1,5 @@
 import {Channels} from '../constants/Constants'
-import registerSideEffects from '../../rflux/registerSideEffects'
+import {registerSideEffects} from 'rflux/AppState'
 import {registerStore} from 'rflux/AppState'
 
 // This is how you a create a store
@@ -22,6 +22,5 @@ registerStore(
 
 registerSideEffects(
   Channels.appSideEffects,
-  SideEffects,
-  {ActionFuncs, SideEffectHandlers}
+  {SideEffects, SideEffectHandlers, SideEffectActionFunctions: ActionFunctions}
 )
