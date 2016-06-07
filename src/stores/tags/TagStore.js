@@ -1,24 +1,16 @@
 import {Channels} from '../constants/Constants'
 import registerSideEffects from '../../rflux/registerSideEffects'
-import registerStore from '../../rflux/registerStore'
-import registerChannelReducers from '../../rflux/registerChannelReducers'
+import {registerStore} from 'rflux/AppState'
 
-import {TagSideEffectTypes, TagActionTypes as ActionTypes} from './TagConstants'
-import * as ActionFuncs from './TagActions'
-import * as ActionReducers from './TagReducers'
+import {TagSideEffectTypes, TagActionTypes as Actions} from './TagConstants'
+import * as Reducers from './TagReducers'
+import * as ActionFunctions from './TagActions'
 import * as SideEffectHandlers from './TagSideEffects'
 
 
-// TODO make register reducers part of register store
-registerChannelReducers(
-  'tags',
-  Channels.tags,
-  {ActionTypes, ActionReducers}
-)
-
 registerStore(
   'tags',
-  {ActionFuncs}
+  {Actions, Reducers, ActionFunctions}
 )
 
 registerSideEffects(

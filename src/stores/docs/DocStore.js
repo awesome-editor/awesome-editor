@@ -1,24 +1,17 @@
 import {Channels} from '../constants/Constants'
-import registerChannelReducers from '../../rflux/registerChannelReducers'
-import registerStore from '../../rflux/registerStore'
+import {registerStore} from 'rflux/AppState'
 import registerSideEffects from '../../rflux/registerSideEffects'
 
-import {DocActionTypes as ActionTypes, DocSideEffectTypes} from './DocConstants'
-import * as ActionFuncs from './DocActions'
-import * as ActionReducers from './DocReducers'
+import {DocActionTypes as Actions, DocSideEffectTypes} from './DocConstants'
+import * as Reducers from './DocReducers'
+import * as ActionFunctions from './DocActions'
 import * as ActionObservables from './DocActionObservables'
 import * as SideEffectHandlers from './DocSideEffects'
 
 
-registerChannelReducers(
-  'docs',
-  Channels.docs,
-  {ActionTypes, ActionReducers}
-)
-
 registerStore(
   'docs',
-  {ActionFuncs, ActionObservables}
+  {Actions, Reducers, ActionFunctions, ActionObservables}
 )
 
 registerSideEffects(
