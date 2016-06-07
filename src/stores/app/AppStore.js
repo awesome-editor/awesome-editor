@@ -10,9 +10,10 @@ import {registerStore} from 'rflux/AppState'
 // 5. export the store in the default exported object
 import {AppActions as Actions, AppSideEffects as SideEffects} from './AppConstants'
 import * as Reducers from './AppReducers'
-import * as ActionFunctions from './AppActions'
+import * as ActionFunctions from './AppActionFunctions'
 import * as ActionObservables from './AppActionObservables'
-import * as SideEffectHandlers from './AppSideEffects'
+import * as SideEffectActionFunctions from './AppSideEffectActionFunctions'
+import * as SideEffectHandlers from './AppSideEffectHandlers'
 
 
 registerStore(
@@ -22,5 +23,5 @@ registerStore(
 
 registerSideEffects(
   Channels.appSideEffects,
-  {SideEffects, SideEffectHandlers, SideEffectActionFunctions: ActionFunctions}
+  {SideEffects, SideEffectHandlers, SideEffectActionFunctions}
 )

@@ -1,7 +1,7 @@
 /*eslint no-use-before-define: 0*/
 import {storageUpdateDoc, storageCreateDoc} from '../storage/StorageActions'
 import {addSideEffects, sideEffects} from 'rflux/StateWithSideEffects'
-import {systemBroadcastNewDocUuid} from '../app/AppActions'
+import {systemBroadcastNewDocUuid} from '../app/AppActionFunctions'
 
 
 export const initialState = {

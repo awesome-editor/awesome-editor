@@ -1,5 +1,5 @@
 import {Channels} from '../constants/Constants'
-import {AppActions, AppSideEffects} from './AppConstants'
+import {AppActions} from './AppConstants'
 
 
 export function systemSwitchMainWindow(payload) {
@@ -32,14 +32,6 @@ export function systemSetCurrentDocUuid(uuid) {
     channel: Channels.app,
     actionType: AppActions.systemSetCurrentDocUuid,
     payload: uuid
-  }
-}
-
-export function systemCreateDoc() {
-
-  return {
-    channel: Channels.appSideEffects,
-    actionType: AppSideEffects.systemCreateDoc
   }
 }
 

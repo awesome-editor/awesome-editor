@@ -3,7 +3,7 @@ import {put, listen} from 'rflux/Saga'
 import {Channels} from '../constants/Constants'
 
 import {AppActions, AppSideEffects} from './AppConstants'
-import {systemShowDocEditor} from './AppActions'
+import {systemShowDocEditor} from './AppActionFunctions'
 
 import {createDoc} from '../docs/DocActions'
 
