@@ -2,7 +2,7 @@ import {put, listen} from 'rflux/Saga'
 
 import {Channels} from '../constants/Constants'
 
-import {AppActionTypes, AppSideEffectTypes} from './AppConstants'
+import {AppActions, AppSideEffects} from './AppConstants'
 import {systemShowDocEditor} from './AppActions'
 
 import {createDoc} from '../docs/DocActions'
@@ -16,7 +16,7 @@ import {createDoc} from '../docs/DocActions'
  */
 export function systemCreateDoc() {
 
-  listen(Channels.app, AppActionTypes.systemBroadcastNewDocUuid)
+  listen(Channels.app, AppActions.systemBroadcastNewDocUuid)
     .take(1)
     .onValue(uuid => put(systemShowDocEditor(uuid)))
 

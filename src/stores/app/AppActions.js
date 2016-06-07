@@ -1,12 +1,12 @@
 import {Channels} from '../constants/Constants'
-import {AppActionTypes, AppSideEffectTypes} from './AppConstants'
+import {AppActions, AppSideEffects} from './AppConstants'
 
 
 export function systemSwitchMainWindow(payload) {
 
   return {
     channel: Channels.app,
-    actionType: AppActionTypes.systemSwitchMainWindow,
+    actionType: AppActions.systemSwitchMainWindow,
     payload
   }
 }
@@ -30,7 +30,7 @@ export function systemSetCurrentDocUuid(uuid) {
 
   return {
     channel: Channels.app,
-    actionType: AppActionTypes.systemSetCurrentDocUuid,
+    actionType: AppActions.systemSetCurrentDocUuid,
     payload: uuid
   }
 }
@@ -39,7 +39,7 @@ export function systemCreateDoc() {
 
   return {
     channel: Channels.appSideEffects,
-    actionType: AppSideEffectTypes.systemCreateDoc
+    actionType: AppSideEffects.systemCreateDoc
   }
 }
 
@@ -52,7 +52,7 @@ export function systemBroadcastNewDocUuid(uuid) {
 
   return {
     channel: Channels.app,
-    actionType: AppActionTypes.systemBroadcastNewDocUuid,
+    actionType: AppActions.systemBroadcastNewDocUuid,
     payload: uuid
   }
 }
