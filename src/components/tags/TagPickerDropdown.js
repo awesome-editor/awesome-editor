@@ -22,7 +22,6 @@ const NewTagInput = ({currentTagName, addTag, onChange, onKeyDown, hideDropdown}
         value={currentTagName}
         onChange={evt => onChange(evt.target.value)}
         onKeyDown={evt => onKeyDown(evt, currentTagName)}
-        onBlur={hideDropdown}
       />
       <IconButton
         disabled={currentTagNameIsEmpty}

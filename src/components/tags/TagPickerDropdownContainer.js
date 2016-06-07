@@ -76,14 +76,6 @@ export default class TagPickerContainer extends React.Component {
 
     if (tag.name.trim().length) {
 
-      if (!tag.uuid) {
-
-        // TODO store creation hardening, reducer hardening... check actionTypes map to action funcs
-        // TODO Dang we lost the nice cause and effect
-        this.props.createTag(tag)
-          .log('tag').onValue(this.props.addTagToDoc).onValue(this._clearSelection)
-      }
-
       this.props.addTagToDoc(tag).onValue(this._clearSelection)
     }
   }

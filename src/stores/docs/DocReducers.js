@@ -50,7 +50,7 @@ export function addTagToDocResult(docState, {tag, docUuid}, result) {
   const docs = docState.docs
   const doc = docs[docUuid]
 
-  if (!doc.tags.find(tag => tag.uuid === tag.uuid)) {
+  if (!doc.tags.find(_tag => _tag.uuid === tag.uuid)) {
 
     const newDoc = {...doc, tags: doc.tags.concat([tag])}
 
