@@ -5,7 +5,7 @@ import {Channels} from '../constants/Constants'
 import {AppActions, AppSideEffects} from './AppConstants'
 import {systemShowDocEditor} from './AppActionFunctions'
 
-import {createDoc} from '../docs/DocActions'
+import {createDoc} from '../docs/DocActionFunctions'
 
 
 /**
@@ -16,9 +16,8 @@ import {createDoc} from '../docs/DocActions'
  */
 export function systemCreateDoc() {
 
-  listen(Channels.app, AppActions.systemBroadcastNewDocUuid)
-    .take(1)
-    .onValue(uuid => put(systemShowDocEditor(uuid)))
-
-  put(createDoc())
+  return listen(Channels.appSagas, AppSideEffects.systemCreateDoc)
+    .map(() => put(createDoc()))
+    .flatMap(() => listen(Channels.app, AppActions.systemBroadcastNewDocUuid))
+    .map(uuid => put(systemShowDocEditor(uuid)))
 }
