@@ -2,7 +2,10 @@
 import {storageUpdateDoc, storageCreateDoc} from '../storage/StorageActions'
 import {addSideEffects, sideEffects} from 'rflux/StateWithSideEffects'
 import {systemBroadcastNewDocUuid} from '../app/AppActionFunctions'
+import {createTagResult} from '../tags/TagActions'
 
+
+const _docWithTag = (doc, tag) => ({...doc, tags: doc.tags.concat([tag])})
 
 export const initialState = {
   docListSelectedIndex: 0,
@@ -45,19 +48,25 @@ export function createDoc(docState, doc) {
  *
  * If tag already exists, it won't add it again
  */
-export function addTagToDocResult(docState, {tag, docUuid}, result) {
+export function addTagToDoc(docState, {tag, docUuid}) {
 
   const docs = docState.docs
   const doc = docs[docUuid]
 
-  if (!doc.tags.find(_tag => _tag.uuid === tag.uuid)) {
+  // if tag is brand new, add it to store and add it to doc
+  if (!tag.uuid) {
 
-    const newDoc = {...doc, tags: doc.tags.concat([tag])}
+    const createTagMessage = createTagResult(tag)
 
-    return upsertDoc(docState, newDoc).combine(sideEffects(result(newDoc)))
+    return upsertDoc(docState, _docWithTag(doc, tag)).combine(sideEffects(createTagMessage))
+  }
+  // else add tag to doc only if it's not already there
+  else if (!doc.tags.find(_tag => _tag.uuid === tag.uuid)) {
+
+    return upsertDoc(docState, _docWithTag(doc, tag))
   }
 
-  return addSideEffects(docState, result(doc))
+  return docState
 }
 
 /**

@@ -4,9 +4,6 @@ export const DocActions = createTypes([
   'createDoc',
   'upsertDoc',
   'addTagToDocResult',
-  'setDocs'
-])
-
-export const DocSagas = createTypes([
+  'setDocs',
   'addTagToDoc'
 ])

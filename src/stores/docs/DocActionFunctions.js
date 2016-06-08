@@ -34,11 +34,11 @@ export function setDocs(docs) {
   }
 }
 
-export function addTagToDocResult(tag, docUuid) {
+export function addTagToDoc(tag, docUuid) {
 
   return {
     channel: Channels.docs,
-    actionType: DocActions.addTagToDocResult,
+    actionType: DocActions.addTagToDoc,
     payload: {tag, docUuid}
   }
 }
