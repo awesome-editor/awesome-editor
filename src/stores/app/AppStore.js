@@ -17,7 +17,7 @@ import * as SagaHandlers from './AppSagas'
 
 
 registerStore(
-  'app',
+  Channels.app,
   {Actions, Reducers, ActionFunctions, ActionObservables}
 )
 
