@@ -1,4 +1,4 @@
-import {storageUpdateTag, storageCreateTag} from '../storage/StorageActions'
+import {storageUpdateTag, storageCreateTag} from '../storage/StorageSagaActionFunctions'
 import {addSideEffects, sideEffects} from 'rflux/StateWithSideEffects'
 
 

@@ -1,13 +1,13 @@
 import {Channels} from '../constants/Constants'
-import {registerSideEffects} from 'rflux/AppState'
+import {registerSagas} from 'rflux/AppState'
 
-import {StorageSideEffectTypes as SideEffects} from './StorageContants'
-import * as SideEffectActionFunctions from './StorageActions'
-import * as SideEffectHandlers from './StorageSideEffects'
+import {StorageSagas as Sagas} from './StorageContants'
+import * as SagaActionFunctions from './StorageSagaActionFunctions'
+import * as SagaHandlers from './StorageSagaHandlers'
 
 
-registerSideEffects(
-  Channels.storageSideEffects,
-  {SideEffects, SideEffectActionFunctions, SideEffectHandlers}
+registerSagas(
+  Channels.storageSagas,
+  {Sagas, SagaActionFunctions, SagaHandlers}
 )
 

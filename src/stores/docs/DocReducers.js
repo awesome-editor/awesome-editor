@@ -1,5 +1,5 @@
 /*eslint no-use-before-define: 0*/
-import {storageUpdateDoc, storageCreateDoc} from '../storage/StorageActions'
+import {storageUpdateDoc, storageCreateDoc} from '../storage/StorageSagaActionFunctions'
 import {addSideEffects, sideEffects} from 'rflux/StateWithSideEffects'
 import {systemBroadcastNewDocUuid} from '../app/AppActionFunctions'
 import {createTagResult} from '../tags/TagActions'

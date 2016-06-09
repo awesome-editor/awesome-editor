@@ -1,6 +1,6 @@
 import createTypes from 'rflux/support/createTypes'
 
-export const StorageSideEffectTypes = createTypes([
+export const StorageSagas = createTypes([
   'storageCreateDoc',
   'storageCreateTag',
   'storageUpdateDoc',

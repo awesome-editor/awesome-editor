@@ -3,7 +3,7 @@ export const Channels = {
   docs: 'docs',
   tags: 'tags',
   appSagas: 'appSagas',
-  storageSideEffects: 'storageSideEffects',
+  storageSagas: 'storageSagas',
   docSagas: 'docSagas',
   tagSideEffects: 'tagSideEffects'
 }
