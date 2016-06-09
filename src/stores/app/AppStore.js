@@ -13,7 +13,7 @@ import * as Reducers from './AppReducers'
 import * as ActionFunctions from './AppActionFunctions'
 import * as ActionObservables from './AppActionObservables'
 import * as SagaActionFunctions from './AppSagaActionFunctions'
-import * as SagaHandlers from './AppSagas'
+import * as SagaHandlers from './AppSagaHandlers'
 
 
 registerStore(

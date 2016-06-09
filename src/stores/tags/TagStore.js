@@ -1,19 +1,20 @@
 import {Channels} from '../constants/Constants'
-import {registerSideEffects} from 'rflux/AppState'
+import {registerSagas} from 'rflux/AppState'
 import {registerStore} from 'rflux/AppState'
 
-import {TagSideEffectTypes as SideEffects, TagActionTypes as Actions} from './TagConstants'
+import {TagSagas as Sagas, TagActions as Actions} from './TagConstants'
 import * as Reducers from './TagReducers'
-import * as ActionFunctions from './TagActions'
-import * as SideEffectHandlers from './TagSideEffects'
+import * as ActionFunctions from './TagActionFunctions'
+import * as SagaActionFunctions from './TagSagaActionFunctions'
+import * as SagaHandlers from './TagSagaHandlers'
 
 
 registerStore(
-  'tags',
+  Channels.tags,
   {Actions, Reducers, ActionFunctions}
 )
 
-registerSideEffects(
-  Channels.tagSideEffects,
-  {SideEffects, SideEffectHandlers, SideEffectActionFunctions: ActionFunctions}
+registerSagas(
+  Channels.tagSagas,
+  {Sagas, SagaActionFunctions, SagaHandlers}
 )

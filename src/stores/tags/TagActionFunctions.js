@@ -1,31 +1,18 @@
 import uuid from 'uuid'
 
 import {Channels} from '../constants/Constants'
-import {TagActionTypes, TagSideEffectTypes} from './TagConstants'
+import {TagActions} from './TagConstants'
 
 import {cast} from '../../util/Utils'
 
 import TagData from './TagData'
 
 
-/**
- * Looks up tags that are similar
- * @param tagName
- */
-export function lookupTag(tagName) {
-
-  return {
-    channel: Channels.tagSideEffects,
-    actionType: TagSideEffectTypes.lookupTag,
-    payload: tagName
-  }
-}
-
 export function upsertTag(tag) {
 
   return {
     channel: Channels.tags,
-    actionType: TagActionTypes.upsertTag,
+    actionType: TagActions.upsertTag,
     payload: tag
   }
 }
@@ -42,7 +29,7 @@ export function createTagResult(tag) {
 
   return {
     channel: Channels.tags,
-    actionType: TagActionTypes.createTagResult,
+    actionType: TagActions.createTagResult,
     payload: newTag
   }
 }
@@ -51,7 +38,7 @@ export function setTags(tags) {
 
   return {
     channel: Channels.tags,
-    actionType: TagActionTypes.setTags,
+    actionType: TagActions.setTags,
     payload: tags
   }
 }

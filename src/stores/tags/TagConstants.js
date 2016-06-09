@@ -1,12 +1,12 @@
 import createTypes from 'rflux/support/createTypes'
 
 
-export const TagActionTypes = createTypes([
+export const TagActions = createTypes([
   'createTagResult',
   'upsertTag',
   'setTags'
 ])
 
-export const TagSideEffectTypes = createTypes([
+export const TagSagas = createTypes([
   'lookupTag'
 ])

@@ -5,5 +5,5 @@ export const Channels = {
   appSagas: 'appSagas',
   storageSagas: 'storageSagas',
   docSagas: 'docSagas',
-  tagSideEffects: 'tagSideEffects'
+  tagSagas: 'tagSagas'
 }

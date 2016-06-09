@@ -2,7 +2,7 @@
 import {storageUpdateDoc, storageCreateDoc} from '../storage/StorageSagaActionFunctions'
 import {addSideEffects, sideEffects} from 'rflux/StateWithSideEffects'
 import {systemBroadcastNewDocUuid} from '../app/AppActionFunctions'
-import {createTagResult} from '../tags/TagActions'
+import {createTagResult} from '../tags/TagActionFunctions'
 
 
 const _docWithTag = (doc, tag) => ({...doc, tags: doc.tags.concat([tag])})
