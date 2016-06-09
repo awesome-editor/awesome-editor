@@ -2,8 +2,8 @@ import {put, listen} from 'rflux/Saga'
 
 import {Channels} from '../constants/Constants'
 
-import {AppActions, AppSideEffects} from './AppConstants'
-import {systemShowDocEditor} from './AppActionFunctions'
+import {AppActions} from './AppConstants'
+import {systemSwitchMainWindow} from './AppActionFunctions'
 
 import {createDoc} from '../docs/DocActionFunctions'
 
@@ -16,5 +16,5 @@ export function systemCreateDoc() {
 
   return put(createDoc())
     .flatMap(() => listen(Channels.app, AppActions.systemBroadcastNewDocUuid))
-    .map(uuid => put(systemShowDocEditor(uuid)))
+    .map(uuid => put(systemSwitchMainWindow('DocEditor', uuid)))
 }

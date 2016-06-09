@@ -11,7 +11,7 @@ import DocEditorContainer from '../docs/DocEditorContainer'
 import DocListContainer from '../docs/DocListContainer'
 import DocPreviewContainer from '../docs/DocPreviewContainer'
 
-const App = ({mainWindow, currentDocUuid, systemCreateDoc, systemShowDocList}) => {
+const App = ({mainWindow, currentDocUuid, systemCreateDoc, systemSwitchMainWindow}) => {
 
   let Main
   let Sidebar = ''
@@ -24,7 +24,7 @@ const App = ({mainWindow, currentDocUuid, systemCreateDoc, systemShowDocList}) =
       Main = <DocEditorContainer key="DocEditor" uuid={currentDocUuid}/>
       Sidebar = <DocPreviewContainer key="DocPreview" uuid={currentDocUuid} disableToolbar={true}/>
       title = 'Edit Note'
-      LeftMenu = <IconButton onClick={systemShowDocList}><NavigateLeft /></IconButton>
+      LeftMenu = <IconButton onClick={() => systemSwitchMainWindow('DocList')}><NavigateLeft /></IconButton>
       break
 
     case 'DocList':
@@ -71,7 +71,7 @@ App.defaultProps = {
   switchToEditor: false,
   switchToList: true,
   systemCreateDoc: () => undefined,
-  systemShowDocList: () => undefined
+  systemSwitchMainWindow: () => undefined
 }
 
 

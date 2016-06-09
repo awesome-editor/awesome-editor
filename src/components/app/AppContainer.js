@@ -10,5 +10,5 @@ export default createContainer({
   switchToEditor: AppState.appMainWindowObservable.diff((prev, cur) => cur === 'DocEditor' && prev !== cur, false),
   switchToList: AppState.appMainWindowObservable.diff((prev, cur) => cur === 'DocList' && prev !== cur, false),
   systemCreateDoc: AppState.systemCreateDoc,
-  systemShowDocList: AppState.systemShowDocList
+  systemSwitchMainWindow: AppState.systemSwitchMainWindow
 })(App)

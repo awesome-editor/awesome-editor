@@ -1,29 +1,20 @@
 import {Channels} from '../constants/Constants'
 import {AppActions} from './AppConstants'
+import {assert} from '../../util/Utils'
 
 
-export function systemSwitchMainWindow(payload) {
+export function systemSwitchMainWindow(window, uuid) {
+
+  assert(window === 'DocEditor' || window === 'DocList', 'Passed wrong arg to #systemSwitchMainWindow')
 
   return {
     channel: Channels.app,
     actionType: AppActions.systemSwitchMainWindow,
-    payload
+    payload: {
+      mainWindow: window,
+      currentDocUuid: uuid
+    }
   }
-}
-
-export function systemShowDocEditor(uuid) {
-
-  return systemSwitchMainWindow({
-    mainWindow: 'DocEditor',
-    currentDocUuid: uuid
-  })
-}
-
-export function systemShowDocList() {
-
-  return systemSwitchMainWindow({
-    mainWindow: 'DocList'
-  })
 }
 
 export function systemSetCurrentDocUuid(uuid) {

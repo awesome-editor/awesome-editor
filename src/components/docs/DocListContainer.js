@@ -8,7 +8,7 @@ const DocListContainer = () => (
 
   <Container
     docList={AppState.docListObservable}
-    onDocListIemSelect={AppState.systemShowDocEditor}
+    onDocListIemSelect={uuid => AppState.systemSwitchMainWindow('DocEditor', uuid)}
   >
     <DocList/>
   </Container>

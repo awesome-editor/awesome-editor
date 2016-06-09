@@ -14,7 +14,7 @@ const noop = () => undefined
 
 const fonts = '\'M+ 1M\', \'SOURCE CODE PRO\', \'FIRA MONO\', \'DROID SANS MONO\', Consolas, Monospace'
 
-const Editor = ({previewMode, uuid, doc, upsertDoc, ...tagStuff}) => {
+const Editor = ({previewMode, doc, upsertDoc, ...tagStuff}) => {
 
   return (
 
@@ -51,7 +51,6 @@ const Editor = ({previewMode, uuid, doc, upsertDoc, ...tagStuff}) => {
 Editor.defaultProps = {
 
   previewMode: false,
-  uuid: null,
   doc: new DocData(),
   upsertDoc: () => undefined
 }
