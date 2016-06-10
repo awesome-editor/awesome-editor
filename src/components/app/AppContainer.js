@@ -1,4 +1,4 @@
-import createContainer from 'rflux/createContainer'
+import createContainer from 'rflux/components/createContainer'
 
 import AppState from 'rflux/AppState'
 import App from './App'

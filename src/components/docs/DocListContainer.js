@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Container from 'rflux/Container'
+import Container from 'rflux/components/Container'
 import AppState from 'rflux/AppState'
 import DocList from './DocList'
 

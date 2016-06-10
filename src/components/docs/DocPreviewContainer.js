@@ -2,7 +2,7 @@ import React from 'react'
 import Remarkable from 'remarkable'
 import hljs from 'highlight.js'
 
-import Container from 'rflux/Container'
+import Container from 'rflux/components/Container'
 import AppState from 'rflux/AppState'
 
 import DocPreview from './DocPreview'

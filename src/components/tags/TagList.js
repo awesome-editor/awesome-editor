@@ -2,7 +2,7 @@
 import Kefir from 'kefir'
 import React from 'react'
 
-import kefirEmitter from 'rflux/support/kefirEmitter'
+import kefirEmitter from 'rflux/utils/kefirEmitter'
 
 import Tag from './Tag'
 import TagPickerDropdownContainer from './TagPickerDropdownContainer'
