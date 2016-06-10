@@ -1,6 +1,6 @@
 import Kefir from 'kefir'
 
-import {put, call} from 'rflux/Saga'
+import {put, call} from 'rflux/stores/Saga'
 
 import {setDocs} from '../docs/DocActionFunctions'
 import {setTags} from '../tags/TagActionFunctions'

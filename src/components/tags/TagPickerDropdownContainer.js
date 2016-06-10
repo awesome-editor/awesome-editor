@@ -3,10 +3,12 @@ import React from 'react'
 import Kefir from 'kefir'
 
 import kefirEmitter from 'rflux/utils/kefirEmitter'
+
 import {bindToInstance} from '../../util/Utils'
 
 import TagData from '../../stores/tags/TagData'
 import TagPickerDropdown from './TagPickerDropdown'
+
 
 /**
  * Behavior:
