@@ -11,7 +11,15 @@ import Tag from './Tag'
 import TagData from '../../stores/tags/TagData'
 
 
-const NewTagInput = ({currentTagName, addTag, onChange, onKeyDown, hideDropdown}) => {
+const tagPickerStyle = {
+  marginRight: 32,
+  marginBottom: 32,
+  float: 'left',
+  position: 'relative',
+  zIndex: 0
+}
+
+const NewTagInput = ({currentTagName, onTagChange, onKeyDown, addTag}) => {
 
   const currentTagNameIsEmpty = currentTagName.trim().length === 0
 
@@ -20,7 +28,7 @@ const NewTagInput = ({currentTagName, addTag, onChange, onKeyDown, hideDropdown}
       <TextField
         hintText='Add tag'
         value={currentTagName}
-        onChange={evt => onChange(evt.target.value)}
+        onChange={evt => onTagChange(evt.target.value)}
         onKeyDown={evt => onKeyDown(evt, currentTagName)}
       />
       <IconButton
@@ -34,15 +42,7 @@ const NewTagInput = ({currentTagName, addTag, onChange, onKeyDown, hideDropdown}
   )
 }
 
-const tagPickerStyle = {
-  marginRight: 32,
-  marginBottom: 32,
-  float: 'left',
-  position: 'relative',
-  zIndex: 0
-}
-
-const TagPickerMenu = ({autocompleteTagList, onTagItemTouchTap}) => (
+const TagPickerMenu = ({autocompleteTagList, addTag}) => (
 
   <Paper
     style={tagPickerStyle}
@@ -52,7 +52,7 @@ const TagPickerMenu = ({autocompleteTagList, onTagItemTouchTap}) => (
     {autocompleteTagList.map((tag, i) => (
       <MenuItem
         key={i}
-        onTouchTap={() => onTagItemTouchTap(tag)}
+        onTouchTap={() => addTag(tag)}
         children={<Tag {...tag}/>}
       />
     ))}
@@ -67,5 +67,13 @@ const TagPickerDropdown = props => (
     {props.autocompleteTagList.length ? <div><TagPickerMenu {...props} /></div> : ''}
   </div>
 )
+
+TagPickerDropdown.defaultProps = {
+  currentTagName: '',
+  onTagChange: () => undefined,
+  autocompleteTagList: [],
+  onKeyDown: () => undefined,
+  addTag: () => undefined
+}
 
 export default TagPickerDropdown

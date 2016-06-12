@@ -3,7 +3,6 @@ import {addSideEffects, sideEffects} from 'rflux/stores/StateWithSideEffects'
 import {storageUpdateTag, storageCreateTag} from '../storage/StorageSagaActionFunctions'
 
 
-
 export const initialState = {
   tags: {}
 }

@@ -1,46 +1,53 @@
 /*eslint no-extra-parens: 0*/
 import React from 'react'
-import Kefir from 'kefir'
 
 import kefirEmitter from 'rflux/utils/kefirEmitter'
-
-import {bindToInstance} from '../../util/Utils'
+import RFluxContainer from 'rflux/components/RFluxContainer'
+import AppState from 'rflux/AppState'
 
 import TagData from '../../stores/tags/TagData'
 import TagPickerDropdown from './TagPickerDropdown'
 
 
-/**
- * Behavior:
- * - add an existing tag to the list
- * - remove a tag from the list
- * - create a new tag and add it to the list
- */
-export default class TagPickerContainer extends React.Component {
+export default class TagPickerDropdownContainer extends RFluxContainer {
 
   constructor(props) {
-
     super(props)
-
-    this.state = {
-      currentTagName: '',
-      autocompleteTagList: []
-    }
-
-    bindToInstance(this, '_onChange', '_onTagItemTouchTap', '_onKeyDown', '_addTag', '_clearSelection', '_hideDropdown')
   }
 
-  _onChange(currentTagName) {
+  getInitialObservableState() {
 
-    this.setState({currentTagName})
+    const debounceLookupTagBus = kefirEmitter()
+    const debounceLookupTagObservable = debounceLookupTagBus.debounce(300, {immediate: true})
 
-    if (currentTagName.length > 2) {
+    return {
+      /**
+       * This is just normal state.
+       */
+      currentTagName: '',
 
-      this.autoCompleteEmitter.emit(currentTagName)
-    }
-    else {
+      /**
+       * This is just normal state (that happens to be a function that sets state and pushes to the bus)
+       * @param currentTagName
+       */
+      onTagChange: currentTagName => { this.setState({currentTagName}); debounceLookupTagBus.emit(currentTagName) },
+      /**
+       * Bus values make their way here.
+       *
+       * By setting this as state, we get listener lifecycle management for free.
+       * We use the "underscore" naming convention because the child shouldn't use it.
+       */
+      _debounceLookupTagObserver: debounceLookupTagObservable.map(AppState.lookupTag),
+      /**
+       * This is a special observable state property. It gets its values from the observable.
+       * However, you can also set its value as you normally would using #setState.
+       */
+      autocompleteTagList: AppState.lookupTagObservable,
 
-      this.setState({autocompleteTagList: []})
+      onKeyDown: this._onKeyDown,
+
+      addTag: tag => tag.name.trim().length && AppState.addTagToDoc(tag, this.props.docUuid),
+      _addTagToDocObserver: AppState.addTagToDocObservable.map(() => this._clearSelection())
     }
   }
 
@@ -49,7 +56,7 @@ export default class TagPickerContainer extends React.Component {
     switch (evt.keyCode) {
 
       case 13 : // ENTER
-        return this._addTag(new TagData({name: currentTagName}))
+        return this.state.addTag(new TagData({name: currentTagName}))
 
       case 27 : // ESC
         return this._hideDropdown()
@@ -59,76 +66,16 @@ export default class TagPickerContainer extends React.Component {
     }
   }
 
-  _onTagItemTouchTap(tag) {
+  _hideDropdow() { this.setState({automcompleteTagList: []}) }
 
-    this._addTag(tag)
-  }
-
-  _hideDropdown() {
-
-    this.setState({autocompleteTagList: []})
-  }
-
-  _clearSelection() {
-
-    this.setState({currentTagName: '', autocompleteTagList: []})
-  }
-
-  _addTag(tag) {
-
-    if (tag.name.trim().length) {
-
-      this.props.addTagToDoc(tag).onValue(this._clearSelection)
-    }
-  }
-
-  componentWillMount() {
-
-    this.autoCompleteEmitter = kefirEmitter()
-
-    this.unsub = []
-
-    this.unsub.push(
-      this.autoCompleteEmitter
-        .debounce(300, {immediate: true})
-        // and getting the results
-        ._onValue(name =>
-          this.props.lookupTag(name)
-            .onValue(autocompleteTagList => this.setState({autocompleteTagList}))
-        )
-    )
-  }
-
-  render() {
-
-    return (
-      <TagPickerDropdown
-        key="tag-picker-container"
-        currentTagName={this.state.currentTagName}
-        autocompleteTagList={this.state.autocompleteTagList}
-        onTagItemTouchTap={this._onTagItemTouchTap}
-        addTag={this._addTag}
-        onChange={this._onChange}
-        onKeyDown={this._onKeyDown}
-        hideDropdown={this._hideDropdown}
-      />
-    )
-  }
-
-  componentWillUnmount() {
-
-    this.unsub.forEach(unsub => unsub())
-  }
-}
-
-TagPickerContainer.defaultProps = {
+  _clearSelection() { this.setState({currentTagName: '', autocompleteTagListBus: []}) }
 
   /**
-   * Look up potential tag matches
-   *
-   * @returns {stream} with tag matches
+   * Automatically map observable state to properties
+   * @returns {TagPickerDropdown}
    */
-  lookupTag: () => Kefir.constant([]),
-  addTagDoc: () => undefined,
-  createTag: () => undefined
+  renderComponent() {
+
+    return TagPickerDropdown
+  }
 }
