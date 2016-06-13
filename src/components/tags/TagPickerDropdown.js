@@ -42,7 +42,7 @@ const NewTagInput = ({currentTagName, onTagChange, onKeyDown, addTag}) => {
   )
 }
 
-const TagPickerMenu = ({autocompleteTagList, addTag}) => (
+const TagPickerMenu = ({autocompleteTagList, addTagProxy}) => (
 
   <Paper
     style={tagPickerStyle}
@@ -52,7 +52,7 @@ const TagPickerMenu = ({autocompleteTagList, addTag}) => (
     {autocompleteTagList.map((tag, i) => (
       <MenuItem
         key={i}
-        onTouchTap={() => addTag(tag)}
+        onTouchTap={() => addTagProxy(tag)}
         children={<Tag {...tag}/>}
       />
     ))}
@@ -73,7 +73,7 @@ TagPickerDropdown.defaultProps = {
   onTagChange: () => undefined,
   autocompleteTagList: [],
   onKeyDown: () => undefined,
-  addTag: () => undefined
+  addTagProxy: () => undefined
 }
 
 export default TagPickerDropdown

@@ -18,13 +18,13 @@ import TagPickerDropdownContainer from './TagPickerDropdownContainer'
  */
 const TagList = props => {
 
-  const {previewMode, tags, uuid} = props
+  const {previewMode, tags, ...tagDropDownProps} = props
 
   return (
 
     <div className='tags' style={{position: 'relative'}}>
 
-      {previewMode ? '' : <TagPickerDropdownContainer uuid={uuid} />}
+      {previewMode ? '' : <TagPickerDropdownContainer {...tagDropDownProps} />}
 
       <ul>
         {tags.map(tag => (
@@ -41,11 +41,9 @@ const TagList = props => {
 TagList.defaultProps = {
 
   previewMode: false,
-  /**
-   * Current tags
-   */
   tags: [],
-  uuid: ''
+  addTag: () => undefined,
+  addTagResultObservable: Kefir.constant('')
 }
 
 export default TagList

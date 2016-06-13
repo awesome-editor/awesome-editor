@@ -1,5 +1,6 @@
 /*eslint no-extra-parens: 0*/
 import React from 'react'
+import Kefir from 'kefir'
 
 import kefirEmitter from 'rflux/utils/kefirEmitter'
 import createContainer from 'rflux/components/createSimpleContainer'
@@ -11,9 +12,22 @@ import TagPickerDropdown from './TagPickerDropdown'
 
 export default createContainer({
 
+  getDefaultProps() {
+    return {
+      /**
+       * Parent view needs to define addTag action.
+       *
+       * @return void
+       */
+      addTag: () => undefined,
+      addTagResultObservable: Kefir.constant('')
+    }
+  },
+
   getInitialObservableState() {
     return {
-      currentTagName: ''
+      currentTagName: '',
+      autocompleteTagList: []
     }
   },
 
@@ -33,12 +47,12 @@ export default createContainer({
     const autocompleteTagList = AppState.lookupTagResultObservable
     // End: tag lookup
 
-    const _hideDropdown = () => this.setState({automcompleteTagList: []})
-    const _clearSelection = () => this.setState({currentTagName: '', autocompleteTagListBus: []})
+    const _hideDropdown = () => this.setState({autocompleteTagList: []})
+    const _clearSelection = () => this.setState({currentTagName: '', autocompleteTagList: []})
 
     // Start: add tag
-    const addTag = tag => tag.name.trim().length && AppState.addTagToDoc(tag, this.props.docUuid)
-    const _addTagToDocObservable = AppState.addTagToDocResultObservable.map(_clearSelection)
+    const addTagProxy = tag => tag.name.trim().length && this.props.addTag(tag)
+    const _addTagProxyResultObservable = this.props.addTagResultObservable.map(_clearSelection)
     // End: add tag
 
     const onKeyDown = (evt, currentTagName) => {
@@ -46,7 +60,7 @@ export default createContainer({
       switch (evt.keyCode) {
 
         case 13 : // ENTER
-          return addTag(new TagData({name: currentTagName}))
+          return addTagProxy(new TagData({name: currentTagName}))
 
         case 27 : // ESC
           return _hideDropdown()
@@ -76,8 +90,8 @@ export default createContainer({
        */
       autocompleteTagList,
 
-      addTag,
-      _addTagToDocObservable,
+      addTagProxy,
+      _addTagProxyResultObservable,
 
       onKeyDown
     }
