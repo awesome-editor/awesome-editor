@@ -49,7 +49,7 @@ export function createDoc(docState, doc) {
  *
  * If tag already exists, it won't add it again
  */
-export function addTagToDoc(docState, {tag, docUuid}) {
+export function addTagToDoc(docState, {tag, docUuid}, result) {
 
   const docs = docState.docs
   const doc = docs[docUuid]
@@ -58,13 +58,18 @@ export function addTagToDoc(docState, {tag, docUuid}) {
   if (!tag.uuid) {
 
     const createTagMessage = createTagResult(tag)
+    const newDoc = _docWithTag(doc, tag)
 
-    return upsertDoc(docState, _docWithTag(doc, tag)).combine(sideEffects(createTagMessage))
+    return upsertDoc(docState, newDoc)
+      .combine(sideEffects(createTagMessage))
+      .combine(result(newDoc))
   }
   // else add tag to doc only if it's not already there
   else if (!doc.tags.find(_tag => _tag.uuid === tag.uuid)) {
 
-    return upsertDoc(docState, _docWithTag(doc, tag))
+    const newDoc = _docWithTag(doc, tag)
+
+    return upsertDoc(docState, newDoc).combine(result(newDoc))
   }
 
   return docState

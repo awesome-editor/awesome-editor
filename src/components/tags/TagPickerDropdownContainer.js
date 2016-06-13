@@ -2,23 +2,38 @@
 import React from 'react'
 
 import kefirEmitter from 'rflux/utils/kefirEmitter'
-import RFluxContainer from 'rflux/components/RFluxContainer'
+import createContainer from 'rflux/components/createSimpleContainer'
 import AppState from 'rflux/AppState'
 
 import TagData from '../../stores/tags/TagData'
 import TagPickerDropdown from './TagPickerDropdown'
 
 
-export default class TagPickerDropdownContainer extends RFluxContainer {
-
-  constructor(props) {
-    super(props)
-  }
+export default createContainer({
 
   getInitialObservableState() {
 
     const debounceLookupTagBus = kefirEmitter()
     const debounceLookupTagObservable = debounceLookupTagBus.debounce(300, {immediate: true})
+
+    const _hideDropdown = () => this.setState({automcompleteTagList: []})
+    const _clearSelection = () => this.setState({currentTagName: '', autocompleteTagListBus: []})
+
+    const _onKeyDown = (evt, currentTagName) => {
+
+      switch (evt.keyCode) {
+
+        case 13 : // ENTER
+          return this.state.addTag(new TagData({name: currentTagName}))
+
+        case 27 : // ESC
+          return _hideDropdown()
+
+        default:
+          break
+      }
+    }
+
 
     return {
       /**
@@ -30,7 +45,10 @@ export default class TagPickerDropdownContainer extends RFluxContainer {
        * This is just normal state (that happens to be a function that sets state and pushes to the bus)
        * @param currentTagName
        */
-      onTagChange: currentTagName => { this.setState({currentTagName}); debounceLookupTagBus.emit(currentTagName) },
+      onTagChange: currentTagName => {
+        this.setState({currentTagName})
+        debounceLookupTagBus.emit(currentTagName)
+      },
       /**
        * Bus values make their way here.
        *
@@ -44,38 +62,10 @@ export default class TagPickerDropdownContainer extends RFluxContainer {
        */
       autocompleteTagList: AppState.lookupTagObservable,
 
-      onKeyDown: this._onKeyDown,
+      onKeyDown: _onKeyDown,
 
       addTag: tag => tag.name.trim().length && AppState.addTagToDoc(tag, this.props.docUuid),
-      _addTagToDocObserver: AppState.addTagToDocObservable.map(() => this._clearSelection())
+      _addTagToDocObserver: AppState.addTagToDocResultObservable.map(_clearSelection)
     }
   }
-
-  _onKeyDown(evt, currentTagName) {
-
-    switch (evt.keyCode) {
-
-      case 13 : // ENTER
-        return this.state.addTag(new TagData({name: currentTagName}))
-
-      case 27 : // ESC
-        return this._hideDropdown()
-
-      default:
-        break
-    }
-  }
-
-  _hideDropdow() { this.setState({automcompleteTagList: []}) }
-
-  _clearSelection() { this.setState({currentTagName: '', autocompleteTagListBus: []}) }
-
-  /**
-   * Automatically map observable state to properties
-   * @returns {TagPickerDropdown}
-   */
-  renderComponent() {
-
-    return TagPickerDropdown
-  }
-}
+})(TagPickerDropdown)
