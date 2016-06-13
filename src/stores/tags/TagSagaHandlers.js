@@ -13,11 +13,14 @@ export function lookupTag(tagName) {
   return AppState.tagsObservable
     .take(1)
     .map(tags => tags.tags)
-    .map(tags => Object.keys(tags).reduce((matchingTags, tagUuid) =>
+    .map(tags => Object.keys(tags).reduce((matchingTags, tagUuid) => {
 
-      tags[tagUuid].name.indexOf(tagName) >= 0 ?
-        Object.assign(matchingTags, {[tagUuid]: tags[tagUuid]}) :
-        matchingTags,
+      debugger
+       return tags[tagUuid].name.indexOf(tagName) >= 0 ?
+          Object.assign(matchingTags, {[tagUuid]: tags[tagUuid]}) :
+          matchingTags
+
+      },
 
       {}
     ))
