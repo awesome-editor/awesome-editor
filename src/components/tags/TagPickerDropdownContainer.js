@@ -28,9 +28,9 @@ export default createContainer({
 
     const onTagChange = currentTagName => {
       this.setState({currentTagName})
-      debounceLookupTagBus.emit(currentTagName)
+      currentTagName.length > 2 && debounceLookupTagBus.emit(currentTagName)
     }
-    const autocompleteTagList = AppState.lookupTagObservable
+    const autocompleteTagList = AppState.lookupTagResultObservable
     // End: tag lookup
 
     const _hideDropdown = () => this.setState({automcompleteTagList: []})
