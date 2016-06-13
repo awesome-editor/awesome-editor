@@ -11,18 +11,16 @@ export default createContainer({
       currentDocUuid: null,
       switchToEditor: false,
       switchToList: true,
-      systemCreateDoc: () => undefined,
-      systemSwitchMainWindow: () => undefined
+      systemCreateDoc: AppState.systemCreateDoc,
+      systemSwitchMainWindow: AppState.systemSwitchMainWindow
     }
   },
-  getInitialObservableState() {
+  getObservableState() {
     return {
       mainWindow: AppState.appMainWindowObservable,
       currentDocUuid: AppState.appCurrentDocUuidObservable,
       switchToEditor: AppState.appMainWindowObservable.diff((prev, cur) => cur === 'DocEditor' && prev !== cur, false),
       switchToList: AppState.appMainWindowObservable.diff((prev, cur) => cur === 'DocList' && prev !== cur, false),
-      systemCreateDoc: AppState.systemCreateDoc,
-      systemSwitchMainWindow: AppState.systemSwitchMainWindow
     }
   }
 })(App)

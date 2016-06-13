@@ -4,21 +4,18 @@ import AppState from 'rflux/AppState'
 /**
  * For now search through every doc
  *
- * @param tag
+ * @param tagName
  * @returns {*}
  */
-export function lookupTag(tag) {
+export function lookupTag(tagName) {
 
-  return tag.name.length < 2 ?
-
-    Kefir.constant([]) :
-
-    AppState.tagsObservable
+  //TODO why is AppState here?
+  return AppState.tagsObservable
     .take(1)
     .map(tags => tags.tags)
     .map(tags => Object.keys(tags).reduce((matchingTags, tagUuid) =>
 
-      tags[tagUuid].name.indexOf(tag) >= 0 ?
+      tags[tagUuid].name.indexOf(tagName) >= 0 ?
         Object.assign(matchingTags, {[tagUuid]: tags[tagUuid]}) :
         matchingTags,
 
