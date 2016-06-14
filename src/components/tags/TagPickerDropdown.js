@@ -19,7 +19,7 @@ const tagPickerStyle = {
   zIndex: 0
 }
 
-const NewTagInput = ({currentTagName, onTagChange, onKeyDown, addTag}) => {
+const TagInput = ({currentTagName, onTagChange, onKeyDown, addTagProxy}) => {
 
   const currentTagNameIsEmpty = currentTagName.trim().length === 0
 
@@ -35,7 +35,7 @@ const NewTagInput = ({currentTagName, onTagChange, onKeyDown, addTag}) => {
         disabled={currentTagNameIsEmpty}
         tooltip='Add tag'
         touch={true}
-        onTouchTap={() => addTag(new TagData({name: currentTagName}))}>
+        onTouchTap={() => addTagProxy(new TagData({name: currentTagName}))}>
         <AddCircle/>
       </IconButton>
     </div>
@@ -63,7 +63,7 @@ const TagPickerMenu = ({autocompleteTagList, addTagProxy}) => (
 const TagPickerDropdown = props => (
 
   <div>
-    <NewTagInput {...props} />
+    <TagInput {...props} />
     {props.autocompleteTagList.length ? <div><TagPickerMenu {...props} /></div> : ''}
   </div>
 )

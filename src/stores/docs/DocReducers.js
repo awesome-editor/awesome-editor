@@ -1,5 +1,6 @@
 /*eslint no-use-before-define: 0*/
-import {addSideEffects, sideEffects} from 'rflux/stores/StateWithSideEffects'
+import {stateWithSideEffects, statelessSideEffects} from 'rflux/stores/StateWithSideEffects'
+import {combineStateWithSideEffects} from 'rflux/stores/StateWithSideEffects'
 
 import {storageUpdateDoc, storageCreateDoc} from '../storage/StorageSagaActionFunctions'
 import {systemBroadcastNewDocUuid} from '../app/AppActionFunctions'
@@ -21,7 +22,7 @@ export function upsertDoc(docState, doc) {
   const newDocEntry = {[doc.uuid]: newDoc}
   const newDocs = {docs: {...docs, ...newDocEntry}}
 
-  return addSideEffects({...docState, ...newDocs}, storageUpdateDoc(newDoc))
+  return stateWithSideEffects({...docState, ...newDocs}, storageUpdateDoc(newDoc))
 }
 
 /**
@@ -33,8 +34,8 @@ export function upsertDoc(docState, doc) {
  */
 export function createDoc(docState, doc) {
 
-  const create = sideEffects(storageCreateDoc(doc))
-  const broadcast = sideEffects(systemBroadcastNewDocUuid(doc.uuid))
+  const create = statelessSideEffects(storageCreateDoc(doc))
+  const broadcast = statelessSideEffects(systemBroadcastNewDocUuid(doc.uuid))
 
   return upsertDoc(docState, doc)
     .combine(create)
@@ -65,7 +66,7 @@ export function addTagToDoc(docState, {tag, docUuid}, result) {
     const newDoc = _docWithTag(doc, tag)
 
     return upsertDoc(docState, newDoc)
-      .combine(sideEffects(createTagMessage))
+      .combine(statelessSideEffects(createTagMessage))
       .combine(result(newDoc))
   }
   // else add tag to doc only if it's not already there
@@ -76,7 +77,7 @@ export function addTagToDoc(docState, {tag, docUuid}, result) {
     return upsertDoc(docState, newDoc).combine(result(newDoc))
   }
 
-  return addSideEffects(docState, result(doc))
+  return combineStateWithSideEffects(docState, result(doc))
 }
 
 /**

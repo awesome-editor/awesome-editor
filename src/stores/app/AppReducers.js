@@ -1,7 +1,4 @@
 /*eslint no-use-before-define: 0*/
-//import {addSideEffects} from '../../rflux/StateWithSideEffects'
-//import {createDoc} from '../docs/DocActions'
-//import {systemShowDocEditor} from './AppActions'
 
 /**
  * You don't need explicit "switch to doc list" or "switch to doc editor" state because you can get that info
