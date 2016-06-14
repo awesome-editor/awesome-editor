@@ -1,12 +1,13 @@
-import createTypes from 'rflux/internal/createTypes'
+import keyMirror from 'keymirror'
 
 
-export const TagActions = createTypes([
-  'createTagResult',
-  'upsertTag',
-  'setTags'
-])
+export const TagActions = keyMirror({
+  createTagResult: true,
+  upsertTag: true,
+  setTags: true
+})
 
-export const TagSagas = createTypes([
-  'lookupTag'
-])
+export const TagSagas = keyMirror({
+  lookupTag: true
+})
+

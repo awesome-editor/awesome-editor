@@ -1,10 +1,10 @@
-import createTypes from 'rflux/internal/createTypes'
+import keyMirror from 'keymirror'
 
-export const StorageSagas = createTypes([
-  'storageCreateDoc',
-  'storageCreateTag',
-  'storageUpdateDoc',
-  'storageUpdateTag',
-  'storageLoadDocs',
-  'storageLoadTags'
-])
+export const StorageSagas = keyMirror({
+  'storageCreateDoc': true,
+  'storageCreateTag': true,
+  'storageUpdateDoc': true,
+  'storageUpdateTag': true,
+  'storageLoadDocs': true,
+  'storageLoadTags': true
+})

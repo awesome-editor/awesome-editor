@@ -1,11 +1,11 @@
-import createTypes from 'rflux/internal/createTypes'
+import keyMirror from 'keymirror'
 
-export const AppActions = createTypes([
-  'systemSwitchMainWindow',
-  'systemSetCurrentDocUuid',
-  'systemBroadcastNewDocUuid'
-])
+export const AppActions = keyMirror({
+  systemSwitchMainWindow: true,
+  systemSetCurrentDocUuid: true,
+  systemBroadcastNewDocUuid: true
+})
 
-export const AppSideEffects = createTypes([
-  'systemCreateDoc'
-])
+export const AppSideEffects = keyMirror({
+  systemCreateDoc: true
+})

@@ -37,7 +37,6 @@
       "css": "github:systemjs/plugin-css@^0.1.19",
       "dimitrinicolas/marmottajax": "github:dimitrinicolas/marmottajax@master",
       "flexboxgrid": "npm:flexboxgrid@^6.3.0",
-      "frankandrobot/rflux": "github:frankandrobot/rflux@master",
       "highlight.js": "npm:highlight.js@^9.3.0",
       "json": "github:systemjs/plugin-json@^0.1.0",
       "kefir": "npm:kefir@^3.2.0",
@@ -50,7 +49,7 @@
       "react-motion": "npm:react-motion@^0.4.2",
       "react-tap-event-plugin": "npm:react-tap-event-plugin@^0.2.1",
       "remarkable": "npm:remarkable@^1.6.0",
-      "rflux": "github:frankandrobot/rflux@initial",
+      "rflux": "github:frankandrobot/rflux@master",
       "uuid": "npm:uuid@^2.0.1"
     },
     "devDependencies": {

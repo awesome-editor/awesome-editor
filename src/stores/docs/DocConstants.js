@@ -1,8 +1,8 @@
-import createTypes from 'rflux/internal/createTypes'
+import keyMirror from 'keymirror'
 
-export const DocActions = createTypes([
-  'createDoc',
-  'upsertDoc',
-  'setDocs',
-  'addTagToDoc'
-])
+export const DocActions = keyMirror({
+  createDoc: true,
+  upsertDoc: true,
+  setDocs: true,
+  addTagToDoc: true
+})
