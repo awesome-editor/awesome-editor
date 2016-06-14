@@ -3,7 +3,7 @@ import React from 'react'
 import Kefir from 'kefir'
 
 import kefirEmitter from 'rflux/utils/kefirEmitter'
-import createContainer from 'rflux/components/createSimpleContainer'
+import createContainer from 'rflux/components/createContainer'
 import AppState from 'rflux/AppState'
 
 import TagData from '../../stores/tags/TagData'
@@ -17,7 +17,7 @@ export default createContainer({
       /**
        * Parent view needs to define addTag action.
        *
-       * @return void
+       * @returns {void} void
        */
       addTag: () => undefined,
       addTagResultObservable: Kefir.constant('')
