@@ -27,10 +27,9 @@ export function upsertDoc(docState, doc) {
 /**
  * Create the doc and tell the world about it
  *
- * @param docState
- * @param doc
- * @returns {*}
- * @private
+ * @param {*} docState
+ * @param {DocData} doc
+ * @returns {StateWithSideEffects} doc state
  */
 export function createDoc(docState, doc) {
 
@@ -48,6 +47,11 @@ export function createDoc(docState, doc) {
  * - tag
  *
  * If tag already exists, it won't add it again
+ *
+ * @param {*} docState
+ * @param {{TagData, String}} doc
+ * @param {Function} result
+ * @returns {StateWithSideEffects} doc state
  */
 export function addTagToDoc(docState, {tag, docUuid}, result) {
 
@@ -72,15 +76,15 @@ export function addTagToDoc(docState, {tag, docUuid}, result) {
     return upsertDoc(docState, newDoc).combine(result(newDoc))
   }
 
-  return docState
+  return addSideEffects(docState, result(doc))
 }
 
 /**
  * You probably don't ever want to call this directly
  *
- * @param docState
- * @param docs
- * @returns {{docs: {}}}
+ * @param {*} docState
+ * @param {DocData} docs
+ * @returns {StateWithSideEffects} doc state
  */
 export function setDocs(docState, docs) {
 
