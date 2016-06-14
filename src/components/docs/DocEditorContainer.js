@@ -1,12 +1,19 @@
 /*eslint no-extra-parens: 0*/
 import React from 'react'
 
-import Container from 'rflux/components/RFluxDangerouslySlowContainer'
+import Container from 'rflux/components/DangerouslySlowContainer'
 import AppState from 'rflux/AppState'
 
 import DocEditor from './DocEditor'
 
 
+/**
+ * We pass a function that returns an observable because the Container turns observables into values.
+ *
+ * @param {String} uuid
+ * @returns {XML} container view
+ * @constructor
+ */
 const DocEditorContainer = ({uuid}) => {
 
   return (
@@ -19,7 +26,7 @@ const DocEditorContainer = ({uuid}) => {
 
       tags={AppState.docTagsObservable(uuid)}
       addTag={tag => AppState.addTagToDoc(tag, uuid)}
-      addTagResultObservable={AppState.addTagToDocResultObservable}>
+      addTagResultObservableFunction={() => AppState.addTagToDocResultObservable}>
 
       <DocEditor/>
 

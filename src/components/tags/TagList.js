@@ -43,7 +43,7 @@ TagList.defaultProps = {
   previewMode: false,
   tags: [],
   addTag: () => undefined,
-  addTagResultObservable: Kefir.constant('')
+  addTagResultObservableFunction: () => Kefir.never()
 }
 
 export default TagList

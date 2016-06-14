@@ -20,7 +20,7 @@ export default createContainer({
        * @returns {void} void
        */
       addTag: () => undefined,
-      addTagResultObservable: Kefir.constant('')
+      addTagResultObservableFunction: () => Kefir.never()
     }
   },
 
@@ -52,7 +52,7 @@ export default createContainer({
 
     // Start: add tag
     const addTagProxy = tag => tag.name.trim().length && this.props.addTag(tag)
-    const _addTagProxyResultObservable = this.props.addTagResultObservable.map(_clearSelection)
+    const _addTagProxyResultObservable = this.props.addTagResultObservableFunction().map(_clearSelection)
     // End: add tag
 
     const onKeyDown = (evt, currentTagName) => {
