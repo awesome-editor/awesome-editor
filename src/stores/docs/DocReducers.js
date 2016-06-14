@@ -1,6 +1,5 @@
 /*eslint no-use-before-define: 0*/
-import {stateWithSideEffects, statelessSideEffects} from 'rflux/stores/StateWithSideEffects'
-import {combineStateWithSideEffects} from 'rflux/stores/StateWithSideEffects'
+import {state} from 'rflux/stores/StateWithSideEffects'
 
 import {storageUpdateDoc, storageCreateDoc} from '../storage/StorageSagaActionFunctions'
 import {systemBroadcastNewDocUuid} from '../app/AppActionFunctions'
@@ -21,8 +20,9 @@ export function upsertDoc(docState, doc) {
   const newDoc = {...cur, ...doc}
   const newDocEntry = {[doc.uuid]: newDoc}
   const newDocs = {docs: {...docs, ...newDocEntry}}
+  const storageUpdate = storageUpdateDoc(newDoc)
 
-  return stateWithSideEffects({...docState, ...newDocs}, storageUpdateDoc(newDoc))
+  return state({...docState, ...newDocs}).addSideEffects(storageUpdate)
 }
 
 /**
@@ -34,23 +34,21 @@ export function upsertDoc(docState, doc) {
  */
 export function createDoc(docState, doc) {
 
-  const create = statelessSideEffects(storageCreateDoc(doc))
-  const broadcast = statelessSideEffects(systemBroadcastNewDocUuid(doc.uuid))
+  const storageCreate = storageCreateDoc(doc)
+  // TODO this can be replaced with #result
+  const broadcast = systemBroadcastNewDocUuid(doc.uuid)
 
-  return upsertDoc(docState, doc)
-    .combine(create)
-    .combine(broadcast)
+  return upsertDoc(docState, doc).addSideEffects(storageCreate, broadcast)
 }
 
 /**
- * payload:
- * - uuid (for doc)
- * - tag
+ * The important thing is to always return a result;
+ * otherwise the result observable won't work.
  *
  * If tag already exists, it won't add it again
  *
  * @param {*} docState
- * @param {{TagData, String}} doc
+ * @param {{TagData, String}} tag, doc uuid
  * @param {Function} result
  * @returns {StateWithSideEffects} doc state
  */
@@ -65,19 +63,17 @@ export function addTagToDoc(docState, {tag, docUuid}, result) {
     const createTagMessage = createTagResult(tag)
     const newDoc = _docWithTag(doc, tag)
 
-    return upsertDoc(docState, newDoc)
-      .combine(statelessSideEffects(createTagMessage))
-      .combine(result(newDoc))
+    return upsertDoc(docState, newDoc).addSideEffects(createTagMessage, result(newDoc))
   }
   // else add tag to doc only if it's not already there
   else if (!doc.tags.find(_tag => _tag.uuid === tag.uuid)) {
 
     const newDoc = _docWithTag(doc, tag)
 
-    return upsertDoc(docState, newDoc).combine(result(newDoc))
+    return upsertDoc(docState, newDoc).addSideEffects(result(newDoc))
   }
 
-  return combineStateWithSideEffects(docState, result(doc))
+  return state(docState).addSideEffects(result(doc))
 }
 
 /**

@@ -1,4 +1,4 @@
-import {stateWithSideEffects, statelessSideEffects} from 'rflux/stores/StateWithSideEffects'
+import {state} from 'rflux/stores/StateWithSideEffects'
 
 import {storageUpdateTag, storageCreateTag} from '../storage/StorageSagaActionFunctions'
 
@@ -15,20 +15,15 @@ export function upsertTag(tagState, tag) {
   const newTagEntry = {[tag.uuid]: newTag}
   const newTags = {tags: {...tags, ...newTagEntry}}
 
-  return stateWithSideEffects(
-    {...tagState, ...newTags},
-    storageUpdateTag(newTag)
-  )
+  return state({...tagState, ...newTags}).addSideEffects(storageUpdateTag(newTag))
 }
 
 export function createTagResult(tagState, tag, result) {
 
-  const create = statelessSideEffects(storageCreateTag(tag))
-  const broadcast = statelessSideEffects(result(tag))
+  const create = storageCreateTag(tag)
+  const broadcast = result(tag)
 
-  return upsertTag(tagState, tag)
-    .combine(create)
-    .combine(broadcast)
+  return upsertTag(tagState, tag).addSideEffects(create, broadcast)
 }
 
 /**
