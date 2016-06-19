@@ -4,5 +4,6 @@
 npm install
 jspm install -y
 gulp server
+npm start
 ```
 
