@@ -8,6 +8,7 @@ import DocPreview from './DocPreview'
 import md from './markdown'
 
 
+/* eslint-disable no-extra-parens */
 const DocPreviewContainer = ({uuid, disableToolbar}) => {
 
   return (

@@ -12,7 +12,6 @@ export default createContainer({
       switchToEditor: false,
       switchToList: true,
       systemCreateDoc: AppState.systemCreateDoc,
-      systemSwitchMainWindow: AppState.systemSwitchMainWindow
     }
   },
   getObservableState() {

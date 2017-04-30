@@ -3,7 +3,8 @@ import React from 'react'
 
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Link
 } from 'react-router-dom'
 
 import AppBar from 'material-ui/lib/app-bar'
@@ -22,12 +23,15 @@ const App = ({currentDocUuid, systemCreateDoc}) =>
   <Router>
     <div>
       <Route exact path="/" component={docList({currentDocUuid})}/>
-      <Route path="/edit" component={docEditor({currentDocUuid, systemCreateDoc})}/>
+      <Route
+        path="/edit/:currentDocUuid"
+        component={docEditor({currentDocUuid, systemCreateDoc})}
+      />
     </div>
   </Router>
 
-const docEditor = ({currentDocUuid, history}) => () => {
-
+const docEditor = ({match}) => () => {
+  const {params: {currentDocUuid}} = match
   const Main = <DocEditorContainer key="DocEditor" uuid={currentDocUuid}/>
   const Sidebar =
     <DocPreviewContainer
@@ -37,9 +41,7 @@ const docEditor = ({currentDocUuid, history}) => () => {
     />
   const title = 'Edit Note'
   const LeftMenu =
-    <IconButton onClick={() => history.push('/')}>
-      <NavigateLeft/>
-    </IconButton>
+    <Link to="/"><IconButton><NavigateLeft/></IconButton></Link>
   const ActionButton = null
 
   return (
@@ -65,9 +67,9 @@ const docEditor = ({currentDocUuid, history}) => () => {
 const docList = ({currentDocUuid, systemCreateDoc}) => () => {
   const title = 'Notes'
   const LeftMenu = null
-  const Sidebar = currentDocUuid ?
-    <DocPreviewContainer key="DocPreview" uuid={currentDocUuid} disableToolbar={false}/> :
-    null
+  const Sidebar = currentDocUuid
+    ? <DocPreviewContainer key="DocPreview" uuid={currentDocUuid} disableToolbar={false}/>
+    : null
   const ActionButton = (
     <FloatingActionButton onClick={systemCreateDoc} style={{position: 'absolute', bottom: '1em', right: 0}}>
       <ContentAdd />
@@ -98,7 +100,7 @@ App.defaultProps = {
   currentDocUuid: null,
   switchToEditor: false,
   switchToList: true,
-  systemCreateDoc: () => undefined,
+  systemCreateDoc: () => undefined
 }
 
 

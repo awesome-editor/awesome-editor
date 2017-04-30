@@ -9,7 +9,9 @@ import FlatButton from 'material-ui/lib/flat-button'
 import TagList from '../tags/TagList'
 
 
-const DocPreview = ({docTitle, docHtmlContent, disableToolbar, editDoc, deleteDoc, ...tagStuff}) => {
+/* eslint-disable no-extra-parens */
+const DocPreview = ({docTitle, docHtmlContent, disableToolbar, editDoc, deleteDoc,
+  ...tagStuff}) => {
 
   return (
     <Card>
