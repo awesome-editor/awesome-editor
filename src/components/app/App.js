@@ -1,6 +1,11 @@
 /*eslint no-extra-parens: 0*/
 import React from 'react'
 
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom'
+
 import AppBar from 'material-ui/lib/app-bar'
 import IconButton from 'material-ui/lib/icon-button'
 import NavigateLeft from 'material-ui/lib/svg-icons/navigation/chevron-left'
@@ -11,38 +16,31 @@ import DocEditorContainer from '../docs/DocEditorContainer'
 import DocListContainer from '../docs/DocListContainer'
 import DocPreviewContainer from '../docs/DocPreviewContainer'
 
-const App = ({mainWindow, currentDocUuid, systemCreateDoc, systemSwitchMainWindow}) => {
 
-  let Main
-  let Sidebar = ''
-  let title = ''
-  let LeftMenu = null
-  let ActionButton = null
+/* eslint-disable no-use-before-define */
+const App = ({currentDocUuid, systemCreateDoc}) =>
+  <Router>
+    <div>
+      <Route exact path="/" component={docList({currentDocUuid})}/>
+      <Route path="/edit" component={docEditor({currentDocUuid, systemCreateDoc})}/>
+    </div>
+  </Router>
 
-  switch (mainWindow) {
-    case 'DocEditor':
-      Main = <DocEditorContainer key="DocEditor" uuid={currentDocUuid}/>
-      Sidebar = <DocPreviewContainer key="DocPreview" uuid={currentDocUuid} disableToolbar={true}/>
-      title = 'Edit Note'
-      LeftMenu = <IconButton onClick={() => systemSwitchMainWindow('DocList')}><NavigateLeft /></IconButton>
-      break
+const docEditor = ({currentDocUuid, history}) => () => {
 
-    case 'DocList':
-      Main = <DocListContainer />
-      Sidebar = currentDocUuid ?
-        <DocPreviewContainer key="DocPreview" uuid={currentDocUuid} disableToolbar={false}/> :
-        ''
-      title = 'Notes'
-      ActionButton = (
-        <FloatingActionButton onClick={systemCreateDoc} style={{position: 'absolute', bottom: '1em', right: 0}}>
-          <ContentAdd />
-        </FloatingActionButton>
-      )
-      break
-
-    default:
-      throw new Error(`mainWindow ${mainWindow} not handled`)
-  }
+  const Main = <DocEditorContainer key="DocEditor" uuid={currentDocUuid}/>
+  const Sidebar =
+    <DocPreviewContainer
+      key="DocPreview"
+      uuid={currentDocUuid}
+      disableToolbar={true}
+    />
+  const title = 'Edit Note'
+  const LeftMenu =
+    <IconButton onClick={() => history.push('/')}>
+      <NavigateLeft/>
+    </IconButton>
+  const ActionButton = null
 
   return (
     <div>
@@ -64,14 +62,43 @@ const App = ({mainWindow, currentDocUuid, systemCreateDoc, systemSwitchMainWindo
   )
 }
 
-App.defaultProps = {
+const docList = ({currentDocUuid, systemCreateDoc}) => () => {
+  const title = 'Notes'
+  const LeftMenu = null
+  const Sidebar = currentDocUuid ?
+    <DocPreviewContainer key="DocPreview" uuid={currentDocUuid} disableToolbar={false}/> :
+    null
+  const ActionButton = (
+    <FloatingActionButton onClick={systemCreateDoc} style={{position: 'absolute', bottom: '1em', right: 0}}>
+      <ContentAdd />
+    </FloatingActionButton>
+  )
 
-  mainWindow: 'DocList',
+  return (
+    <div>
+      <div className="row">
+        <div className="col-sm-12">
+          <AppBar title={title} iconElementLeft={LeftMenu}/>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-sm-9">
+          <DocListContainer />
+          {ActionButton}
+        </div>
+        <div className="col-sm-3">
+          {Sidebar}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+App.defaultProps = {
   currentDocUuid: null,
   switchToEditor: false,
   switchToList: true,
   systemCreateDoc: () => undefined,
-  systemSwitchMainWindow: () => undefined
 }
 
 

@@ -49,6 +49,7 @@
       "react-bootstrap/react-bootstrap": "github:react-bootstrap/react-bootstrap@^0.27.3",
       "react-dom": "npm:react-dom@^0.14.0",
       "react-motion": "npm:react-motion@^0.4.2",
+      "react-router-dom": "npm:react-router-dom@^4.1.1",
       "react-tap-event-plugin": "npm:react-tap-event-plugin@^0.2.1",
       "remarkable": "npm:remarkable@^1.6.0",
       "rflux": "github:frankandrobot/rflux@master",
