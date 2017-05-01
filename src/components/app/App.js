@@ -67,6 +67,7 @@ const docEditor = ({match}) => () => {
 const docList = ({currentDocUuid, systemCreateDoc}) => () => {
   const title = 'Notes'
   const LeftMenu = null
+  const Main = <DocListContainer />
   const Sidebar = currentDocUuid
     ? <DocPreviewContainer key="DocPreview" uuid={currentDocUuid} disableToolbar={false}/>
     : null
@@ -85,7 +86,7 @@ const docList = ({currentDocUuid, systemCreateDoc}) => () => {
       </div>
       <div className="row">
         <div className="col-sm-9">
-          <DocListContainer />
+          {Main}
           {ActionButton}
         </div>
         <div className="col-sm-3">
