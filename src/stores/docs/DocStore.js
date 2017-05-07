@@ -1,11 +1,13 @@
 import {Channels} from '../constants/Constants'
-import {registerStore} from 'rflux/AppState'
 
 import {DocActions as ActionTypes} from './DocConstants'
 import * as Reducers from './DocReducers'
 import * as ActionFunctions from './DocActionFunctions'
 import * as ActionObservables from './DocActionObservables'
+import appStateFactory from '../index'
 
+
+const {registerStore} = appStateFactory
 
 registerStore(
   Channels.docs,

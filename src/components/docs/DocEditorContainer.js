@@ -2,7 +2,8 @@
 import React from 'react'
 
 import Container from 'rflux/components/DangerouslySlowContainer'
-import AppState from 'rflux/AppState'
+
+import {AppState} from '../../bootstrap'
 
 import DocEditor from './DocEditor'
 

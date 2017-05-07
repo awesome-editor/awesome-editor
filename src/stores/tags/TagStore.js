@@ -1,13 +1,14 @@
 import {Channels} from '../constants/Constants'
-import {registerSagas} from 'rflux/AppState'
-import {registerStore} from 'rflux/AppState'
 
 import {TagSagas as Sagas, TagActions as ActionTypes} from './TagConstants'
 import * as Reducers from './TagReducers'
 import * as ActionFunctions from './TagActionFunctions'
 import * as SagaActionFunctions from './TagSagaActionFunctions'
 import * as SagaHandlers from './TagSagaHandlers'
+import appStateFactory from '../index'
 
+
+const {registerSagas, registerStore} = appStateFactory
 
 registerStore(
   Channels.tags,
