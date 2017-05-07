@@ -8,7 +8,7 @@ import {registerStore} from 'rflux/AppState'
 // 3. add reducer to _scanner
 // 4. create the store
 // 5. export the store in the default exported object
-import {AppActions as Actions, AppSideEffects as Sagas} from './AppConstants'
+import {AppActions as ActionTypes, AppSideEffects as Sagas} from './AppConstants'
 import * as Reducers from './AppReducers'
 import * as ActionFunctions from './AppActionFunctions'
 import * as ActionObservables from './AppActionObservables'
@@ -18,7 +18,7 @@ import * as SagaHandlers from './AppSagaHandlers'
 
 registerStore(
   Channels.app,
-  {Actions, Reducers, ActionFunctions, ActionObservables}
+  {ActionTypes, Reducers, ActionFunctions, ActionObservables}
 )
 
 registerSagas(
