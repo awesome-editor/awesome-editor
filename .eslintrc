@@ -1,34 +1,56 @@
 {
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "shared-node-browser": true,
+    "mocha": true
+  },
+  "globals": {
+    "sinon": true,
+    "expect": true,
+    "define": true,
+    "require": true,
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
   "plugins": [
     "react"
   ],
-
-  "parser": "babel-eslint",
-
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "modules": true,
-      "jsx": true
-    }
-  },
-
-  "extends": "eslint:recommended",
-
-  "env": {
-    "browser": true,
-    "jasmine": true,
-    "mocha": true,
-    "es6": true
-  },
-
-  "globals": {
-    "define": true,
-    "require" : true
-  },
-
   "rules": {
+    "react/no-multi-comp": [
+      "error",
+      {
+        "ignoreStateless": true
+      }
+    ],
+    "react/no-render-return-value": "error",
+    "react/prefer-es6-class": [
+      "error",
+      "always"
+    ],
+    "react/prefer-stateless-function": [
+      "error",
+      {
+        "ignorePureComponents": true
+      }
+    ],
+    "react/no-unknown-property": "error",
+    "react/jsx-closing-bracket-location": [
+      "error",
+      "tag-aligned"
+    ],
+
     "no-extra-parens": 2,
     "valid-jsdoc": [2, {"requireReturn": false, "requireParamDescription": false}],
 

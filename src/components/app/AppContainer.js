@@ -1,5 +1,6 @@
 import createContainer from 'rflux/components/createContainer'
-import AppState from 'rflux/AppState'
+
+import {AppState} from '../../bootstrap'
 
 import App from './App'
 

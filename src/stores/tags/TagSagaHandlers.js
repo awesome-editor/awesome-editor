@@ -1,5 +1,5 @@
-import Kefir from 'kefir'
-import AppState from 'rflux/AppState'
+import {AppState} from '../../bootstrap'
+
 
 /**
  * For now search through every doc

@@ -14,9 +14,13 @@ import './stores/storage/StorageStore'
 import './stores/tags/TagStore'
 
 // make sure to load this last
-import AppState from 'rflux/AppState'
+import appStateFactory from './stores/index'
 
+
+const AppState = appStateFactory.create()
 
 // TODO this should probably be abstracted away
 AppState.storageLoadDocs()
 AppState.storageLoadTags()
+
+export {AppState}
