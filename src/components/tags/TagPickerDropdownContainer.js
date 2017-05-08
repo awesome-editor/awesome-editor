@@ -4,7 +4,8 @@ import Kefir from 'kefir'
 
 import kefirEmitter from 'rflux/utils/kefirEmitter'
 import createContainer from 'rflux/components/createContainer'
-import AppState from 'rflux/AppState'
+
+import {AppState} from '../../stores/index'
 
 import TagData from '../../stores/tags/TagData'
 import TagPickerDropdown from './TagPickerDropdown'

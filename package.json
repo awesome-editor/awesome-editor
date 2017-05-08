@@ -51,7 +51,7 @@
       "react-motion": "npm:react-motion@^0.4.2",
       "react-tap-event-plugin": "npm:react-tap-event-plugin@^0.2.1",
       "remarkable": "npm:remarkable@^1.6.0",
-      "rflux": "github:frankandrobot/rflux@master",
+      "rflux": "github:frankandrobot/rflux@0.9.0",
       "uuid": "npm:uuid@^2.0.1"
     },
     "devDependencies": {

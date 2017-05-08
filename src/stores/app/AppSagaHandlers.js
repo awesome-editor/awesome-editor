@@ -1,12 +1,13 @@
-import {put, listen} from 'rflux/stores/Saga'
-
 import {Channels} from '../constants/Constants'
-
-import {AppActions} from './AppConstants'
-import {systemSwitchMainWindow} from './AppActionFunctions'
 
 import {createDoc} from '../docs/DocActionFunctions'
 
+import {AppActions} from './AppConstants'
+import {systemSwitchMainWindow} from './AppActionFunctions'
+import {sagas} from '../index'
+
+
+const {put, listen} = sagas
 
 /**
  * docs call #systemBroadcastNewDocUuid directly. Alternative, docs could have just broadcast a general message.

@@ -1,10 +1,12 @@
 import Kefir from 'kefir'
 
-import {put, call} from 'rflux/stores/Saga'
+import {sagas} from '../index'
 
 import {setDocs} from '../docs/DocActionFunctions'
 import {setTags} from '../tags/TagActionFunctions'
 
+
+const {put, call} = sagas
 
 const setItem = (key, value) => localStorage.setItem(key, JSON.stringify(value))
 const getItem = key => JSON.parse(localStorage.getItem(key))

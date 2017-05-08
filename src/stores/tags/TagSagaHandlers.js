@@ -1,5 +1,4 @@
-import Kefir from 'kefir'
-import AppState from 'rflux/AppState'
+import {AppState} from '../index'
 
 /**
  * For now search through every doc
