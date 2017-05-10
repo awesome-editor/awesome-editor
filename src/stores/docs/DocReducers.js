@@ -1,5 +1,5 @@
 /*eslint no-use-before-define: 0*/
-import {state} from 'rflux/stores/StateWithSideEffects'
+import {state} from 'rflux'
 
 import {storageUpdateDoc, storageCreateDoc} from '../storage/StorageSagaActionFunctions'
 import {systemBroadcastNewDocUuid} from '../app/AppActionFunctions'
