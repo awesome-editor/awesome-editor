@@ -1,14 +1,14 @@
 import {Channels} from '../constants/Constants'
 
-import {StorageSagas as Sagas} from './StorageContants'
+import {StorageSagas as ActionTypes} from './StorageContants'
 import * as SagaActionFunctions from './StorageSagaActionFunctions'
-import * as SagaHandlers from './StorageSagaHandlers'
+import SagaHandlersFn from './StorageSagaHandlers'
 
 
 export const storageSagas = {
   channel: Channels.storageSagas,
-  Sagas,
+  ActionTypes,
   SagaActionFunctions,
-  SagaHandlers
+  SagaHandlersFn: sagaInterface => SagaHandlersFn(sagaInterface)
 }
 

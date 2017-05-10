@@ -4,7 +4,7 @@ import {TagSagas as Sagas, TagActions as ActionTypes} from './TagConstants'
 import * as Reducers from './TagReducers'
 import * as ActionFunctions from './TagActionFunctions'
 import * as SagaActionFunctions from './TagSagaActionFunctions'
-import * as SagaHandlers from './TagSagaHandlers'
+import SagaHandlersFn from './TagSagaHandlers'
 
 
 export const tagStore = {
@@ -16,7 +16,7 @@ export const tagStore = {
 
 export const tagSagas = {
   channel: Channels.tagSagas,
-  Sagas,
+  ActionTypes: Sagas,
   SagaActionFunctions,
-  SagaHandlers
+  SagaHandlersFn: sagaInterface => SagaHandlersFn(sagaInterface)
 }

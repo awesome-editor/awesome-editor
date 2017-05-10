@@ -6,12 +6,12 @@ import {Channels} from '../constants/Constants'
 // 3. add reducer to _scanner
 // 4. create the store
 // 5. export the store in the default exported object
-import {AppActions as ActionTypes, AppSideEffects as Sagas} from './AppConstants'
+import {AppActions as ActionTypes, AppSideEffects} from './AppConstants'
 import * as Reducers from './AppReducers'
 import * as ActionFunctions from './AppActionFunctions'
 import * as ActionObservables from './AppActionObservables'
 import * as SagaActionFunctions from './AppSagaActionFunctions'
-import * as SagaHandlers from './AppSagaHandlers'
+import SagaHandlersFn from './AppSagaHandlers'
 
 
 export const appStore = {
@@ -24,7 +24,7 @@ export const appStore = {
 
 export const appSagas = {
   channel: Channels.appSagas,
-  Sagas,
+  ActionTypes: AppSideEffects,
   SagaActionFunctions,
-  SagaHandlers
+  SagaHandlersFn: sagaInterface => SagaHandlersFn(sagaInterface)
 }
