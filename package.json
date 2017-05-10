@@ -30,7 +30,10 @@
   "scripts": {
     "electron": "electron electron.js",
     "dependo": "node node_modules/dependo/bin/dependo -f es6 src/rflux > dependencies.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release:major": "npm version major && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:patch": "npm version patch && git push --follow-tags"
   },
   "author": "Uriel Avalos <uri@frankandrobot.com>",
   "license": "ISC",
