@@ -1,6 +1,6 @@
 {
   "name": "awesome-editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "src/index.js",
   "dependencies": {
@@ -30,7 +30,10 @@
   "scripts": {
     "electron": "electron electron.js",
     "dependo": "node node_modules/dependo/bin/dependo -f es6 src/rflux > dependencies.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release:major": "npm version major && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:patch": "npm version patch && git push --follow-tags"
   },
   "author": "Uriel Avalos <uri@frankandrobot.com>",
   "license": "ISC",
@@ -52,7 +55,7 @@
       "react-router-dom": "npm:react-router-dom@4.0.0",
       "react-tap-event-plugin": "npm:react-tap-event-plugin@^0.2.1",
       "remarkable": "npm:remarkable@^1.6.0",
-      "rflux": "github:frankandrobot/rflux@master",
+      "rflux": "github:frankandrobot/rflux@0.10.1",
       "uuid": "npm:uuid@^2.0.1"
     },
     "devDependencies": {

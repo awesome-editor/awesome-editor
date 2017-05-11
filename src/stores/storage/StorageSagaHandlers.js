@@ -1,75 +1,78 @@
 import Kefir from 'kefir'
 
-import {put, call} from 'rflux/stores/Saga'
-
 import {setDocs} from '../docs/DocActionFunctions'
 import {setTags} from '../tags/TagActionFunctions'
 
 
-const setItem = (key, value) => localStorage.setItem(key, JSON.stringify(value))
-const getItem = key => JSON.parse(localStorage.getItem(key))
+export default function({put, call}) {
+  const setItem = (key, value) => localStorage.setItem(key, JSON.stringify(value))
+  const getItem = key => JSON.parse(localStorage.getItem(key))
 
+  const sagas = {
+    _storageLoadDoc(uuid) {
 
-function _storageLoadDoc(uuid) {
+      return call(getItem, `doc${uuid}`)
+    },
 
-  return call(getItem, `doc${uuid}`)
-}
+    _storageLoadTag(uuid) {
 
-function _storageLoadTag(uuid) {
+      return call(getItem, `tag${uuid}`)
+    },
 
-  return call(getItem, `tag${uuid}`)
-}
+    storageUpdateDoc(doc) {
 
-export function storageUpdateDoc(doc) {
+      return call(setItem, `doc${doc.uuid}`, doc)
+    },
 
-  return call(setItem, `doc${doc.uuid}`, doc)
-}
+    storageUpdateTag(tag) {
 
-export function storageUpdateTag(tag) {
+      return call(setItem, `tag${tag.uuid}`, tag)
+    },
 
-  return call(setItem, `tag${tag.uuid}`, tag)
-}
+    storageCreateDoc(doc) {
 
-export function storageCreateDoc(doc) {
+      return call(getItem, 'docList')
+        .map(docList => docList || [])
+        .map(docList => docList.concat([doc.uuid]))
+        .flatMap(docList => call(setItem, 'docList', docList))
+        .flatMap(() => sagas.storageUpdateDoc(doc))
+    },
 
-  return call(getItem, 'docList')
-    .map(docList => docList || [])
-    .map(docList => docList.concat([doc.uuid]))
-    .flatMap(docList => call(setItem, 'docList', docList))
-    .flatMap(() => storageUpdateDoc(doc))
-}
+    storageCreateTag(tag) {
 
-export function storageCreateTag(tag) {
-
-  return call(getItem, 'tagList')
-    .map(list => list || [])
-    .map(list => list.concat([tag.uuid]))
-    .flatMap(list => call(setItem, 'tagList', list))
-    .flatMap(() => storageUpdateTag(tag))
-}
+      return call(getItem, 'tagList')
+        .map(list => list || [])
+        .map(list => list.concat([tag.uuid]))
+        .flatMap(list => call(setItem, 'tagList', list))
+        .flatMap(() => sagas.storageUpdateTag(tag))
+    },
 
 // TODO most of this code duplication can be removed
 
-export function storageLoadDocs() {
+    storageLoadDocs() {
 
-  return call(getItem, 'docList')
-    .map(list => list || [])
-    .map(list => list.map(doc => _storageLoadDoc(doc)))
-    .flatMap(docs =>
-      Kefir.merge(docs)
-        .scan((docs, doc) => ({...docs, [doc.uuid]: doc}), {})
-        .last())
-    .flatMap(docs => put(setDocs(docs)))
-}
+      return call(getItem, 'docList')
+        .map(list => list || [])
+        .map(list => list.map(doc => sagas._storageLoadDoc(doc)))
+        .flatMap(docs =>
+          Kefir.merge(docs)
+            .scan((docs, doc) => ({...docs, [doc.uuid]: doc}), {})
+            .last())
+        .flatMap(docs => put(setDocs(docs)))
+    },
 
-export function storageLoadTags() {
+    storageLoadTags() {
 
-  return call(getItem, 'tagList')
-    .map(list => list || [])
-    .map(list => list.map(tag => _storageLoadTag(tag)))
-    .flatMap(tags =>
-      Kefir.merge(tags)
-        .scan((tags, tag) => ({...tags, [tag.uuid]: tag}), {})
-        .last())
-    .flatMap(tags => put(setTags(tags)))
+      return call(getItem, 'tagList')
+        .map(list => list || [])
+        .map(list => list.map(tag => sagas._storageLoadTag(tag)))
+        .flatMap(tags =>
+          Kefir.merge(tags)
+            .scan((tags, tag) => ({...tags, [tag.uuid]: tag}), {})
+            .last())
+        .flatMap(tags => put(setTags(tags)))
+    }
+  }
+
+  return sagas;
 }

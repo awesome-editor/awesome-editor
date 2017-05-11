@@ -1,6 +1,4 @@
 import {Channels} from '../constants/Constants'
-import {registerSagas} from 'rflux/AppState'
-import {registerStore} from 'rflux/AppState'
 
 // This is how you a create a store
 // 1. import its action types, actions, reducers, and action observables
@@ -8,20 +6,25 @@ import {registerStore} from 'rflux/AppState'
 // 3. add reducer to _scanner
 // 4. create the store
 // 5. export the store in the default exported object
-import {AppActions as Actions, AppSideEffects as Sagas} from './AppConstants'
+import {AppActions as ActionTypes, AppSideEffects} from './AppConstants'
 import * as Reducers from './AppReducers'
 import * as ActionFunctions from './AppActionFunctions'
 import * as ActionObservables from './AppActionObservables'
 import * as SagaActionFunctions from './AppSagaActionFunctions'
-import * as SagaHandlers from './AppSagaHandlers'
+import SagaHandlersFn from './AppSagaHandlers'
 
 
-registerStore(
-  Channels.app,
-  {Actions, Reducers, ActionFunctions, ActionObservables}
-)
+export const appStore = {
+  channel: Channels.app,
+  ActionTypes,
+  Reducers,
+  ActionFunctions,
+  ActionObservables
+}
 
-registerSagas(
-  Channels.appSagas,
-  {Sagas, SagaActionFunctions, SagaHandlers}
-)
+export const appSagas = {
+  channel: Channels.appSagas,
+  ActionTypes: AppSideEffects,
+  SagaActionFunctions,
+  SagaHandlersFn: sagaInterface => SagaHandlersFn(sagaInterface)
+}
