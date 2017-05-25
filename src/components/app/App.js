@@ -1,8 +1,8 @@
 /*eslint no-extra-parens: 0*/
 import React from 'react'
 
+import { ConnectedRouter, push } from 'react-router-redux'
 import {
-  BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom'
@@ -17,10 +17,15 @@ import DocEditorContainer from '../docs/DocEditorContainer'
 import DocListContainer from '../docs/DocListContainer'
 import DocPreviewContainer from '../docs/DocPreviewContainer'
 
+import {history, AppDispatcher} from '../../stores/index'
+
 
 /* eslint-disable no-use-before-define */
 const App = ({currentDocUuid, systemCreateDoc}) =>
-  <Router>
+  <ConnectedRouter
+    history={history}
+    store={{dispatch: AppDispatcher.emit}}
+  >
     <div>
       <Route exact path="/" component={docList({currentDocUuid})}/>
       <Route
@@ -28,7 +33,7 @@ const App = ({currentDocUuid, systemCreateDoc}) =>
         component={docEditor({currentDocUuid, systemCreateDoc})}
       />
     </div>
-  </Router>
+  </ConnectedRouter>
 
 const docEditor = ({match}) => () => {
   const {params: {currentDocUuid}} = match
