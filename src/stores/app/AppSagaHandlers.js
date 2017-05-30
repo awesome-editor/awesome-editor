@@ -1,3 +1,5 @@
+import {push} from 'react-router-redux'
+
 import {Channels} from '../constants/Constants'
 
 import {createDoc} from '../docs/DocActionFunctions'

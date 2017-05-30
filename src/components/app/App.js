@@ -27,7 +27,7 @@ const App = ({currentDocUuid, systemCreateDoc, router}) =>
     store={{dispatch: args => AppDispatcher.emit({channel: '@@/redux', payload: args})}}
   >
     <div>
-      <Route exact path="/" component={docList({currentDocUuid})}/>
+      <Route exact path="/" component={docList({currentDocUuid, systemCreateDoc})}/>
       <Route
         path="/edit/:currentDocUuid"
         component={DocEditor}
@@ -73,6 +73,7 @@ const docList = ({currentDocUuid, systemCreateDoc}) => () => {
   const title = 'Notes'
   const LeftMenu = null
   const Main = <DocListContainer />
+  // This isn't actually working
   const Sidebar = currentDocUuid
     ? <DocPreviewContainer key="DocPreview" uuid={currentDocUuid} disableToolbar={false}/>
     : null
