@@ -21,21 +21,21 @@ import {history, AppDispatcher} from '../../stores/index'
 
 
 /* eslint-disable no-use-before-define */
-const App = ({currentDocUuid, systemCreateDoc}) =>
+const App = ({currentDocUuid, systemCreateDoc, router}) =>
   <ConnectedRouter
     history={history}
-    store={{dispatch: AppDispatcher.emit}}
+    store={{dispatch: args => AppDispatcher.emit({channel: '@@/redux', payload: args})}}
   >
     <div>
       <Route exact path="/" component={docList({currentDocUuid})}/>
       <Route
         path="/edit/:currentDocUuid"
-        component={docEditor({currentDocUuid, systemCreateDoc})}
+        component={DocEditor}
       />
     </div>
   </ConnectedRouter>
 
-const docEditor = ({match}) => () => {
+const DocEditor = ({match}) => {
   const {params: {currentDocUuid}} = match
   const Main = <DocEditorContainer key="DocEditor" uuid={currentDocUuid}/>
   const Sidebar =

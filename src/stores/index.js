@@ -14,7 +14,7 @@ const {AppState, AppDispatcher} = appStateFactory({
   stores: [appStore, docStore, tagStore],
   sagas: [appSagas, storageSagas, tagSagas],
   redux: {
-    reducers: [routerReducer],
+    reducers: {router: routerReducer},
     middleware: [middleware]
   }
 })
