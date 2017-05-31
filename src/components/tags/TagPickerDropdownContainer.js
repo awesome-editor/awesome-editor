@@ -2,8 +2,8 @@
 import React from 'react'
 import Kefir from 'kefir'
 
-import kefirEmitter from 'rflux/utils/kefirEmitter'
-import createContainer from 'rflux/components/createContainer'
+import {kefirEmitter} from 'rflux'
+import {createContainer} from 'rflux'
 
 import {AppState} from '../../stores/index'
 

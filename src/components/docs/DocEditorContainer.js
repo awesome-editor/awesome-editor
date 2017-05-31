@@ -1,7 +1,7 @@
 /*eslint no-extra-parens: 0*/
 import React from 'react'
 
-import Container from 'rflux/components/DangerouslySlowContainer'
+import {Container} from 'rflux'
 
 import {AppState} from '../../stores/index'
 
@@ -23,10 +23,10 @@ const DocEditorContainer = ({uuid}) => {
       key="DocEditor"
 
       doc={AppState.docMinusTagsObservable(uuid)}
-      upsertDoc={AppState.upsertDoc}
+      upsertDoc={AppState.actions.upsertDoc}
 
       tags={AppState.docTagsObservable(uuid)}
-      addTag={tag => AppState.addTagToDoc(tag, uuid)}
+      addTag={tag => AppState.actions.addTagToDoc(tag, uuid)}
       addTagResultObservableFunction={() => AppState.addTagToDocResultObservable}>
 
       <DocEditor/>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Container from 'rflux/components/DangerouslySlowContainer'
+import {Container} from 'rflux'
 
 import {AppState} from '../../stores/index'
 

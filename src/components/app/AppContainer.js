@@ -1,4 +1,4 @@
-import createContainer from 'rflux/components/createContainer'
+import {createContainer} from 'rflux'
 
 import {AppState} from '../../stores/index'
 
@@ -12,7 +12,7 @@ export default createContainer({
       currentDocUuid: null,
       switchToEditor: false,
       switchToList: true,
-      systemCreateDoc: AppState.systemCreateDoc,
+      systemCreateDoc: AppState.actions.systemCreateDoc,
     }
   },
   getObservableState() {
@@ -21,7 +21,7 @@ export default createContainer({
       currentDocUuid: AppState.appCurrentDocUuidObservable,
       switchToEditor: AppState.appMainWindowObservable.diff((prev, cur) => cur === 'DocEditor' && prev !== cur, false),
       switchToList: AppState.appMainWindowObservable.diff((prev, cur) => cur === 'DocList' && prev !== cur, false),
-      router: AppState.routerObservable
+      router: AppState.observables.router
     }
   }
 })(App)
