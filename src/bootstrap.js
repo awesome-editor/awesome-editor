@@ -13,5 +13,5 @@ import {AppState} from './stores/index'
 injectTapEventPlugin()
 
 // TODO this should probably be abstracted away
-AppState.storageLoadDocs()
-AppState.storageLoadTags()
+AppState.actions.storageLoadDocs()
+AppState.actions.storageLoadTags()

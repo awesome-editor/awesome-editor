@@ -1,4 +1,5 @@
 import {push} from 'react-router-redux'
+import rfluxMessage from 'rflux/redux/rfluxMessage'
 
 import {Channels} from '../constants/Constants'
 

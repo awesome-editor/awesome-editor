@@ -11,7 +11,7 @@ const history = createHistory()
 const middleware = routerMiddleware(history)
 
 const {AppState, AppDispatcher} = appStateFactory({
-  stores: [appStore, docStore, tagStore],
+  channels: [appStore, docStore, tagStore],
   sagas: [appSagas, storageSagas, tagSagas],
   redux: {
     reducers: {router: routerReducer},

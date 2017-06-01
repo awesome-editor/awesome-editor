@@ -57,7 +57,7 @@
       "react-router-redux": "npm:react-router-redux@5.0.0-alpha.6",
       "react-tap-event-plugin": "npm:react-tap-event-plugin@^0.2.1",
       "remarkable": "npm:remarkable@^1.6.0",
-      "rflux": "github:frankandrobot/rflux@0.13.1",
+      "rflux": "github:frankandrobot/rflux@0.13.7",
       "uuid": "npm:uuid@^2.0.1"
     },
     "devDependencies": {
